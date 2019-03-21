@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/calendar.png</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>images/loadingsceen.gif</file>
+    </qresource>
+</RCC>
