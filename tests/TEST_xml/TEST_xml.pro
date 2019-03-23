@@ -1,5 +1,5 @@
 QT += testlib
-QT += gui sql
+QT += gui sql core
 CONFIG += qt warn_on depend_includepath testcase
 
 TEMPLATE = app

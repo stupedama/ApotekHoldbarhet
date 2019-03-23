@@ -7,6 +7,8 @@
 #include <vector>
 #include "product.h"
 #include "error_messages.h"
+#include "check_numbers.h"
+#include "constants.h"
 #include <fest_reader.h>
 
 namespace apotek {
@@ -44,7 +46,6 @@ public:
     QSqlError update_durability_product(const Product& product);
     bool check_if_product_exists(int varenr) const;
     bool check_if_durability_exists(int varenr) const;
-    bool check_numbers(const QString& s) const;
     std::vector<Product> varenr_search_product(const QString& search_product) const;
     std::vector<Product> ean_search_product(const QString& search_product) const;
     std::vector<Product> navn_search_product(const QString& search_product) const;
@@ -96,11 +97,10 @@ inline std::vector<Product> Database::search_product(const QString& search_produ
 {
     std::vector<Product> result;
 
-    if(check_numbers(search_product)) {
-            if(search_product.length() <= 6) {
+    if(apotek::apotekholdbarhet::check_numbers(search_product)) {
+            if(search_product.length() <= apotek::constants::size_of_varenr) {
                 result = varenr_search_product(search_product);
             } else {
-                qDebug() << search_product << " ean search";
                 result = ean_search_product(search_product);
             }
     } else {
