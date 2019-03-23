@@ -44,7 +44,8 @@ SOURCES += \
         src/ui/add_vare.cpp \
         src/download.cpp \
         src/ui/fest_update.cpp \
-        src/product.cpp
+        src/product.cpp \
+        src/check_numbers.cpp
 
 # tests
 #SOURCES += \
@@ -68,7 +69,8 @@ HEADERS += \
         src/apotekholdbarhet_init.h \
         src/database_init.h \
     src/error_messages.h \
-    src/table_names.h
+    src/table_names.h \
+    src/check_numbers.h
 
 FORMS += \
         ui/apotekholdbarhet.ui \
