@@ -6,6 +6,11 @@
 namespace apotek {
 namespace database {
 
+/**
+ * @brief The Product class
+ * Is a class for storing and handling data from the fest_xml file.
+ * It also handles the searching by varenr, ean and name.
+ */
 class Product {
 public:
     explicit Product() = default;
