@@ -342,17 +342,6 @@ std::vector<Product> Database::varenr_search_product(const QString& search_vare)
     return result;
 }
 
-bool Database::check_numbers(const QString& s) const
-{
-    const QRegExp check_string("\\d*");
-
-    if(check_string.exactMatch(s)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 QSqlError Database::update_products()
 {
     QSqlQuery q(m_db_memory);
