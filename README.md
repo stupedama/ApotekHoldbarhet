@@ -3,6 +3,8 @@ Lar deg holde oversikt over holdbarheten til legemidler. Kan brukes i medisinrom
 
 Programmet inneholder alle markedsførte legemidler i Norge, utenom vetrinærmedinsiner og homeopati. Datene er hentet fra Legemiddelverket fra FEST.
 
+Det er laget i Qt Framework og skrevet i C++.
+
 ## Programkrav
 * Microsoft Visual C++ 2015 Redistributable
 
@@ -10,8 +12,7 @@ Programmet inneholder alle markedsførte legemidler i Norge, utenom vetrinærmed
 [Last ned siste versjon av ApotekHoldbarhet](https://github.com/stupedama/ApotekHoldbarhet/releases/download/v010/ApotekHoldbarhetv010.zip)
 
 ## Installering
-Pakker ut programmet til ønsket lokasjon på datamaskinen. Kjør ApotekHoldbarhet.exe. Første gang programmet starter kan man oppleve at det vil ta flere minutter før oppstart. Dette kommer av at FEST filen leses inn i en database. 
-
+Pakker ut programmet til ønsket lokasjon på datamaskinen. Kjør ApotekHoldbarhet.exe.
 Hvis du får opp en feilmelding om at det mangler DLL filer, må du installere vc_redist.x86.exe som er inkludert i zip filen.
 
 ## Bilde
