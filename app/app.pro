@@ -9,6 +9,7 @@ QT       += core gui sql network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += qt c++14
+QMAKE_CXXFLAGS_RELEASE *= -O3
 
 TARGET = ApotekHoldbarhet
 
