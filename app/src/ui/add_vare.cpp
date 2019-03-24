@@ -1,12 +1,21 @@
 #include "add_vare.h"
 #include "ui_add_vare.h"
 
+#include <QDebug>
+
+// TODO: make a singal slot so you can check database already in use varenr, ean.
+
 namespace apotek {
 namespace apotekholdbarhet {
 
 Add_vare::Add_vare(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Add_vare)
+    ui(new Ui::Add_vare),
+    m_state_varenr{false},
+    m_state_navn{false},
+    m_state_mengde{false},
+    m_state_ean{false},
+    m_state_legemiddelform{false}
 {
     ui->setupUi(this);
 
@@ -22,49 +31,142 @@ void Add_vare::on_button_cancel_released()
     this->close();
 }
 
-
-// TODO: make a singal slot so you can check database already in use varenr, ean.
-
-bool Add_vare::check_varenr() const
+void Add_vare::check_state() const
 {
-    return false;
+    QString error_stylesheet{"border: 2px solid red;"};
+    QString good_stylesheet{"border: 1px solid grey"};
+
+    if(!get_state_varenr()) ui->line_varenr->setStyleSheet(error_stylesheet);
+    else ui->line_varenr->setStyleSheet(good_stylesheet);
+
+    if(!get_state_navn()) ui->line_navn->setStyleSheet(error_stylesheet);
+    else ui->line_navn->setStyleSheet(good_stylesheet);
+
+    if(!get_state_mengde()) ui->line_mengde->setStyleSheet(error_stylesheet);
+    else ui->line_mengde->setStyleSheet(good_stylesheet);
+
+    if(!get_state_ean()) ui->line_ean->setStyleSheet(error_stylesheet);
+    else ui->line_ean->setStyleSheet(good_stylesheet);
+
+    if(!get_state_legemiddelform()) ui->line_legemiddelform->setStyleSheet(error_stylesheet);
+    else ui->line_legemiddelform->setStyleSheet(good_stylesheet);
 }
 
-bool Add_vare::check_navn() const
+bool Add_vare::check_field(const QString& check, bool number) const
 {
+    using apotek::apotekholdbarhet::check_numbers;
+
+    if(number) {
+        if(!check_numbers(check)) {
+            ui->error_label->setText(errors::error_ui_addvare_onlynumbers);
+            return false;
+        }
+    } else {
+        if(check_numbers(check)) {
+            ui->error_label->setText(errors::error_ui_addvare_onlychars);
+            return false;
+        }
+    }
+
+    if(check.isEmpty()) {
+        ui->error_label->setText(errors::error_ui_addvare_empty);
+        return false;
+    }
+
+
     return true;
 }
 
-bool Add_vare::check_ean() const
+void Add_vare::clear_error() const
 {
-    return true;
+    ui->error_label->setText("");
 }
 
-bool Add_vare::check_mengde() const
+void Add_vare::add_varenr(const QString& varenr)
 {
-    return true;
+    using apotek::apotekholdbarhet::check_numbers;
+
+    if(!check_field(varenr, true)) {
+        set_state_varenr(false);
+        check_state();
+    } else {
+        m_product.set_varenr(varenr.toInt());
+        set_state_varenr(true);
+        clear_error();
+    }
 }
 
-bool Add_vare::check_legemiddelform() const
+void Add_vare::add_navn(const QString& navn)
 {
-    return true;
+    if(!check_field(navn, false)) {
+        set_state_navn(false);
+        check_state();
+    } else {
+        m_product.set_navn(navn);
+        set_state_navn(true);
+        clear_error();
+    }
+}
+
+void Add_vare::add_ean(const QString& ean)
+{
+    if(!check_field(ean, true)) {
+        set_state_ean(false);
+        check_state();
+    } else {
+        m_product.set_ean(ean);
+        set_state_ean(true);
+        clear_error();
+    }
+}
+
+void Add_vare::add_mengde(const QString& mengde)
+{
+
+    if(!check_field(mengde, true)) {
+        set_state_mengde(false);
+        check_state();
+    } else {
+
+        m_product.set_mengde(mengde.toInt());
+        set_state_mengde(true);
+        clear_error();
+    }
+}
+
+void Add_vare::add_legemiddelform(const QString& legemiddelform)
+{
+    if(!check_field(legemiddelform, false)) {
+        set_state_legemiddelform(false);
+        check_state();
+    } else {
+        m_product.set_legemiddelform(legemiddelform);
+        set_state_legemiddelform(true);
+        clear_error();
+    }
 }
 
 void Add_vare::on_button_ok_released()
 {
-    if(!check_varenr()) {
-        ui->error_label->setText("Vennligst fyll inn et valid varenr.");
-    } else if(!check_navn()) {
-        ui->error_label->setText("Vennligst fyll inn et navn.");
-    } else if(!check_ean()) {
-        ui->error_label->setText("Vennligst fyll inn en valid strekkode.");
-    } else if(!check_mengde()) {
-        ui->error_label->setText("Vennligst fyll inn en valid mengde.");
-    } else if(!check_legemiddelform()) {
-        ui->error_label->setText("Vennligst fyll inn en valid legemiddelform.");
+    const QString varenr = ui->line_varenr->text();
+    const QString mengde = ui->line_mengde->text();
+    const QString navn = ui->line_navn->text();
+    const QString ean = ui->line_ean->text();
+    const QString legemiddelform = ui->line_legemiddelform->text();
+
+    add_varenr(varenr);
+    add_mengde(mengde);
+    add_navn(navn);
+    add_ean(ean);
+    add_legemiddelform(legemiddelform);
+
+    check_state();
+
+    if(m_product.sanity_check()) {
+        emit signal_newproduct(m_product);
+        close();
     } else {
-        // TODO: make signal slot so I can save this.
-        this->close();
+        ui->error_label->setText(errors::error_ui_product_invalid);
     }
 }
 

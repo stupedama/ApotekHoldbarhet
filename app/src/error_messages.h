@@ -6,6 +6,9 @@
 namespace apotek {
 namespace errors {
 
+// TODO: add namespaces to the different errors?
+// example database errors inside namespace database (?)
+
 // vector errors
 const QString error_vector_size{"Feil. Det er lagret alt for mange varer - vennlig avslutt programmet."};
 const QString error_vector_size_soon{"Feil. Du har lagret for mange varer. Vær vennlig å begynn å slett noen fra listen."};
@@ -19,6 +22,14 @@ const QString error_database_getproducts{"Database feil: Kunne ikke finne noen v
 // ui errors
 const QString error_ui_no_product{"Kunne ikke finne en vare. Vennligst prøv igjen."};
 const QString error_ui_no_result{"Vennligst fyll inn varenr, navn på vare eller ta strekkode på varen."};
+
+// Add vare ui
+const QString error_ui_addvare_onlynumbers{"Dette feltet kan kun inneholde tall."};
+const QString error_ui_addvare_empty{"Du har tomt/tomme felt."};
+const QString error_ui_no_mengde{"Du må skrive inn et tall."};
+const QString error_ui_addvare_onlychars{"Dette feltet kan kun inneholde bokstaver."};
+const QString error_ui_mengde_maybe_ean{"Det er for mange tall i varenummeret. Det er kanskje en strekkode?"};
+const QString error_ui_product_invalid{"Det er noe feil med varen."};
 
 } // namespace
 } // namespace

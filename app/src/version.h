@@ -7,7 +7,7 @@ namespace apotek {
 namespace apotekholdbarhet {
 
 constexpr int MAJOR{0};
-constexpr int MINOR{1};
+constexpr int MINOR{2};
 constexpr int PATCH{0};
 
 // version of the program

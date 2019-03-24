@@ -2,6 +2,7 @@
 #define APOTEKH_PRODUCT_H
 
 #include <QString>
+#include "check_numbers.h"
 
 namespace apotek {
 namespace database {
@@ -16,6 +17,7 @@ public:
     explicit Product() = default;
     explicit Product(const QString& i, const QString& n, int v, const QString& e, const QString& l, int m);
     ~Product() = default;
+    bool sanity_check() const;
 
     struct Find_vare;
     struct Find_ean;

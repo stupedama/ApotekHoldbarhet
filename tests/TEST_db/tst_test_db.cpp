@@ -20,6 +20,7 @@ private slots:
     //void search_ean();
     void search_durability();
     void add_duplicate();
+    void add_newproduct();
 
 private:
     apotek::xml::FEST_Reader f;
@@ -131,6 +132,20 @@ void TEST_db::add_duplicate()
     QVERIFY(error == true);
 
 }
+
+void TEST_db::add_newproduct()
+{
+    apotek::database::Product new_product;
+    new_product.set_varenr(12341);
+    new_product.set_ean("394872918471982423");
+    new_product.set_navn("Test product");
+    new_product.set_mengde(100);
+    new_product.set_legemiddelform("tablets");
+
+    auto result = d.add_newproduct(new_product);
+    QVERIFY(result == true);
+}
+
 
 QTEST_APPLESS_MAIN(TEST_db)
 

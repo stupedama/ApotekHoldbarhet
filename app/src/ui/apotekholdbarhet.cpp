@@ -630,19 +630,36 @@ void ApotekHoldbarhet::on_button_holdbarhet_overview_released()
     make_durability_table();
 }
 
-void ApotekHoldbarhet::on_actionLegg_til_ny_vare_triggered()
-{
-    Add_vare* add_vare = new Add_vare();
-    add_vare->setAttribute(Qt::WA_DeleteOnClose);
-    add_vare->show();
-}
-
 
 void ApotekHoldbarhet::on_actionOppdater_FEST_triggered()
 {
     FEST_Update* fest_update = new FEST_Update();
     fest_update->setAttribute(Qt::WA_DeleteOnClose);
     fest_update->show();
+}
+
+void apotek::apotekholdbarhet::ApotekHoldbarhet::on_actionLagre_ny_vare_til_databasen_triggered()
+{
+    Add_vare* add_vare = new Add_vare();
+    add_vare->setAttribute(Qt::WA_DeleteOnClose);
+    add_vare->show();
+
+    connect(add_vare,SIGNAL(signal_newproduct(const apotek::database::Product&)),this,SLOT(add_newproduct(const apotek::database::Product&)));
+}
+
+
+void ApotekHoldbarhet::add_newproduct(const apotek::database::Product& product)
+{
+    auto result = m_db.search_product(QString::number(product.get_varenr()));
+    if(result.empty()) {
+        if(m_db.add_newproduct(product)) {
+            ui->statusBar->showMessage(product.get_navn() + " ble lagt til i databasen.");
+        } else {
+            ui->statusBar->showMessage("Det skjedde en feil!");
+        }
+    } else {
+        ui->statusBar->showMessage(product.get_navn() + " finnes allerede i database.");
+    }
 }
 
 } // namespace

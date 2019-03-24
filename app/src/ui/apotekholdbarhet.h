@@ -65,13 +65,14 @@ private slots:
     void on_actionAvslutt_triggered();
     void on_search_line_returnPressed();
     void add_date(QDate date, int row, int varenr);
+    void add_newproduct(const apotek::database::Product& product);
     void on_pushButton_released();
     void on_actionAlle_varer_med_holdbarhet_triggered();
     void on_actionOm_ApotekHoldbarhet_triggered();
     void on_actionFEST_Versjon_triggered();
     void on_button_holdbarhet_overview_released();
-    void on_actionLegg_til_ny_vare_triggered();
     void on_actionOppdater_FEST_triggered();
+    void on_actionLagre_ny_vare_til_databasen_triggered();
 
 private:
     Ui::ApotekHoldbarhet *ui;

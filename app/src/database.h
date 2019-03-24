@@ -52,7 +52,9 @@ public:
     // setters and getters
     void set_error_status(const QString& e) { m_error_status = e; }
     QString get_error_status() { return m_error_status; }
+    bool add_newproduct(const Product& new_product);
 private:
+    bool save_newproduct_database(const Product& new_product);
     apotek::xml::FEST_Reader m_festreader;
     QSqlDatabase m_db_file;
     QSqlDatabase m_db_memory;
