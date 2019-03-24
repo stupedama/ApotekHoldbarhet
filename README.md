@@ -3,7 +3,7 @@ Lar deg holde oversikt over holdbarheten til legemidler. Kan brukes i medisinrom
 
 Programmet inneholder alle markedsførte legemidler i Norge, utenom vetrinærmedinsiner og homeopati. Datene er hentet fra Legemiddelverket fra FEST.
 
-Det er laget i Qt Framework og skrevet i C++.
+Det har GPL-3 lisens og er til fri bruk i både privat og kommersielt. Programmet bruker Qt rammeverket og er skrevet i C++.
 
 ## Programkrav
 * Microsoft Visual C++ 2015 Redistributable
