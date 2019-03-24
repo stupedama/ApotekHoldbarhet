@@ -311,7 +311,7 @@ void ApotekHoldbarhet::show_calendar(int row, int varenr=0) const
 }
 
 // FIXME: Holdbarhetsvare doesnt update, it adds a new vare insted. Maybe look in the ApotekHoldbarhet::search_results ?
-void ApotekHoldbarhet::add_date(QDate qd, int row, int varenr)
+void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr)
 {
     using namespace date;
 

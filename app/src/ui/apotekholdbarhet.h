@@ -64,7 +64,7 @@ public:
 private slots:
     void on_actionAvslutt_triggered();
     void on_search_line_returnPressed();
-    void add_date(QDate date, int row, int varenr);
+    void add_date(const QDate& date, int row, int varenr);
     void add_newproduct(const apotek::database::Product& product);
     void on_pushButton_released();
     void on_actionAlle_varer_med_holdbarhet_triggered();
