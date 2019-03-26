@@ -11,11 +11,15 @@ namespace database {
  * @brief The Product class
  * Is a class for storing and handling data from the fest_xml file.
  * It also handles the searching by varenr, ean and name.
+ *
+ * It uses Norwegian names because the ui is in Norwegian and
+ * the xml file contains Norwegian names.
  */
 class Product {
 public:
+    explicit Product(const QString& id, const QString& name, int varenr,
+                     const QString& ean, const QString& legemiddelform, int mengde);
     explicit Product() = default;
-    explicit Product(const QString& i, const QString& n, int v, const QString& e, const QString& l, int m);
     ~Product() = default;
     bool sanity_check() const;
 
