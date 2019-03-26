@@ -37,6 +37,9 @@ const QColor color_yellow{255, 255, 0};
 // variables constants
 constexpr int size_of_varenr{6};
 
+// date format
+const QString date_format("dd.MM.yyyy");
+
 } // namespace
 } // namespace
 

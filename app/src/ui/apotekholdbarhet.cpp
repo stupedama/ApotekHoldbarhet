@@ -274,7 +274,7 @@ int ApotekHoldbarhet::calculate_months(const QString& holdbarhet) const
     using namespace date;
 
     sys_days today = year_month_day{floor<days>(std::chrono::system_clock::now())};
-    QDate holdbarhet_date = QDate::fromString(holdbarhet);
+    QDate holdbarhet_date = QDate::fromString(holdbarhet, apotek::constants::date_format);
 
     sys_days holdbarhet_sysdays = sys_days{days{holdbarhet_date.toJulianDay()} -
             (sys_days{1970_y/jan/1} - sys_days{year{-4713}/nov/24})};
@@ -318,7 +318,7 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr)
     //FIXME: this is probably buggy
     //FIXME: what happens when I search for multiply varer ? Will the wrong one be saved
     if(varenr == 0) {
-        QString string_date = qd.toString();
+        QString string_date = qd.toString(apotek::constants::date_format);
 
         auto product = m_durability_products[static_cast<std::size_t>(row)];
         product.set_holdbarhet(string_date);
@@ -351,7 +351,7 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr)
                 product.set_lokasjon(lokasjon);
             }
 
-            QString string_date = qd.toString();
+            QString string_date = qd.toString(apotek::constants::date_format);
             product.set_holdbarhet(string_date);
 
             m_db.save_durability(product);
