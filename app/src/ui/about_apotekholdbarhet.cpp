@@ -34,7 +34,7 @@ void AboutApotekHoldbarhet::compiled_info() const
     const QString todays_date = get_todays_date().toString("dd.MM.yyyy");
 
     // generate rest of the string
-    const QString label_compiled = saved_label_compiled_info + " " + get_compiler_version() + " den " + todays_date;
+    const QString label_compiled = saved_label_compiled_info + " " + get_compiler_version();
     const QString label_qtversion = saved_label_qt_version + get_qt_version();
     const QString label_date = saved_label_date + todays_date;
 
