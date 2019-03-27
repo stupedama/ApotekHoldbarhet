@@ -32,7 +32,7 @@ const QString error_ui_addvare_empty{"Du har tomt/tomme felt."};
 const QString error_ui_no_mengde{"Du må skrive inn et tall."};
 const QString error_ui_addvare_onlychars{"Dette feltet kan kun inneholde bokstaver."};
 const QString error_ui_mengde_maybe_ean{"Det er for mange tall i varenummeret. Det er kanskje en strekkode?"};
-const QString error_ui_product_invalid{"Det er noe feil med varen."};
+const QString error_ui_product_invalid{"Varen kunne ikke lagres. Mest sannsynligvis finnes varenr eller ean allerede."};
 
 } // namespace
 } // namespace
