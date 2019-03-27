@@ -60,8 +60,8 @@ QString AboutApotekHoldbarhet::get_compiler_version() const
     return "clang version " + QString::fromStdString(__clang_version__);
 #elif __GNUC__
     return "g++ (GCC) " + QString::fromStdString(__VERSION__);
-#elif _MSC_VER
-    return "msvc++ " + QString::fromStdString(_MSC_FULL_VER);
+#elif _MSC_FULL_VER
+    return "Msvc++ " + QString::number(_MSC_FULL_VER);
 #elif __MINGW32__
     return "mingw32 " + QString::number(__MINGW32_MAJOR_VERSION) + "." + QString::number(__MINGW32_MINOR_VERSION);
 #else
