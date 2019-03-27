@@ -28,33 +28,35 @@ public:
     explicit Database();
     ~Database();
     inline std::vector<Product> search_product(const QString& search_product) const;
-    std::vector<Product> get_durability() { QSqlError err = update_durability(); return m_durability_products; }
-    std::vector<Product> get_products();
+    inline bool add_product_from_xml(const Product& product) const;
     QSqlError save_durability(const Product& product);
     QSqlError remove_durability(const Product& product);
-    inline bool add_product_from_xml(const Product& product) const;
-    bool compare_fest_hentetdato();
     QSqlError update_durability();
     QSqlError update_products();
-    void add_fest_hentetdato();
-    QString get_fest_hentetdato();
+    bool save_newproduct(const Product& product);
+    bool compare_fest_hentetdato();
     void init_db();
     void init_db_memory();
     void init_db_file();
-    QString set_db_path();
-    std::vector<Product> get_from_xml();
+    // setters and getters
+    std::vector<Product> get_durability() { QSqlError err = update_durability(); return m_durability_products; }
+    std::vector<Product> get_products();
+    void set_error_status(const QString& e) { m_error_status = e; }
+    void set_fest_hentetdato();
+    QString get_error_status() { return m_error_status; }
+    QString get_fest_hentetdato();
+private:
+    // private functions
     QSqlError update_durability_product(const Product& product);
+    std::vector<Product> get_from_xml();
+    QString set_db_path();
     bool check_if_product_exists(int varenr) const;
     bool check_if_durability_exists(int varenr) const;
+    bool check_if_newproduct_exists(const Product& product) const;
     std::vector<Product> varenr_search_product(const QString& search_product) const;
     std::vector<Product> ean_search_product(const QString& search_product) const;
     std::vector<Product> navn_search_product(const QString& search_product) const;
-    // setters and getters
-    void set_error_status(const QString& e) { m_error_status = e; }
-    QString get_error_status() { return m_error_status; }
-    bool add_newproduct(const Product& new_product);
-private:
-    bool save_newproduct_database(const Product& new_product);
+    // data members
     apotek::xml::FEST_Reader m_festreader;
     QSqlDatabase m_db_file;
     QSqlDatabase m_db_memory;

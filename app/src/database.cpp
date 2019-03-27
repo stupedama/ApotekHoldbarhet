@@ -202,7 +202,7 @@ inline std::vector<Product> Database::get_from_xml()
 }
 
 // TODO: check if string is a dato
-void Database::add_fest_hentetdato()
+void Database::set_fest_hentetdato()
 {
     QSqlQuery q(m_db_memory);
     if(!q.prepare("insert into fest_info (hentetdato) values (?)"))
@@ -342,55 +342,6 @@ std::vector<Product> Database::varenr_search_product(const QString& search_vare)
     return result;
 }
 
-bool Database::add_newproduct(const Product& new_product)
-{
-    int product_varenr = new_product.get_varenr();
-    QString product_ean = new_product.get_ean();
-
-    auto result_varenr = varenr_search_product(QString::number(product_varenr));
-
-    // the product already exists
-    if(!result_varenr.empty()) return false;
-
-    auto result_ean = ean_search_product(product_ean);
-
-    if(!result_ean.empty()) return false;
-
-    return save_newproduct_database(new_product);
-}
-
-// this saves the product to products_saved table in the database file.
-// the function is called from add_newproduct - it checks if the product is already
-// saved in the memory. You should not call this function alone.
-bool Database::save_newproduct_database(const Product& new_product)
-{
-    QSqlQuery q(m_db_file);
-
-    if(!q.prepare(QLatin1String("insert into products_saved(varenr, navn, ean, legemiddelform, mengde) values (?, ?, ?, ?, ?)"))) {
-        m_error_status = errors::error_database_write;
-        return false;
-    }
-
-    const auto varenr = new_product.get_varenr();
-    const auto navn = new_product.get_navn();
-    const auto ean = new_product.get_ean();
-    const auto mengde = new_product.get_mengde();
-    const auto legemiddelform = new_product.get_legemiddelform();
-
-    q.addBindValue(varenr);
-    q.addBindValue(navn);
-    q.addBindValue(ean);
-    q.addBindValue(mengde);
-    q.addBindValue(legemiddelform);
-
-    if(!q.exec()) {
-        m_error_status = errors::error_database_write;
-        return false;
-    }
-
-    return true;
-}
-
 QSqlError Database::update_products()
 {
     QSqlQuery q(m_db_memory);
@@ -500,6 +451,56 @@ QSqlError Database::remove_durability(const Product &product)
     } else {
         return q.lastError();
     }
+}
+
+bool Database::check_if_newproduct_exists(const Product& product) const
+{
+    int product_varenr = product.get_varenr();
+    QString product_ean = product.get_ean();
+
+    auto result_varenr = varenr_search_product(QString::number(product_varenr));
+
+    // the product already exists
+    if(!result_varenr.empty()) return false;
+
+    auto result_ean = ean_search_product(product_ean);
+
+    if(!result_ean.empty()) return false;
+
+    // all checks passed, the product doesn't exist
+    return false;
+}
+
+// this saves the product to products_saved table in the database file.
+// the function is called from add_newproduct - it checks if the product is already
+// saved in the memory. You should not call this function alone.
+bool Database::save_newproduct(const Product& product)
+{
+    QSqlQuery q(m_db_file);
+
+    if(!q.prepare(QLatin1String("insert into products_saved(varenr, navn, ean, legemiddelform, mengde) values (?, ?, ?, ?, ?)"))) {
+        m_error_status = errors::error_database_write;
+        return false;
+    }
+
+    const auto varenr = product.get_varenr();
+    const auto navn = product.get_navn();
+    const auto ean = product.get_ean();
+    const auto mengde = product.get_mengde();
+    const auto legemiddelform = product.get_legemiddelform();
+
+    q.addBindValue(varenr);
+    q.addBindValue(navn);
+    q.addBindValue(ean);
+    q.addBindValue(mengde);
+    q.addBindValue(legemiddelform);
+
+    if(!q.exec()) {
+        m_error_status = errors::error_database_write;
+        return false;
+    }
+
+    return true;
 }
 
 } // namespace

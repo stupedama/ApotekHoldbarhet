@@ -10,7 +10,7 @@ void database_init(Database& db)
 {
     db.init_db_file();
     db.init_db_memory();
-    db.add_fest_hentetdato();
+    db.set_fest_hentetdato();
 }
 
 } // namespace

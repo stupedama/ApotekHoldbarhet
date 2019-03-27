@@ -652,7 +652,7 @@ void ApotekHoldbarhet::add_newproduct(const apotek::database::Product& product)
 {
     auto result = m_db.search_product(QString::number(product.get_varenr()));
     if(result.empty()) {
-        if(m_db.add_newproduct(product)) {
+        if(m_db.save_newproduct(product)) {
             ui->statusBar->showMessage(product.get_navn() + " ble lagt til i databasen.");
         } else {
             ui->statusBar->showMessage("Det skjedde en feil!");
