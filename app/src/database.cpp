@@ -134,26 +134,34 @@ void Database::init_db()
     init_db_memory();
 }
 
-// Gets all the varer from the sql database. if the database is empty or less than 200 varer, read the
-// fest xml file and store them into the database and m_vare vector.
-// returns the vector with all the varer.
+// gets all the varer from the xml file. Stores them in the data member m_products
+// saves it to the database. It also fetches the custom made products from the sql file.
 std::vector<Product> Database::get_products()
 {
     bool error{false};
 
-    QSqlError err = update_products();
+    // get products from xml file
+    m_products = get_from_xml();
 
-    if(m_products.size() < 200) {
+    for(const auto& v : m_products) {
+        error = save_product(v);
+    }
 
-        m_products = get_from_xml();
 
-        for(const auto& v : m_products) {
-            error = add_product_from_xml(v);
+    // get the saved custom products
+    auto saved_products = get_newproducts();
+
+    for(const auto& p : saved_products) {
+        if(!check_if_product_exists(p.get_varenr())) {
+            m_products.push_back(p);
+            save_product(p);
+        } else {
+            error = true;
         }
-        return m_products;
     }
 
     if(error == true) m_error_status = apotek::errors::error_database_getproducts;
+
     return m_products;
 }
 
@@ -179,27 +187,19 @@ bool Database::compare_fest_hentetdato()
     }
 }
 
-// fetches all the varer from the xml file to a std::vector<Vare> and
-// saves them in the database, and when finished returns a std::vector<Vare> with all
-// the varer.
+
+// get all the Products from the xml file
 inline std::vector<Product> Database::get_from_xml()
 {
     bool error{false};
 
-    auto xml_products = m_festreader.get_content();
-    std::vector<Product> products;
+    std::vector<Product> xml_products = m_festreader.get_content();
 
-    // save the xml varer into the database
-    for(const auto& v : xml_products) {
-        error = add_product_from_xml(v);
-        products.push_back(v);
-    }
+    if(error) m_error_status = apotek::errors::error_xml_error;
 
-    // TODO: make a warning in the ui, or handle the error.
-    if(error) qDebug() << "database error";
-
-    return products;
+    return xml_products;
 }
+
 
 // TODO: check if string is a dato
 void Database::set_fest_hentetdato()
@@ -342,14 +342,14 @@ std::vector<Product> Database::varenr_search_product(const QString& search_vare)
     return result;
 }
 
-QSqlError Database::update_products()
+// fethces the custom made products from the database.
+std::vector<Product> Database::get_newproducts() const
 {
-    QSqlQuery q(m_db_memory);
+    QSqlQuery q(m_db_file);
 
-    if(q.exec("SELECT * FROM products")) {
-        // clear our vector
-        m_products.clear();
-        // extract all values and store them in our vector
+    std::vector<Product> result;
+
+    if(q.exec("SELECT * FROM products_saved")) {
         while(q.next()) {
             Product p;
             p.set_varenr(q.value(1).toInt());
@@ -358,12 +358,11 @@ QSqlError Database::update_products()
             p.set_legemiddelform(q.value(5).toString());
             p.set_mengde(q.value(6).toInt());
 
-            m_products.push_back(p);
+            result.push_back(p);
         }
-    } else {
-        return q.lastError();
     }
-   return QSqlError();
+
+    return result;
 }
 
 QSqlError Database::update_durability()

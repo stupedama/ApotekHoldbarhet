@@ -28,11 +28,9 @@ public:
     explicit Database();
     ~Database();
     inline std::vector<Product> search_product(const QString& search_product) const;
-    inline bool add_product_from_xml(const Product& product) const;
+    inline bool save_product(const Product& product) const;
     QSqlError save_durability(const Product& product);
     QSqlError remove_durability(const Product& product);
-    QSqlError update_durability();
-    QSqlError update_products();
     bool save_newproduct(const Product& product);
     bool compare_fest_hentetdato();
     void init_db();
@@ -49,6 +47,8 @@ private:
     // private functions
     QSqlError update_durability_product(const Product& product);
     std::vector<Product> get_from_xml();
+    std::vector<Product> get_newproducts() const;
+    QSqlError update_durability();
     QString set_db_path();
     bool check_if_product_exists(int varenr) const;
     bool check_if_durability_exists(int varenr) const;
@@ -66,7 +66,7 @@ private:
 };
 
 // adds a single Vare if it does not already exists and saves it to the varer table in the db.
-inline bool Database::add_product_from_xml(const Product& product) const
+inline bool Database::save_product(const Product& product) const
 {
     QSqlQuery q(m_db_memory);
     const int s_varenr = product.get_varenr();

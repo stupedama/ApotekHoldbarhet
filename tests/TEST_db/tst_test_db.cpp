@@ -47,7 +47,7 @@ void TEST_db::save_all_to_database()
 {
     QBENCHMARK {
         for(const auto& p : m_products)
-            d.add_product_from_xml(p);
+            d.save_product(p);
     }
 }
 
@@ -126,8 +126,8 @@ void TEST_db::add_duplicate()
     //p.m_lokasjon = "RC0203";
 
     // try to add the same twice
-    error = d.add_product_from_xml(p);
-    error = d.add_product_from_xml(p);
+    error = d.save_product(p);
+    error = d.save_product(p);
 
     QVERIFY(error == true);
 
@@ -142,7 +142,7 @@ void TEST_db::add_newproduct()
     new_product.set_mengde(100);
     new_product.set_legemiddelform("tablets");
 
-    auto result = d.add_newproduct(new_product);
+    auto result = d.save_newproduct(new_product);
     QVERIFY(result == true);
 }
 

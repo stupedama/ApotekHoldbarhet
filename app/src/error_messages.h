@@ -19,6 +19,9 @@ const QString error_database_init{"Database feil: Kunne ikke starte databasen."}
 const QString error_database_write{"Database feil: Kunne ikke skrive til databasen."};
 const QString error_database_getproducts{"Database feil: Kunne ikke finne noen varer."};
 
+// xml errors
+const QString error_xml_error{"Kunne ikke finne noen varer fra FEST filen."};
+
 // ui errors
 const QString error_ui_no_product{"Kunne ikke finne en vare. Vennligst prøv igjen."};
 const QString error_ui_no_result{"Vennligst fyll inn varenr, navn på vare eller ta strekkode på varen."};
