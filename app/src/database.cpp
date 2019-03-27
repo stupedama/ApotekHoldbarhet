@@ -402,7 +402,8 @@ QSqlError Database::save_durability(const Product& product)
     QSqlQuery q(m_db_file);
 
     // varenr integer, navn varchar, id varchar, ean varchar, holdbarhet varchar, lokasjon
-    if(!q.prepare(QLatin1String("insert into durability_products(varenr, navn, id, ean, legemiddelform, mengde, holdbarhet, lokasjon) "
+    if(!q.prepare(QLatin1String("insert into durability_products(varenr, navn, id, ean, legemiddelform, "
+                                "mengde, holdbarhet, lokasjon) "
                                 "values (?, ?, ?, ?, ?, ?, ?, ?)"))) {
         m_error_status = errors::error_database_write;
         return q.lastError();
@@ -452,6 +453,7 @@ QSqlError Database::remove_durability(const Product &product)
     }
 }
 
+
 bool Database::check_if_newproduct_exists(const Product& product) const
 {
     int product_varenr = product.get_varenr();
@@ -460,46 +462,53 @@ bool Database::check_if_newproduct_exists(const Product& product) const
     auto result_varenr = varenr_search_product(QString::number(product_varenr));
 
     // the product already exists
-    if(!result_varenr.empty()) return false;
+    if(!result_varenr.empty()) return true;
 
     auto result_ean = ean_search_product(product_ean);
 
-    if(!result_ean.empty()) return false;
+    if(!result_ean.empty()) return true;
 
     // all checks passed, the product doesn't exist
     return false;
 }
+
 
 // this saves the product to products_saved table in the database file.
 // the function is called from add_newproduct - it checks if the product is already
 // saved in the memory. You should not call this function alone.
 bool Database::save_newproduct(const Product& product)
 {
-    QSqlQuery q(m_db_file);
+    if(!check_if_newproduct_exists(product)) {
+        QSqlQuery q(m_db_file);
 
-    if(!q.prepare(QLatin1String("insert into products_saved(varenr, navn, ean, legemiddelform, mengde) values (?, ?, ?, ?, ?)"))) {
-        m_error_status = errors::error_database_write;
+        if(!q.prepare(QLatin1String("insert into products_saved(varenr, navn, ean, "
+                                    "legemiddelform, mengde) values (?, ?, ?, ?, ?)"))) {
+            m_error_status = errors::error_database_write;
+            return false;
+        }
+
+        const int varenr{product.get_varenr()};
+        const QString navn{product.get_navn()};
+        const QString ean{product.get_ean()};
+        const int mengde{product.get_mengde()};
+        const QString legemiddelform{product.get_legemiddelform()};
+
+        q.addBindValue(varenr);
+        q.addBindValue(navn);
+        q.addBindValue(ean);
+        q.addBindValue(legemiddelform);
+        q.addBindValue(mengde);
+
+        if(!q.exec()) {
+            m_error_status = errors::error_database_write;
+            return false;
+        }
+
+        m_products.push_back(product);
+        return true;
+    } else {
         return false;
     }
-
-    const auto varenr = product.get_varenr();
-    const auto navn = product.get_navn();
-    const auto ean = product.get_ean();
-    const auto mengde = product.get_mengde();
-    const auto legemiddelform = product.get_legemiddelform();
-
-    q.addBindValue(varenr);
-    q.addBindValue(navn);
-    q.addBindValue(ean);
-    q.addBindValue(mengde);
-    q.addBindValue(legemiddelform);
-
-    if(!q.exec()) {
-        m_error_status = errors::error_database_write;
-        return false;
-    }
-
-    return true;
 }
 
 } // namespace
