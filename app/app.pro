@@ -9,7 +9,7 @@ QT       += core gui sql network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += qt c++14
-QMAKE_CXXFLAGS_RELEASE *= -O3
+QMAKE_CFLAGS_RELEASE = -O2 -MD -MP2
 
 TARGET = ApotekHoldbarhet
 
@@ -30,7 +30,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += \
             external/tinyxml2 \
             external/date/include/date \
-            src/fest_xml \
+            src/fest_xml #\
+            #src/fmd
 
 
 SOURCES += \
@@ -46,7 +47,9 @@ SOURCES += \
         src/download.cpp \
         src/ui/fest_update.cpp \
         src/product.cpp \
-        src/check_numbers.cpp
+        src/check_numbers.cpp #\
+        #src/fmd/fmd_decoder.cpp
+
 
 # tests
 #SOURCES += \
@@ -69,9 +72,10 @@ HEADERS += \
         src/constants.h \
         src/apotekholdbarhet_init.h \
         src/database_init.h \
-    src/error_messages.h \
-    src/table_names.h \
-    src/check_numbers.h
+        src/error_messages.h \
+        src/table_names.h \
+        src/check_numbers.h #\
+        #src/fmd/fmd_decoder.h
 
 FORMS += \
         ui/apotekholdbarhet.ui \
@@ -83,8 +87,6 @@ FORMS += \
 
 RESOURCES += \
         images.qrc
-
-
 
 # copy FEST files
 unix {
