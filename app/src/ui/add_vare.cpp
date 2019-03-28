@@ -31,6 +31,7 @@ void Add_vare::on_button_cancel_released()
     this->close();
 }
 
+// checks the different inputlabels if its have valid input.
 void Add_vare::check_state() const
 {
     QString error_stylesheet{"border: 2px solid red;"};

@@ -16,7 +16,7 @@ namespace apotekholdbarhet {
 
 /**
  * @brief The Add_vare class
- * Add_vare ui adds Products to the products_saved database.
+ * Add_vare (custom products) ui adds Products to the products_saved database.
  */
 class Add_vare : public QDialog
 {

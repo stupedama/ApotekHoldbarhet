@@ -6,6 +6,8 @@
 namespace apotek{
 namespace apotekholdbarhet {
 
+// non-member class for ApotekHoldbarhet.
+// initiate the ui with size, title etc.
 void apotekholdbarhet_init(ApotekHoldbarhet& ah)
 {
     ah.setFixedSize(1260, 768);

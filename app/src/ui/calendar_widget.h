@@ -11,6 +11,10 @@ class CalendarWidget;
 namespace apotek {
 namespace apotekholdbarhet {
 
+/**
+ * @brief The CalendarWidget class
+ * The ui calendar for durability products.
+ */
 class CalendarWidget : public QDialog
 {
     Q_OBJECT

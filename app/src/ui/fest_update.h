@@ -10,6 +10,7 @@ class FEST_Update;
 namespace apotek {
 namespace apotekholdbarhet {
 
+// This is not implemented yet. Work in process.
 class FEST_Update : public QDialog
 {
     Q_OBJECT

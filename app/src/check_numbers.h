@@ -6,6 +6,7 @@
 namespace apotek {
 namespace apotekholdbarhet{
 
+// checks if the string only contains numbers or not.
 bool check_numbers(const QString& s);
 
 } // namespace

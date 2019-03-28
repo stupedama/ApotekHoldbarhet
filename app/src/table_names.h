@@ -4,6 +4,7 @@
 namespace apotek {
 namespace apotekholdbarhet {
 
+// name of tables in ApotekHoldbarhet QTableWidget.
 enum TABLE_NAMES {
     VARENR = 0,
     VARENAVN,

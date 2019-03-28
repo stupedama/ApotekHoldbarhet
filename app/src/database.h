@@ -44,7 +44,6 @@ public:
     QString get_error_status() { return m_error_status; }
     QString get_fest_hentetdato();
 private:
-    // private functions
     QSqlError update_durability_product(const Product& product);
     std::vector<Product> get_from_xml();
     std::vector<Product> get_newproducts() const;
