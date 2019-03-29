@@ -34,6 +34,10 @@ const QString error_ui_addvare_onlychars{"Dette feltet kan kun inneholde bokstav
 const QString error_ui_mengde_maybe_ean{"Det er for mange tall i varenummeret. Det er kanskje en strekkode?"};
 const QString error_ui_product_invalid{"Varen kunne ikke lagres. Mest sannsynligvis finnes varenr eller ean allerede."};
 
+// FMD
+const QString error_fmd_wrong_format{"2d koden er i feil format."};
+const QString error_fmd_no_code{"Du må scanne 2d koden."};
+
 } // namespace
 } // namespace
 

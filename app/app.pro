@@ -30,8 +30,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += \
             external/tinyxml2 \
             external/date/include/date \
-            src/fest_xml #\
-            #src/fmd
+            src/fest_xml \
+            src/fmd
 
 
 SOURCES += \
@@ -47,8 +47,8 @@ SOURCES += \
         src/download.cpp \
         src/ui/fest_update.cpp \
         src/product.cpp \
-        src/check_numbers.cpp #\
-        #src/fmd/fmd_decoder.cpp
+        src/check_numbers.cpp \
+        src/fmd/fmd_decoder.cpp
 
 
 # tests
@@ -74,8 +74,9 @@ HEADERS += \
         src/database_init.h \
         src/error_messages.h \
         src/table_names.h \
-        src/check_numbers.h #\
-        #src/fmd/fmd_decoder.h
+        src/check_numbers.h \
+        src/fmd/fmd_decoder.h \
+        src/fmd/escape_codes.h
 
 FORMS += \
         ui/apotekholdbarhet.ui \

@@ -5,7 +5,8 @@ CONFIG += ordered
 SUBDIRS += \
         app \
         tests/TEST_xml \
-        tests/TEST_db
+        tests/TEST_db \
+        tests/TEST_fmd
 
 
 DISTFILES += \

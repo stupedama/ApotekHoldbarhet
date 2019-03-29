@@ -36,9 +36,14 @@ const QColor color_yellow{255, 255, 0};
 
 // variables constants
 constexpr int size_of_varenr{6};
+constexpr int size_of_ean{13};
 
 // date format
 const QString date_format("dd.MM.yyyy");
+
+// regexp and FMD constants
+constexpr int regexp_error{-1};
+constexpr int fmd_durability_size{6};
 
 } // namespace
 } // namespace
