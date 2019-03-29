@@ -20,7 +20,7 @@ namespace database {
 class FMD_decoder
 {
 public:
-    FMD_decoder(QString&& matrix_code);
+    FMD_decoder(const QString &matrix_code);
     ~FMD_decoder() = default;
 
     Product get_product();

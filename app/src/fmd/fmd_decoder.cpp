@@ -12,7 +12,7 @@ const QString escape_code_sn{"21"};
 const QString escape_code_ean{"01"};
 */
 
-FMD_decoder::FMD_decoder(QString&& matrix_code)
+FMD_decoder::FMD_decoder(const QString& matrix_code)
     : m_matrix_code{matrix_code}, m_error_code{"none"}
 {
 }
