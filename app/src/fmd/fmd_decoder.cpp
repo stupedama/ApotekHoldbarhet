@@ -3,15 +3,6 @@
 namespace apotek{
 namespace database{
 
-/*
-const QString escape_code_lot{"10"};
-const QString escape_code_durability{"17"};
-const QString escape_code_sn{"21"};
-
-// always start with 01.
-const QString escape_code_ean{"01"};
-*/
-
 FMD_decoder::FMD_decoder(const QString& matrix_code)
     : m_matrix_code{matrix_code}, m_error_code{"none"}
 {
@@ -20,12 +11,14 @@ FMD_decoder::FMD_decoder(const QString& matrix_code)
 Product FMD_decoder::get_product()
 {
     Product p;
-    p.set_varenr(find_stockno());
+    p.set_varenr(find_varenr());
     p.set_ean(find_ean());
     p.set_holdbarhet(find_durability());
     return p;
 }
 
+// checks if a datamatrix is valid, all should start with escape_code_ean.
+// and obvisouly not empty.
 bool FMD_decoder::check_valid_string()
 {
     using namespace apotek::constants;
@@ -45,9 +38,8 @@ bool FMD_decoder::check_valid_string()
     }
 }
 
-// find the scancode (ean/PC) of the matrix code
-// the manual says it starts with 01 and after my
-// best knowledge all codes start with 01.
+// find the scancode (ean/PC) of the data matrix code
+// the manual says it starts with escape_code_ean
 QString FMD_decoder::find_escape_code(const QString& escape_code)
 {
     using namespace apotek::constants;
@@ -56,15 +48,14 @@ QString FMD_decoder::find_escape_code(const QString& escape_code)
     QString search_string = m_matrix_code;
     QString rx_string;
 
-
     if(check_valid_string()) {
 
         // remove the first two characters if we are looking for ean/pc.
         if(escape_code == escape_code_ean) {
             search_string.remove(0, 2);
-            rx_string = {"\\d+(\\B" + escape_code + ")"};
+            rx_string = {"\\S+(\\B" + escape_code + ")"};
         } else {
-            rx_string = {"(\\B" + escape_code + ")\\d+"};
+            rx_string = {"(\\B" + escape_code + ")\\S+"};
         }
 
         QRegExp rx{rx_string};
@@ -82,61 +73,60 @@ QString FMD_decoder::find_escape_code(const QString& escape_code)
     return result;
 }
 
-QString FMD_decoder::remove_from_string(QString string, int fmd_size) const
-{
-    auto len = string.size();
-    string.remove(fmd_size, len-fmd_size);
-
-    return string;
-}
-
 // the durability is always 6 digits.
+// ther are two formats, one with durability with year/month and year/month/day.
 QString FMD_decoder::find_durability()
 {
     using namespace apotek::constants;
 
     QString result = find_escape_code(escape_code_durability);
-    result = remove_from_string(result, fmd_durability_size);
+    result.remove(fmd_durability_size, result.size()-fmd_durability_size);
 
-    return result;
-}
-
-QString FMD_decoder::find_ean()
-{
-
-    using namespace apotek::constants;
-
-    QString result =  find_escape_code(escape_code_ean);
-
-    // remove from ean if it starts with 0.
-    if(result.startsWith(("0"))) {
-        result.remove(0, 1);
+    // if the durability ends with 00, its durability is only month and year,
+    // lets replace them with 28 as all months have 28 days.
+    // TODO: use date library to find the last day of the month.
+    if(result.contains("00")) {
+        result.replace(4, 2, "28");
     }
 
-    result = remove_from_string(result, size_of_ean);
+    return result;
+}
+
+// find the ean/PC from the data matrix.
+QString FMD_decoder::find_ean() const
+{
+    QString result = m_matrix_code;
+
+    using namespace apotek::constants;
+    // the matrix code always with the apotek::constants::escape_code_ean
+    if(m_matrix_code.startsWith(escape_code_ean)) {
+        if(m_matrix_code.startsWith(escape_code_ean + "0")) {
+            result.remove(0, 3);
+            result.remove(13, result.size());
+        }
+    }
 
     return result;
 }
 
-int FMD_decoder::find_stockno()
+// find the varenr
+int FMD_decoder::find_varenr() const
 {
-    int stockno{0};
+    int varenr{0};
     QString ean = find_ean();
 
-    // the stockno is in the ean after 6 numbers
+    // the varenr is sometimes hidden in the ean after 6 numbers
     // and the last digit is not included in the stockno.
     ean.remove(0, 6);
-    ean.remove(ean.size()-1, ean.size());
+    ean.resize(ean.size()-1);
 
-    stockno = ean.toInt();
-
-    return stockno;
+    varenr = ean.toInt();
+    return varenr;
 }
 
+/*
 QString FMD_decoder::find_breakpoint_code(const QString& start_escape_code, const QString& end_escape_code)
 {
-    // not using namespace here because that will 'polute' the scope with the escape_codes set in apotek::constants.
-
     QString result;
 
     if(check_valid_string()) {
@@ -153,9 +143,9 @@ QString FMD_decoder::find_breakpoint_code(const QString& start_escape_code, cons
             }
         }
     }
-
     return result;
 }
+*/
 
 } // namespace
 } // namespace
