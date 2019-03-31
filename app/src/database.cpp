@@ -331,6 +331,27 @@ std::vector<Product> Database::ean_search_product(const QString& search_product)
     return result;
 }
 
+std::vector<Product> Database::datamatrix_search_product(const QString& search_product) const
+{
+    std::vector<Product> result;
+    FMD_decoder fmd(search_product);
+
+    Product fmd_product = fmd.get_product();
+
+    std::vector<Product> ean_results = ean_search_product(fmd_product.get_ean());
+
+    if(!ean_results.empty()) {
+        return ean_results;
+    }
+
+    std::vector<Product> varenr_results = varenr_search_product(QString::number(fmd_product.get_varenr()));
+
+    if(!varenr_results.empty()) {
+        return varenr_results;
+    }
+    return result;
+}
+
 std::vector<Product> Database::varenr_search_product(const QString& search_vare) const
 {
     std::vector<Product> result;

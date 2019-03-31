@@ -20,14 +20,17 @@
 #include <QtSql>
 #include <algorithm>
 #include <vector>
+#include "fest_xml/fest_reader.h"
+#include "fmd/fmd_decoder.h"
 #include "product.h"
 #include "error_messages.h"
 #include "check_numbers.h"
 #include "constants.h"
-#include <fest_reader.h>
 
 namespace apotek {
 namespace database{
+
+// TODO: make an own class for handling searches (?)
 
 /**
  * @brief The Database class
@@ -70,6 +73,7 @@ private:
     std::vector<Product> varenr_search_product(const QString& search_product) const;
     std::vector<Product> ean_search_product(const QString& search_product) const;
     std::vector<Product> navn_search_product(const QString& search_product) const;
+    std::vector<Product> datamatrix_search_product(const QString& search_product) const;
     // data members
     apotek::xml::FEST_Reader m_festreader;
     QSqlDatabase m_db_file;
@@ -116,16 +120,19 @@ inline std::vector<Product> Database::search_product(const QString& search_produ
     std::vector<Product> result;
 
     if(apotek::apotekholdbarhet::check_numbers(search_product)) {
-            if(search_product.length() <= apotek::constants::size_of_varenr) {
-                result = varenr_search_product(search_product);
-            } else {
-                result = ean_search_product(search_product);
-            }
+        if(search_product.length() <= apotek::constants::size_of_varenr) {
+            result = varenr_search_product(search_product);
+        } else {
+            result = ean_search_product(search_product);
+        }
     } else {
         // if the string only contains one character, the search will be to heavy.
         // set it minimum 2.
-        if(search_product.length() > 1) {
+        if(search_product.length() > 1 && search_product.length() <= 13) {
             result = navn_search_product(search_product);
+        } else {
+            // it must be data matrix
+            result = datamatrix_search_product(search_product);
         }
     }
     return result;
