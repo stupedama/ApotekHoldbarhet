@@ -128,7 +128,7 @@ inline std::vector<Product> Database::search_product(const QString& search_produ
     } else {
         // if the string only contains one character, the search will be to heavy.
         // set it minimum 2.
-        if(search_product.length() > 1 && search_product.length() <= 13) {
+        if(search_product.length() > 1 && search_product.length() <= apotek::constants::size_of_ean) {
             result = navn_search_product(search_product);
         } else {
             // it must be data matrix
