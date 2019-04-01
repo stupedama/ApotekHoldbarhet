@@ -319,36 +319,49 @@ TABLE_COLORS ApotekHoldbarhet::table_color(const QString& holdbarhet) const
 // it also saves the date to the vector and the database.
 void ApotekHoldbarhet::show_calendar(int row, int varenr=0) const
 {
-    CalendarWidget* calendar = new CalendarWidget(row, varenr);
+    QString lokasjon =  ui->table_varer->item(row, LOKASJON)->text();
+
+    CalendarWidget* calendar = new CalendarWidget(row, varenr, lokasjon);
     calendar->setAttribute(Qt::WA_DeleteOnClose);
-    connect(calendar,SIGNAL(signal_date(QDate, int, int)),this,SLOT(add_date(QDate, int, int)));
+
+    // TODO: need to change name of function as it now saves two things.
+    connect(calendar,SIGNAL(signal_date(QDate, int, int, QString)),this,SLOT(add_date(QDate, int, int, QString)));
     calendar->show();
 }
 
 // FIXME: Holdbarhetsvare doesnt update, it adds a new vare insted. Maybe look in the ApotekHoldbarhet::search_results ?
-void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr)
+void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr, const QString& lokasjon)
 {
     using namespace date;
 
-    //FIXME: this is probably buggy
-    //FIXME: what happens when I search for multiply varer ? Will the wrong one be saved
+    // we are passing varenr 0 when we are searching for products,
+    // otherwise we are passing the varenr.
+    // TODO: need to change this algorithm.
     if(varenr == 0) {
         QString string_date = qd.toString(apotek::constants::date_format);
+        QString string_varenr = ui->table_varer->item(row, VARENR)->text();
+        varenr = string_varenr.toInt();
 
-        auto product = m_durability_products[static_cast<std::size_t>(row)];
-        product.set_holdbarhet(string_date);
+        //std::find_if(std::begin(m_durability_products), std)
 
-        m_db.save_durability(product);
+        //auto product = m_durability_products[static_cast<std::size_t>(row)];
+        auto search_result = m_db.search_product(string_varenr);
 
-        // remove the old one vare in the vector and save the new one.
-        remove_from_durability_vector(product);
+        if(!search_result.empty()) {
+            search_result[0].set_holdbarhet(string_date);
+            search_result[0].set_lokasjon(lokasjon);
 
-        // save the modified one
-        m_durability_products.push_back(product);
+            m_db.save_durability(search_result[0]);
 
-        // print out the new holdbarhetsvare tabel
-        make_durability_table();
+            // remove the old one vare in the vector and save the new one.
+            remove_from_durability_vector(search_result[0]);
 
+            // save the modified one
+            m_durability_products.push_back(search_result[0]);
+
+            // print out the new holdbarhetsvare tabel
+            make_durability_table();
+        }
     } else {
         QString search_product = QString::number(varenr);
         std::vector<apotek::database::Product> search_result = m_db.search_product(search_product);
@@ -368,6 +381,7 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr)
 
             QString string_date = qd.toString(apotek::constants::date_format);
             product.set_holdbarhet(string_date);
+            product.set_lokasjon(lokasjon);
 
             m_db.save_durability(product);
 
@@ -676,6 +690,11 @@ void ApotekHoldbarhet::add_newproduct(const apotek::database::Product& product)
     } else {
         ui->statusBar->showMessage(product.get_navn() + " finnes allerede i database.");
     }
+}
+
+void ApotekHoldbarhet::on_table_varer_itemDoubleClicked(QTableWidgetItem *item)
+{
+    show_calendar(static_cast<int>(item->row()));
 }
 
 } // namespace

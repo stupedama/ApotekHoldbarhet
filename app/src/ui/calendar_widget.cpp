@@ -21,14 +21,16 @@
 namespace apotek {
 namespace apotekholdbarhet {
 
-CalendarWidget::CalendarWidget(int r, int v, QWidget *parent) :
+CalendarWidget::CalendarWidget(int row, int varenr, const QString& lokasjon, QWidget *parent) :
 
     QDialog(parent),
     ui(new Ui::CalendarWidget),
-    m_row{r},
-    m_varenr{v}
+    m_row{row},
+    m_varenr{varenr},
+    m_lokasjon{lokasjon}
 {
     ui->setupUi(this);
+    ui->label_lokasjon->setText(m_lokasjon);
 }
 
 CalendarWidget::~CalendarWidget()
@@ -38,7 +40,7 @@ CalendarWidget::~CalendarWidget()
 
 void CalendarWidget::on_buttonBox_accepted()
 {
-    emit signal_date(ui->calendarWidget->selectedDate(), m_row, m_varenr);
+    emit signal_date(ui->calendarWidget->selectedDate(), m_row, m_varenr, ui->label_lokasjon->text());
     this->close();
 }
 

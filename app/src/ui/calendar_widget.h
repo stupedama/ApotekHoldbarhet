@@ -20,11 +20,11 @@ class CalendarWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit CalendarWidget(int r, int v, QWidget *parent = nullptr);
+    explicit CalendarWidget(int row, int varenr, const QString& lokasjon, QWidget *parent = nullptr);
     ~CalendarWidget();
 
 signals:
-    void signal_date(QDate, int, int);
+    void signal_date(QDate, int, int, QString);
 private slots:
     void on_buttonBox_accepted();
 
@@ -32,6 +32,7 @@ private:
     Ui::CalendarWidget *ui;
     int m_row;
     int m_varenr;
+    QString m_lokasjon;
 };
 
 } // namespace

@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QTableWidgetItem>
 #include <QWidget>
 #include "../table_colors.h"
 #include "calendar_widget.h"
@@ -64,7 +65,7 @@ public:
 private slots:
     void on_actionAvslutt_triggered();
     void on_search_line_returnPressed();
-    void add_date(const QDate& date, int row, int varenr);
+    void add_date(const QDate& date, int row, int varenr, const QString& lokasjon);
     void add_newproduct(const apotek::database::Product& product);
     void on_pushButton_released();
     void on_actionAlle_varer_med_holdbarhet_triggered();
@@ -73,6 +74,7 @@ private slots:
     void on_button_holdbarhet_overview_released();
     void on_actionOppdater_FEST_triggered();
     void on_actionLagre_ny_vare_til_databasen_triggered();
+    void on_table_varer_itemDoubleClicked(QTableWidgetItem* item);
 
 private:
     Ui::ApotekHoldbarhet *ui;
