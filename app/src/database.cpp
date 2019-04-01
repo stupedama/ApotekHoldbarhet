@@ -331,7 +331,7 @@ std::vector<Product> Database::ean_search_product(const QString& search_product)
     return result;
 }
 
-std::vector<Product> Database::datamatrix_search_product(const QString& search_product) const
+std::vector<Product> Database::datamatrix_search_product(const QString& search_product)
 {
     std::vector<Product> result;
     FMD_decoder fmd(search_product);
@@ -341,6 +341,9 @@ std::vector<Product> Database::datamatrix_search_product(const QString& search_p
     std::vector<Product> ean_results = ean_search_product(fmd_product.get_ean());
 
     if(!ean_results.empty()) {
+        if(!fmd_product.get_holdbarhet().isEmpty())
+            ean_results[0].set_holdbarhet(fmd_product.get_holdbarhet());
+        save_durability(ean_results[0]);
         return ean_results;
     }
 

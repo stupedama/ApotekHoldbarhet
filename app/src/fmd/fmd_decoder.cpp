@@ -14,6 +14,7 @@
 */
 
 #include "fmd_decoder.h"
+#include <QDebug>
 
 namespace apotek{
 namespace database{
@@ -104,7 +105,24 @@ QString FMD_decoder::find_durability()
         result.replace(4, 2, "28");
     }
 
-    return result;
+    QDate date = make_date(result);
+
+    return date.toString(apotek::constants::date_format);
+}
+
+QDate FMD_decoder::make_date(const QString& durability) const
+{
+    QDate date;
+
+    if(!durability.isEmpty()) {
+        QStringRef year(&durability, 0, 2);
+        QStringRef month(&durability, 2, 2);
+        QStringRef day(&durability, 4, 2);
+
+        date.setDate(year.toInt()+2000, month.toInt(), day.toInt());
+    }
+
+    return date;
 }
 
 // find the ean/PC from the data matrix.
@@ -120,7 +138,6 @@ QString FMD_decoder::find_ean() const
             result.remove(13, result.size());
         }
     }
-
     return result;
 }
 

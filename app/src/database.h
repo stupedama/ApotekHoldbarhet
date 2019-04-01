@@ -45,7 +45,7 @@ class Database
 public:
     explicit Database();
     ~Database();
-    inline std::vector<Product> search_product(const QString& search_product) const;
+    inline std::vector<Product> search_product(const QString& search_product);
     inline bool save_product(const Product& product) const;
     QSqlError save_durability(const Product& product);
     QSqlError remove_durability(const Product& product);
@@ -73,7 +73,7 @@ private:
     std::vector<Product> varenr_search_product(const QString& search_product) const;
     std::vector<Product> ean_search_product(const QString& search_product) const;
     std::vector<Product> navn_search_product(const QString& search_product) const;
-    std::vector<Product> datamatrix_search_product(const QString& search_product) const;
+    std::vector<Product> datamatrix_search_product(const QString& search_product);
     // data members
     apotek::xml::FEST_Reader m_festreader;
     QSqlDatabase m_db_file;
@@ -115,7 +115,7 @@ inline bool Database::save_product(const Product& product) const
 }
 
 // searches all the products in the m_products vector.
-inline std::vector<Product> Database::search_product(const QString& search_product) const
+inline std::vector<Product> Database::search_product(const QString& search_product)
 {
     std::vector<Product> result;
 

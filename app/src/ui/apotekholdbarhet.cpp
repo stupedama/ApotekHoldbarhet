@@ -208,12 +208,12 @@ void ApotekHoldbarhet::populate_table(const std::vector<apotek::database::Produc
 
         //ui->table_varer->setCellWidget(static_cast<int>(r), SLETT, delete_widget);
 
-        if(!result[r].get_holdbarhet().isEmpty() && !m_durability_products.empty()) {
+        if(!result[r].get_holdbarhet().isEmpty()) {
             QLabel* calendar_label = new QLabel;
-            table_color(m_durability_products[r].get_holdbarhet());
-            calendar_label->setText(m_durability_products[r].get_holdbarhet());
+            table_color(result[r].get_holdbarhet());
+            calendar_label->setText(result[r].get_holdbarhet());
             calendar_layout->addWidget(calendar_label);
-            calendar_label->setText(m_durability_products[r].get_holdbarhet());
+            calendar_label->setText(result[r].get_holdbarhet());
             calendar_widget->setStyleSheet("background-color: white");
         }
 
@@ -620,7 +620,7 @@ void ApotekHoldbarhet::on_pushButton_released()
 
 void ApotekHoldbarhet::on_actionAlle_varer_med_holdbarhet_triggered()
 {
-    make_durability_table();
+    on_button_holdbarhet_overview_released();
 }
 
 void ApotekHoldbarhet::on_actionOm_ApotekHoldbarhet_triggered()
@@ -642,6 +642,7 @@ void ApotekHoldbarhet::on_actionFEST_Versjon_triggered()
 
 void ApotekHoldbarhet::on_button_holdbarhet_overview_released()
 {
+    m_durability_products = m_db.get_durability();
     make_durability_table();
 }
 

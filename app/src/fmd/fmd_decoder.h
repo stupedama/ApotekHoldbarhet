@@ -17,8 +17,11 @@
 #define APOTEKH_FMD_2DCODE_H
 
 #include <QString>
+#include <QStringRef>
+#include <QDate>
 #include <QRegExp>
 #include <QStringList>
+#include <date.h>
 #include "escape_codes.h"
 #include "../product.h"
 #include "../constants.h"
@@ -42,6 +45,7 @@ private:
     QString find_ean() const;
     QString find_durability();
     bool check_valid_string();
+    QDate make_date(const QString& durability) const;
     QString find_escape_code(const QString& escape_code);
     QString remove_from_string(QString string, int fmd_size) const;
     int find_varenr() const;
