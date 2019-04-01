@@ -208,7 +208,7 @@ void ApotekHoldbarhet::populate_table(const std::vector<apotek::database::Produc
 
         //ui->table_varer->setCellWidget(static_cast<int>(r), SLETT, delete_widget);
 
-        if(!result[r].get_holdbarhet().isEmpty()) {
+        if(!result[r].get_holdbarhet().isEmpty() && !m_durability_products.empty()) {
             QLabel* calendar_label = new QLabel;
             table_color(m_durability_products[r].get_holdbarhet());
             calendar_label->setText(m_durability_products[r].get_holdbarhet());
@@ -272,7 +272,7 @@ void ApotekHoldbarhet::populate_table(const std::vector<apotek::database::Produc
     }
 }
 
-void ApotekHoldbarhet::search_result(const std::vector<apotek::database::Product>& result)
+void ApotekHoldbarhet::search_result(const std::vector<database::Product> &result)
 {
     using namespace apotek;
 
@@ -428,7 +428,7 @@ void ApotekHoldbarhet::make_durability_table()
         delete_widget->setLayout(delete_layout);
         delete_widget->setStyleSheet("background-color: white");
 
-        if(!m_durability_products[r].get_holdbarhet().isEmpty()) {
+        if(!m_durability_products[r].get_holdbarhet().isEmpty() && !m_durability_products.empty()) {
             QLabel* calendar_label = new QLabel;
             table_color(m_durability_products[r].get_holdbarhet());
             calendar_label->setText(m_durability_products[r].get_holdbarhet());
