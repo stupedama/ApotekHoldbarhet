@@ -9,7 +9,7 @@ Det har GPL-3 lisens og er til fri bruk i både privat og kommersielt. Programme
 * Microsoft Visual C++ 2015 Redistributable
 
 ## Last ned
-[Last ned siste versjon av ApotekHoldbarhet](https://github.com/stupedama/ApotekHoldbarhet/releases/download/v020/ApotekHoldbarhetv020.zip)
+[Last ned siste versjon av ApotekHoldbarhet](https://github.com/stupedama/ApotekHoldbarhet/releases/download/v030/ApotekHoldbarhetv030.zip)
 
 ## Installering
 Pakker ut programmet til ønsket lokasjon på datamaskinen. Kjør ApotekHoldbarhet.exe.
