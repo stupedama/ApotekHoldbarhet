@@ -3,6 +3,6 @@
         <file>icons/calendar.png</file>
     </qresource>
     <qresource prefix="/images">
-        <file>images/loadingsceen.gif</file>
+        <file>images/loadingscreen.png</file>
     </qresource>
 </RCC>

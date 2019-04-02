@@ -21,14 +21,10 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
-    QPixmap pixmap(":images/images/loadingsceen.gif");
+    QPixmap pixmap(":images/images/loadingscreen.png");
 
     QSplashScreen* splash = new QSplashScreen(pixmap);
     splash->show();
-
-    const QColor color = QColor::fromRgb(255, 255, 255);
-
-    splash->showMessage("Katten laster inn databasen. Vær litt tålmodig!", Qt::AlignCenter, color);
 
     a.processEvents();
 
