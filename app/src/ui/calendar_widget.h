@@ -22,6 +22,7 @@ class CalendarWidget : public QDialog
 
 public:
     explicit CalendarWidget(int row, int varenr, const QString& lokasjon, const QString& saved_date, QWidget *parent = nullptr);
+    explicit CalendarWidget(int row, int varenr, const QString& lokasjon, QWidget *parent = nullptr);
     ~CalendarWidget();
 
 signals:

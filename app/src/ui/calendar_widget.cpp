@@ -39,6 +39,17 @@ CalendarWidget::CalendarWidget(int row, int varenr, const QString& lokasjon, con
     ui->label_lokasjon->setText(m_lokasjon);
 }
 
+CalendarWidget::CalendarWidget(int row, int varenr, const QString& lokasjon, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CalendarWidget),
+    m_row{row},
+    m_varenr{varenr},
+    m_lokasjon{lokasjon}
+{
+    ui->setupUi(this);
+    ui->label_lokasjon->setText(m_lokasjon);
+}
+
 CalendarWidget::~CalendarWidget()
 {
     delete ui;
