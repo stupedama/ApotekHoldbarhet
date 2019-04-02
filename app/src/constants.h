@@ -24,13 +24,12 @@ namespace constants{
 
 // width of columns
 constexpr int first_colum_width{100}; // varenr
-constexpr int second_colum_width{315}; // varenavn
-constexpr int third_colum_width{70}; // mengde
-constexpr int forth_colum_width{130}; // legemiddelform
+constexpr int second_colum_width{350}; // varenavn
+constexpr int third_colum_width{90}; // mengde
+constexpr int forth_colum_width{150}; // legemiddelform
 constexpr int fifth_colum_width{230}; // holdbarhet
 constexpr int sixth_colum_width{200}; // lokasjon
-constexpr int seventh_colum_width{100}; // lagre
-constexpr int eight_colum_width{95}; // slett
+constexpr int seventh_colum_width{100}; // slett
 
 // naming of tables
 const QString first_colum_name{"Varenr"};
@@ -39,8 +38,7 @@ const QString third_colum_name{"Mengde"};
 const QString forth_colum_name{"Legemiddelform"};
 const QString fifth_colum_name{"Holdbarhet"};
 const QString sixth_colum_name{"Lokasjon"};
-const QString seventh_colum_name{"Lagre"};
-const QString eight_colum_name{"Slett"};
+const QString seventh_colum_name{"Slett"};
 
 // color of tables
 const QColor color_orange{255, 165, 0};

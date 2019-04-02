@@ -143,8 +143,7 @@ void ApotekHoldbarhet::setup_table(std::size_t row_size) const
     ui->table_varer->setHorizontalHeaderItem(LEGEMIDDELFORM, new QTableWidgetItem(constants::forth_colum_name));
     ui->table_varer->setHorizontalHeaderItem(HOLDBARHET, new QTableWidgetItem(constants::fifth_colum_name));
     ui->table_varer->setHorizontalHeaderItem(LOKASJON, new QTableWidgetItem(constants::sixth_colum_name));
-    //ui->table_varer->setHorizontalHeaderItem(LAGRE, new QTableWidgetItem(constants::seventh_colum_name));
-    ui->table_varer->setHorizontalHeaderItem(SLETT, new QTableWidgetItem(constants::eight_colum_name));
+    ui->table_varer->setHorizontalHeaderItem(SLETT, new QTableWidgetItem(constants::seventh_colum_name));
     ui->table_varer->setRowCount(static_cast<int>(row_size));
 
     // set the size of colums
@@ -154,8 +153,7 @@ void ApotekHoldbarhet::setup_table(std::size_t row_size) const
     ui->table_varer->setColumnWidth(LEGEMIDDELFORM, constants::forth_colum_width);
     ui->table_varer->setColumnWidth(HOLDBARHET, constants::fifth_colum_width);
     ui->table_varer->setColumnWidth(LOKASJON, constants::sixth_colum_width);
-    //ui->table_varer->setColumnWidth(LAGRE, constants::seventh_colum_width);
-    ui->table_varer->setColumnWidth(SLETT, constants::eight_colum_width);
+    ui->table_varer->setColumnWidth(SLETT, constants::seventh_colum_width);
 }
 
 // populates the QTableWidget with varer
@@ -319,10 +317,20 @@ TABLE_COLORS ApotekHoldbarhet::table_color(const QString& holdbarhet) const
 // it also saves the date to the vector and the database.
 void ApotekHoldbarhet::show_calendar(int row, int varenr=0) const
 {
-    QString lokasjon =  ui->table_varer->item(row, LOKASJON)->text();
-    QString saved_date = ui->table_varer->item(row, HOLDBARHET)->text();
+    CalendarWidget* calendar;
+    QString lokasjon;
 
-    CalendarWidget* calendar = new CalendarWidget(row, varenr, lokasjon, saved_date);
+    if(ui->table_varer->item(row, LOKASJON)) {
+        lokasjon =  ui->table_varer->item(row, LOKASJON)->text();
+    }
+
+    if(ui->table_varer->item(row, HOLDBARHET)) {
+        QString saved_date =  ui->table_varer->item(row, HOLDBARHET)->text();
+        calendar = new CalendarWidget(row, varenr, lokasjon, saved_date);
+    } else {
+        calendar = new CalendarWidget(row, varenr, lokasjon);
+    }
+
     calendar->setAttribute(Qt::WA_DeleteOnClose);
 
     // TODO: need to change name of function as it now saves two things.
