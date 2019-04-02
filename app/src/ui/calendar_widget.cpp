@@ -21,15 +21,21 @@
 namespace apotek {
 namespace apotekholdbarhet {
 
-CalendarWidget::CalendarWidget(int row, int varenr, const QString& lokasjon, QWidget *parent) :
+CalendarWidget::CalendarWidget(int row, int varenr, const QString& lokasjon, const QString& saved_date, QWidget *parent) :
 
     QDialog(parent),
     ui(new Ui::CalendarWidget),
     m_row{row},
     m_varenr{varenr},
-    m_lokasjon{lokasjon}
+    m_lokasjon{lokasjon},
+    m_saved_date{saved_date}
 {
     ui->setupUi(this);
+
+
+    QDate date = QDate::fromString(m_saved_date, apotek::constants::date_format);
+    ui->calendarWidget->setSelectedDate(date);
+
     ui->label_lokasjon->setText(m_lokasjon);
 }
 

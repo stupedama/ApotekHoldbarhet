@@ -27,7 +27,7 @@ enum TABLE_NAMES {
     LEGEMIDDELFORM,
     HOLDBARHET,
     LOKASJON,
-    LAGRE,
+    //LAGRE,
     SLETT
 };
 
