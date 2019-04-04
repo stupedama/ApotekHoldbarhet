@@ -1,0 +1,214 @@
+<?xml version= "1.0"?>
+<!--
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   Author: Fredrik Fjeldvær (fredrik@ffj.no)
+ 
+   -------------------------------------------------------------------------
+   Some FMD codes are using other ean/scan codes than the package scan code,
+   trying to include most of them here .
+   -------------------------------------------------------------------------
+-->
+
+<ean_codes>
+	<drug>
+		<stockno>008524</stockno>
+		<ean>05054626150477</ean>
+	</drug>
+	<drug>
+		<stockno>114520</stockno>
+		<ean>05054626150811</ean>
+	</drug>
+	<drug>
+		<stockno>114520</stockno>
+		<ean>05054626150811</ean>
+	</drug>
+	<drug>
+		<stockno>114587</stockno>
+		<ean>05054626150828</ean>
+	</drug>
+	<drug>
+		<stockno>053389</stockno>
+		<ean>05054626150866</ean>
+	</drug>
+	<drug>
+		<stockno>085969</stockno>
+		<ean>03582910084631</ean>
+	</drug>
+	<drug>
+		<stockno>373357</stockno>
+		<ean>05054626150644</ean>
+	</drug>
+	<drug>
+		<stockno>028121</stockno>
+		<ean>00191778016567</ean>
+	</drug>
+	<drug>
+		<stockno>106545</stockno>
+		<ean>00191778018424</ean>
+	</drug>
+	<drug>
+		<stockno>003988</stockno>
+		<ean>07612797192689</ean>
+	</drug>
+	<drug>
+		<stockno>097790</stockno>
+		<ean>05415062313749</ean>
+	</drug>
+	<drug>
+		<stockno>008326</stockno>
+		<ean>05054626150378</ean>
+	</drug>
+	<drug>
+		<stockno>142480</stockno>
+		<ean>03582910083405</ean>
+	</drug>
+	<drug>
+		<stockno>196808</stockno>
+		<ean>05054626150156</ean>
+	</drug>
+	<drug>
+		<stockno>411850</stockno>
+		<ean>07612797192672</ean>
+	</drug>
+	<drug>
+		<stockno>472759</stockno>
+		<ean>00191778016413</ean>
+	</drug>
+	<drug>
+		<stockno>008326</stockno>
+		<ean>05054626150378</ean>
+	</drug>
+	<drug>
+		<stockno>536896</stockno>
+		<ean>05054626150774</ean>
+	</drug>
+	<drug>
+		<stockno>478461</stockno>
+		<ean>05054626150781</ean>
+	</drug>
+	<drug>
+		<stockno>028586</stockno>
+		<ean>05054626150392</ean>
+	</drug>
+	<drug>
+		<stockno>564302</stockno>
+		<ean>05054626150835</ean>
+	</drug>
+	<drug>
+		<stockno>005932</stockno>
+		<ean>07612791480973</ean>
+	</drug>
+	<drug>
+		<stockno>495259</stockno>
+		<ean>05054626150545</ean>
+	</drug>
+	<drug>
+		<stockno>490540</stockno>
+		<ean>05054626150002</ean>
+	</drug>
+	<drug>
+		<stockno>114587</stockno>
+		<ean>05054626150828</ean>
+	</drug>
+	<drug>
+		<stockno>148460</stockno>
+		<ean>05415062313732</ean>
+	</drug>
+	<drug>
+		<stockno>061584</stockno>
+		<ean>05415062318553</ean>
+	</drug>
+	<drug>
+		<stockno>114520</stockno>
+		<ean>05054626150811</ean>
+	</drug>
+	<drug>
+		<stockno>053470</stockno>
+		<ean>05054626150859</ean>
+	</drug>
+	<drug>
+		<stockno>124347</stockno>
+		<ean>05054626150330</ean>
+	</drug>
+	<drug>
+		<stockno>014159</stockno>
+		<ean>00191778019063</ean>
+	</drug>
+	<drug>
+		<stockno>558288</stockno>
+		<ean>0504626150606</ean>
+	</drug>
+	<drug>
+		<stockno>061607</stockno>
+		<ean>05415062318591</ean>
+	</drug>
+	<drug>
+		<stockno>500066</stockno>
+		<ean>05415062319512</ean>
+	</drug>
+	<drug>
+		<stockno>114587</stockno>
+		<ean>05054626150828</ean>
+	</drug>
+	<drug>
+		<stockno>088261</stockno>
+		<ean>05909990076765</ean>
+	</drug>
+	<drug>
+		<stockno>058735</stockno>
+		<ean>03582910084594</ean>
+	</drug>
+	<drug>
+		<stockno>399519</stockno>
+		<ean>05054626150385</ean>
+	</drug>
+	<drug>
+		<stockno>038448</stockno>
+		<ean>05054626150446</ean>
+	</drug>
+	<drug>
+		<stockno>167547</stockno>
+		<ean>03582910056256</ean>
+	</drug>
+	<drug>
+		<stockno>411850</stockno>
+		<ean>07612797192672</ean>
+	</drug>
+	<drug>
+		<stockno>015382</stockno>
+		<ean>05054626150118</ean>
+	</drug>
+	<drug>
+		<stockno>077180</stockno>
+		<ean>05054626150309</ean>
+	</drug>
+	<drug>
+		<stockno>377333</stockno>
+		<ean>05054626150286</ean>
+	</drug>
+	<drug>
+		<stockno>168971</stockno>
+		<ean>07612797329955</ean>
+	</drug>
+	<drug>
+		<stockno>467563</stockno>
+		<ean>07612797493939</ean>
+	</drug>
+	<drug>
+		<stockno>074087</stockno>
+		<ean>07612797180594</ean>
+	</drug>
+	<drug>
+		<stockno>158030</stockno>
+		<ean>05054626150316</ean>
+	</drug>
+</ean_codes>
