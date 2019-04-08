@@ -54,7 +54,9 @@ public:
     void fetch_products();
     void setup_table(std::size_t row_size) const;
     void remove_from_durability_vector(const apotek::database::Product& v);
-    void populate_table(const std::vector<apotek::database::Product>& result);
+    void populate_table() { make_tables(m_durability_products); }
+    void populate_table(const std::vector<apotek::database::Product>& products) { make_tables(products); }
+    void make_tables(const std::vector<apotek::database::Product>& products);
     TABLE_COLORS table_color(const QString& holdbarhet) const;
     void set_label_colors() const;
     void sort_durability();

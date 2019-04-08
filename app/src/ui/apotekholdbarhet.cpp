@@ -48,11 +48,11 @@ ApotekHoldbarhet::ApotekHoldbarhet(QWidget *parent) :
     // we are making a static_cast<int> - if the vectors size is over int maximum values, the program will have undefined behaviour.
     if(m_durability_products.size() >= max_value - 10) {
         ui->statusBar->showMessage(apotek::errors::error_vector_size_soon);
-        make_durability_table();
+        populate_table();
     } else if(m_durability_products.size() == max_value) {
         ui->statusBar->showMessage(apotek::errors::error_vector_size);
     } else {
-        make_durability_table();
+        populate_table();
     }
 
     // notify about error.
@@ -156,113 +156,77 @@ void ApotekHoldbarhet::setup_table(std::size_t row_size) const
     ui->table_varer->setColumnWidth(SLETT, constants::seventh_colum_width);
 }
 
-// populates the QTableWidget with varer
-void ApotekHoldbarhet::populate_table(const std::vector<apotek::database::Product>& result)
+// makes the table based on a Product vector.
+void ApotekHoldbarhet::make_tables(const std::vector<apotek::database::Product>& products)
 {
     using namespace apotek;
 
     sort_durability();
+
     // clear the error message
     ui->error_message->setText("");
 
-    auto row_size = result.size();
+    auto row_size = products.size();
+
+    setup_table(row_size);
 
     for(std::size_t r{0}; r < row_size; ++r) {
-        // make som buttons
-        // save and delete
-        QPushButton* calendar_button = new QPushButton;
-        QHBoxLayout* calendar_layout = new QHBoxLayout;
-        QWidget* calendar_widget = new QWidget;
-        /*
-        QPushButton* save_button = new QPushButton;
-        QHBoxLayout* save_layout = new QHBoxLayout;
-        QWidget* save_widget = new QWidget;
-        */
-        QPushButton* delete_button = new QPushButton;
-        QHBoxLayout* delete_layout = new QHBoxLayout;
-        QWidget* delete_widget = new QWidget;
 
-        calendar_layout->addWidget(calendar_button);
-        calendar_widget->setLayout(calendar_layout);
-        /*
-        save_button->setText("X");
-        save_layout->addWidget(save_button);
-        save_widget->setLayout(save_layout);
-        save_widget->setStyleSheet("background-color: white");
-        */
-        delete_button->setText("X");
-        delete_layout->addWidget(delete_button);
-        delete_widget->setLayout(delete_layout);
-        delete_widget->setStyleSheet("background-color: white");
+        ui->table_varer->setItem(static_cast<int>(r), VARENR, new QTableWidgetItem(QString::number(products[r].get_varenr())));
+        ui->table_varer->setItem(static_cast<int>(r), VARENAVN, new QTableWidgetItem(products[r].get_navn()));
+        ui->table_varer->setItem(static_cast<int>(r), MENGDE, new QTableWidgetItem(QString::number(products[r].get_mengde())));
+        ui->table_varer->setItem(static_cast<int>(r), LEGEMIDDELFORM, new QTableWidgetItem(products[r].get_legemiddelform()));
+        ui->table_varer->setItem(static_cast<int>(r), LOKASJON, new QTableWidgetItem(products[r].get_lokasjon()));
 
-        ui->table_varer->setItem(static_cast<int>(r), VARENR, new QTableWidgetItem(QString::number(result[r].get_varenr())));
-        ui->table_varer->setItem(static_cast<int>(r), VARENAVN, new QTableWidgetItem(result[r].get_navn()));
-        ui->table_varer->setItem(static_cast<int>(r), MENGDE, new QTableWidgetItem(QString::number(result[r].get_mengde())));
-        ui->table_varer->setItem(static_cast<int>(r), LEGEMIDDELFORM, new QTableWidgetItem(result[r].get_legemiddelform()));
 
-        ui->table_varer->setCellWidget(static_cast<int>(r), HOLDBARHET, calendar_widget);
-          ui->table_varer->setItem(static_cast<int>(r), LOKASJON, new QTableWidgetItem(result[r].get_lokasjon()));
-        //ui->table_varer->setCellWidget(static_cast<int>(r), LAGRE, save_widget);
+        if(!products[r].get_holdbarhet().isEmpty() && !products.empty()) {
+            table_color(products[r].get_holdbarhet());
+            //ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setText(products[r].get_holdbarhet());
+            ui->table_varer->setItem(static_cast<int>(r), HOLDBARHET, new QTableWidgetItem(products[r].get_holdbarhet()));
 
-        //ui->table_varer->setCellWidget(static_cast<int>(r), SLETT, delete_widget);
+            auto color = table_color(products[r].get_holdbarhet());
 
-        if(!result[r].get_holdbarhet().isEmpty()) {
-            QLabel* calendar_label = new QLabel;
-            table_color(result[r].get_holdbarhet());
-            calendar_label->setText(result[r].get_holdbarhet());
-            calendar_layout->addWidget(calendar_label);
-            calendar_label->setText(result[r].get_holdbarhet());
-            calendar_widget->setStyleSheet("background-color: white");
+            switch(color) {
+            case TABLE_COLORS::RED:
+                ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_red);
+                ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_red);
+                ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_red);
+                ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_red);
+                break;
+            case TABLE_COLORS::YELLOW:
+                ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_yellow);
+                ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_yellow);
+                ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_yellow);
+                ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_yellow);
+                break;
+            case TABLE_COLORS::ORANGE:
+                ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_orange);
+                ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_orange);
+                ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_orange);
+                ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_orange);
+                break;
+            default:
+                ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_white);
+                ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_white);
+                ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_white);
+                ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_white);
+                break;
+            }
         }
-
-        auto color = table_color(result[r].get_holdbarhet());
-
-        switch(color) {
-        case TABLE_COLORS::RED:
-            ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_red);
-            ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_red);
-            ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_red);
-            ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_red);
-            break;
-        case TABLE_COLORS::YELLOW:
-            ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_yellow);
-            ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_yellow);
-            ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_yellow);
-            ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_yellow);
-            break;
-        case TABLE_COLORS::ORANGE:
-            ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_orange);
-            ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_orange);
-            ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_orange);
-            ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_orange);
-            break;
-        default:
-            ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_white);
-            ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_white);
-            ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_white);
-            ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_white);
-            break;
-        }
-
-        // make the calendar button look nice
-        calendar_button->setIcon(QIcon(":/icons/icons/calendar.png"));
-        QString button_style = "QPushButton{border:none;background-color:rgba(255, 255, 255,100);}";
-        calendar_button->setStyleSheet(button_style);
-        calendar_button->setIconSize(QSize(50,50));
-        calendar_widget->setStyleSheet("background-color: white");
-        /*
-        // save
-        connect(save_button, &QPushButton::clicked, [=]{
-            save_row(static_cast<int>(r), "none");
-        });
-        */
-        // calendar
-        connect(calendar_button, &QPushButton::clicked, [=]{
-            show_calendar(static_cast<int>(r), result[r].get_varenr());
-        });
 
         // delete
-        if(!result[r].get_holdbarhet().isEmpty()) {
+        if(!products[r].get_holdbarhet().isEmpty()) {
+            // make delete buttons
+            QPushButton* delete_button = new QPushButton;
+            QHBoxLayout* delete_layout = new QHBoxLayout;
+            QWidget* delete_widget = new QWidget;
+
+            delete_button->setText("X");
+            delete_layout->addWidget(delete_button);
+            delete_widget->setLayout(delete_layout);
+            delete_widget->setStyleSheet("background-color: white");
+
+            ui->table_varer->setCellWidget(static_cast<int>(r), SLETT, delete_widget);
             auto d = connect(delete_button, &QPushButton::clicked, [r, this]() -> void {
                 this->delete_row(r);
             });
@@ -369,14 +333,14 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr, const QStr
             m_durability_products.push_back(search_result[0]);
 
             // print out the new holdbarhetsvare tabel
-            make_durability_table();
+            populate_table();
         }
     } else {
         QString search_product = QString::number(varenr);
         std::vector<apotek::database::Product> search_result = m_db.search_product(search_product);
 
         if(search_result.empty()) {
-            make_durability_table();
+            populate_table();
         } else {
             // the result should only return one
             auto product = search_result[0];
@@ -398,154 +362,13 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr, const QStr
             m_durability_products.push_back(product);
 
             // print out the new holdbarhetsvare tabel
-            make_durability_table();
+            populate_table();
         }
     }
 
     // check for errors.
     check_for_database_error();
 }
-
-// TODO: Make a generic populate_table, so it can populate varer and holdbarhet.
-// probably bad design. Need to only make one populate_table and make_holdbarhet_table.
-// FIXME: need to make this using populate_table, make populate_tabke more generic.
-void ApotekHoldbarhet::make_durability_table()
-{
-    using namespace apotek;
-    using namespace apotekholdbarhet;
-
-    sort_durability();
-    // TODO: possible bug/overflow if the vector is bigger than a signed 32 bit int.
-    // make a guard (?)
-
-    // clear the error message
-    ui->error_message->setText("");
-
-    std::size_t row_size = m_durability_products.size();
-    setup_table(row_size);
-    //populate_table(m_holdbarhet_varer);
-
-    // populate our table
-    for(std::size_t r{0}; r < row_size; ++r) {
-        // make som buttons
-        // save and delete calendar
-        //QPushButton* calendar_button = new QPushButton();
-        //QHBoxLayout* calendar_layout = new QHBoxLayout;
-        //QWidget* calendar_widget = new QWidget;
-        /*
-        QPushButton* save_button = new QPushButton();
-        QHBoxLayout* save_layout = new QHBoxLayout;
-        QWidget* save_widget = new QWidget;
-        */
-        QPushButton* delete_button = new QPushButton;
-        QHBoxLayout* delete_layout = new QHBoxLayout;
-        QWidget* delete_widget = new QWidget;
-        /*
-        save_button->setText("X");
-        save_layout->addWidget(save_button);
-        save_widget->setLayout(save_layout);
-        save_widget->setStyleSheet("background-color: white");
-        */
-        delete_button->setText("X");
-        delete_layout->addWidget(delete_button);
-        delete_widget->setLayout(delete_layout);
-        delete_widget->setStyleSheet("background-color: white");
-
-        if(!m_durability_products[r].get_holdbarhet().isEmpty() && !m_durability_products.empty()) {
-            //QLabel* calendar_label = new QLabel;
-            table_color(m_durability_products[r].get_holdbarhet());
-             ui->table_varer->setItem(static_cast<int>(r), HOLDBARHET, new QTableWidgetItem(m_durability_products[r].get_holdbarhet()));
-            //calendar_label->setText(m_durability_products[r].get_holdbarhet());
-            //calendar_layout->addWidget(calendar_label);
-            //calendar_label->setText(m_durability_products[r].get_holdbarhet());
-        }
-
-        //calendar_layout->addWidget(calendar_button);
-        //calendar_widget->setLayout(calendar_layout);
-        //calendar_widget->setStyleSheet("background-color: white");
-
-        ui->table_varer->setItem(static_cast<int>(r), VARENR, new QTableWidgetItem(QString::number(m_durability_products[r].get_varenr())));
-        ui->table_varer->setItem(static_cast<int>(r), VARENAVN, new QTableWidgetItem(m_durability_products[r].get_navn()));
-        ui->table_varer->setItem(static_cast<int>(r), MENGDE, new QTableWidgetItem(QString::number(m_durability_products[r].get_mengde())));
-        ui->table_varer->setItem(static_cast<int>(r), LEGEMIDDELFORM, new QTableWidgetItem(m_durability_products[r].get_legemiddelform()));
-
-        //ui->table_varer->setCellWidget(static_cast<int>(r), HOLDBARHET, calendar_widget);
-
-        ui->table_varer->setItem(static_cast<int>(r), LOKASJON, new QTableWidgetItem(m_durability_products[r].get_lokasjon()));
-        //ui->table_varer->setCellWidget(static_cast<int>(r), LAGRE, save_widget);
-        ui->table_varer->setCellWidget(static_cast<int>(r), SLETT, delete_widget);
-
-        auto color = table_color(m_durability_products[r].get_holdbarhet());
-
-        switch(color) {
-        case TABLE_COLORS::RED:
-            ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_red);
-            ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_red);
-            ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_red);
-            ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_red);
-            ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setBackgroundColor(constants::color_red);
-            ui->table_varer->item(static_cast<int>(r), LOKASJON)->setBackgroundColor(constants::color_red);
-            break;
-        case TABLE_COLORS::BLUE:
-            ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_blue);
-            ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_blue);
-            ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_blue);
-            ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_blue);
-            ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setBackgroundColor(constants::color_blue);
-            ui->table_varer->item(static_cast<int>(r), LOKASJON)->setBackgroundColor(constants::color_blue);
-            // set tooltip
-            //ui->table_varer->item(static_cast<int>(r), )
-            break;
-        case TABLE_COLORS::YELLOW:
-            ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_yellow);
-            ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_yellow);
-            ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_yellow);
-            ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_yellow);
-            ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setBackgroundColor(constants::color_yellow);
-            ui->table_varer->item(static_cast<int>(r), LOKASJON)->setBackgroundColor(constants::color_yellow);
-            break;
-        case TABLE_COLORS::ORANGE:
-            ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_orange);
-            ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_orange);
-            ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_orange);
-            ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_orange);
-            ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setBackgroundColor(constants::color_orange);
-            ui->table_varer->item(static_cast<int>(r), LOKASJON)->setBackgroundColor(constants::color_orange);
-            break;
-        default:
-            ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_white);
-            ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_white);
-            ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_white);
-            ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_white);
-            ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setBackgroundColor(constants::color_white);
-            ui->table_varer->item(static_cast<int>(r), LOKASJON)->setBackgroundColor(constants::color_white);
-            break;
-        }
-
-        /*
-        // make the calendar button look nice
-        calendar_button->setIcon(QIcon(":/icons/icons/calendar.png"));
-        QString button_style = "QPushButton{border:none;background-color:rgba(255, 255, 255,100);}";
-        calendar_button->setStyleSheet(button_style);
-        calendar_button->setIconSize(QSize(50,50));
-
-        // calendar
-        connect(calendar_button, &QPushButton::clicked, [=]{
-            show_calendar(static_cast<int>(r));
-        });
-
-        // save
-        connect(save_button, &QPushButton::clicked, [=]{
-            save_row(static_cast<int>(r), m_durability_products[r].get_holdbarhet());
-        });
-        */
-        // delete
-        auto d = connect(delete_button, &QPushButton::clicked, [r, this]() -> void {
-            this->delete_row(r);
-        });
-    }
-}
-
 
 // saves the vare based on the row in QTableWidget.
 void ApotekHoldbarhet::save_row(int r, const QString& holdbarhet)
@@ -593,7 +416,7 @@ void ApotekHoldbarhet::save_row(int r, const QString& holdbarhet)
         m_durability_products.push_back(product);
     }
     // print out the new holdbarhetsvare tabel
-    make_durability_table();
+    populate_table();
 
     // check for errors
     check_for_database_error();
@@ -626,7 +449,7 @@ void ApotekHoldbarhet::delete_row(std::size_t r)
         // remove from our ApotekHoldbarhet::m_holdbarhet_varer
         m_durability_products.erase(i);
         // clear old table and post it again
-        make_durability_table();
+        populate_table();
     }
 }
 
@@ -678,7 +501,7 @@ void ApotekHoldbarhet::on_actionFEST_Versjon_triggered()
 void ApotekHoldbarhet::on_button_holdbarhet_overview_released()
 {
     m_durability_products = m_db.get_durability();
-    make_durability_table();
+    populate_table();
 }
 
 
