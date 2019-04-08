@@ -86,7 +86,7 @@ void TEST_fmd::test_durability() const
     FMD_decoder t1(m_matrix_case1);
     auto p1 = t1.get_product();
 
-    QCOMPARE(p1.get_holdbarhet(), "200428");
+    QCOMPARE(p1.get_holdbarhet(), "28.04.2020");
 }
 
 QTEST_APPLESS_MAIN(TEST_fmd)
