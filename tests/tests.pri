@@ -12,8 +12,8 @@ SOURCES += \
         ../../app/src/database.cpp \
         ../../app/src/product.cpp \
         ../../app/src/check_numbers.cpp \
-        ../../app/src/fmd/fmd_decoder.cpp
-
+        ../../app/src/fmd/fmd_decoder.cpp \
+        ../../app/src/fmd/fmd_xml_reader.cpp
 
 HEADERS += \
         ../../app/external/date/include/date/date.h \
@@ -25,5 +25,5 @@ HEADERS += \
         ../../app/src/check_numbers.h \
         ../../app/src/constants.h \
         ../../app/src/fmd/fmd_decoder.h \
-        ../../app/src/fmd/escape_codes.h
-
+        ../../app/src/fmd/escape_codes.h \
+        ../../app/src/fmd/fmd_xml_reader.h
