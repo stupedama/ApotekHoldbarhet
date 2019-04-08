@@ -13,8 +13,8 @@
    Author: Fredrik Fjeldvær (fredrik@ffj.no)
 */
 
-#ifndef FMD_CODES_H
-#define FMD_CODES_H
+#ifndef APOTEKH_FMD_CODES_H
+#define APOTEKH_FMD_CODES_H
 
 #include <QString>
 
