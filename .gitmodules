@@ -1,6 +1,3 @@
-[submodule "app/external/"]
-	path = app/external/
-	url = https://github.com/leethomason/tinyxml2.git
 [submodule "app/external/date"]
 	url = https://github.com/HowardHinnant/date.git
 [submodule "app/external/tinyxml2"]
