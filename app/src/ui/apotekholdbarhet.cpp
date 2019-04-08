@@ -465,6 +465,7 @@ void ApotekHoldbarhet::on_search_line_returnPressed()
 
     if(result.empty()) {
         ui->error_message->setText(apotek::errors::error_ui_no_product);
+        ui->search_line->clear();
     } else {
         search_result(result);
         ui->search_line->clear();
