@@ -48,10 +48,10 @@ void TEST_fmd_xml::find_betnovat()
     using namespace apotek::database;
 
     // betnovat data matrix
-    QString flutide_matrix{"010541506231373221985741683713{GS}1721033110X69574"};
+    QString betnovat_matrix{"010541506231373221985741683713{GS}1721033110X69574"};
 
     // decode the matrix first
-    FMD_decoder decode(flutide_matrix);
+    FMD_decoder decode(betnovat_matrix);
     auto r = decode.get_product();
 
     // read the xml file and find the varenr.
