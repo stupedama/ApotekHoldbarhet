@@ -48,8 +48,8 @@ SOURCES += \
         src/ui/fest_update.cpp \
         src/product.cpp \
         src/check_numbers.cpp \
-        src/fmd/fmd_decoder.cpp #\
-        #src/fmd/fmd_xml_reader.cpp
+        src/fmd/fmd_decoder.cpp \
+        src/fmd/fmd_xml_reader.cpp
 
 HEADERS += \
         external/date/include/date/date.h \
@@ -72,8 +72,9 @@ HEADERS += \
         src/table_names.h \
         src/check_numbers.h \
         src/fmd/fmd_decoder.h \
-        src/fmd/escape_codes.h #\
-        #src/fmd/fmd_xml_reader.h
+        src/fmd/escape_codes.h \
+        src/fmd/fmd_xml_reader.h \
+        src/fmd/fmd_code.h
 
 FORMS += \
         ui/apotekholdbarhet.ui \
@@ -88,18 +89,18 @@ RESOURCES += \
 
 # copy FEST files
 unix {
-copydata.commands = $(COPY_DIR) $$PWD/xml/fest $$OUT_PWD
-first.depends = $(first) copydata
+copydata1.commands = $(COPY_DIR) $$PWD/xml/fest $$OUT_PWD
+first.depends = $(first) copydata1
 export(first.depends)
-export(copydata.commands)
-QMAKE_EXTRA_TARGETS += first copydata
+export(copydata1.commands)
+QMAKE_EXTRA_TARGETS += first copydata1
 }
 
 # copy FMD files
 unix {
-copydata.commands = $(COPY_DIR) $$PWD/xml/fmd $$OUT_PWD
-first.depends = $(first) copydata
+copydata2.commands = $(COPY_DIR) $$PWD/xml/fmd $$OUT_PWD
+first.depends = $(first) copydata2
 export(first.depends)
-export(copydata.commands)
-QMAKE_EXTRA_TARGETS += first copydata
+export(copydata2.commands)
+QMAKE_EXTRA_TARGETS += first copydata2
 }
