@@ -1,4 +1,8 @@
 # CHANGELOG
+## v0.5.0
+- location of the "holdbarhetsliste" button is moved
+- did some cleanup in the code
+- more products can be found by using data matrix codes.
 
 ## v0.4.0
 - Removed the save button, its not used anymore. You can now double click to update the location and date
