@@ -42,8 +42,13 @@ struct FMD_code::find_code{
     find_code(const QString& ean) : m_ean{ean} {}
 
     bool operator() (const FMD_code& rhs) {
+        int r = QString::compare(m_ean, rhs.m_ean);
 
-        return m_ean.compare(rhs.m_ean);
+        if(r == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     QString m_ean;
