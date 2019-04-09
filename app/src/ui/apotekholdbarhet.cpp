@@ -171,8 +171,11 @@ void ApotekHoldbarhet::make_tables(const std::vector<apotek::database::Product>&
     setup_table(row_size);
 
     for(std::size_t r{0}; r < row_size; ++r) {
+        // center text for columns
+        QTableWidgetItem* item_varenr = new QTableWidgetItem(QString::number(products[r].get_varenr()));
+        item_varenr->setTextAlignment(Qt::AlignHCenter);
 
-        ui->table_varer->setItem(static_cast<int>(r), VARENR, new QTableWidgetItem(QString::number(products[r].get_varenr())));
+        ui->table_varer->setItem(static_cast<int>(r), VARENR, item_varenr);
         ui->table_varer->setItem(static_cast<int>(r), VARENAVN, new QTableWidgetItem(products[r].get_navn()));
         ui->table_varer->setItem(static_cast<int>(r), MENGDE, new QTableWidgetItem(QString::number(products[r].get_mengde())));
         ui->table_varer->setItem(static_cast<int>(r), LEGEMIDDELFORM, new QTableWidgetItem(products[r].get_legemiddelform()));
@@ -181,8 +184,11 @@ void ApotekHoldbarhet::make_tables(const std::vector<apotek::database::Product>&
 
         if(!products[r].get_holdbarhet().isEmpty() && !products.empty()) {
             table_color(products[r].get_holdbarhet());
-            //ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setText(products[r].get_holdbarhet());
-            ui->table_varer->setItem(static_cast<int>(r), HOLDBARHET, new QTableWidgetItem(products[r].get_holdbarhet()));
+
+            // align the text for holdbarhet column center
+            QTableWidgetItem* item_holdbarhet = new QTableWidgetItem(products[r].get_holdbarhet());
+            item_holdbarhet->setTextAlignment(Qt::AlignHCenter);
+            ui->table_varer->setItem(static_cast<int>(r), HOLDBARHET, item_holdbarhet);
 
             auto color = table_color(products[r].get_holdbarhet());
 
@@ -192,24 +198,32 @@ void ApotekHoldbarhet::make_tables(const std::vector<apotek::database::Product>&
                 ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_red);
                 ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_red);
                 ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_red);
+                ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setBackgroundColor(constants::color_red);
+                ui->table_varer->item(static_cast<int>(r), LOKASJON)->setBackgroundColor(constants::color_red);
                 break;
             case TABLE_COLORS::YELLOW:
                 ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_yellow);
                 ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_yellow);
                 ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_yellow);
                 ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_yellow);
+                ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setBackgroundColor(constants::color_yellow);
+                ui->table_varer->item(static_cast<int>(r), LOKASJON)->setBackgroundColor(constants::color_yellow);
                 break;
             case TABLE_COLORS::ORANGE:
                 ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_orange);
                 ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_orange);
                 ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_orange);
                 ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_orange);
+                ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setBackgroundColor(constants::color_orange);
+                ui->table_varer->item(static_cast<int>(r), LOKASJON)->setBackgroundColor(constants::color_orange);
                 break;
             default:
                 ui->table_varer->item(static_cast<int>(r), VARENR)->setBackgroundColor(constants::color_white);
                 ui->table_varer->item(static_cast<int>(r), VARENAVN)->setBackgroundColor(constants::color_white);
                 ui->table_varer->item(static_cast<int>(r), MENGDE)->setBackgroundColor(constants::color_white);
                 ui->table_varer->item(static_cast<int>(r), LEGEMIDDELFORM)->setBackgroundColor(constants::color_white);
+                ui->table_varer->item(static_cast<int>(r), HOLDBARHET)->setBackgroundColor(constants::color_white);
+                ui->table_varer->item(static_cast<int>(r), LOKASJON)->setBackgroundColor(constants::color_white);
                 break;
             }
         }
