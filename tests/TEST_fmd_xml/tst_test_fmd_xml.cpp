@@ -30,6 +30,7 @@ public:
 
 private slots:
     void find_betnovat();
+    void find_flutide();
 
 };
 
@@ -41,6 +42,23 @@ TEST_fmd_xml::TEST_fmd_xml()
 TEST_fmd_xml::~TEST_fmd_xml()
 {
 
+}
+
+void TEST_fmd_xml::find_flutide()
+{
+    using namespace apotek::database;
+
+    QString flutide_matrix{"01050546261508281720090010TN8T{GS}215BZFD0CT5C"};
+
+    // decode the matrix first
+    FMD_decoder decode(flutide_matrix);
+    auto r = decode.get_product();
+
+    // read the xml file and find the varenr.
+    FMD_xml_reader f;
+    auto result = f.find_code(r.get_ean());
+
+    QVERIFY(result == 114587);
 }
 
 void TEST_fmd_xml::find_betnovat()
@@ -58,7 +76,7 @@ void TEST_fmd_xml::find_betnovat()
     FMD_xml_reader f;
     auto result = f.find_code(r.get_ean());
 
-    QVERIFY(result == 8524);
+    QVERIFY(result == 148460);
 }
 
 
