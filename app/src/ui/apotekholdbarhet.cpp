@@ -171,13 +171,15 @@ void ApotekHoldbarhet::make_tables(const std::vector<apotek::database::Product>&
     setup_table(row_size);
 
     for(std::size_t r{0}; r < row_size; ++r) {
-        // center text for columns
+        // center text for varenr and mengde columns
         QTableWidgetItem* item_varenr = new QTableWidgetItem(QString::number(products[r].get_varenr()));
         item_varenr->setTextAlignment(Qt::AlignHCenter);
+        QTableWidgetItem* item_mengde = new QTableWidgetItem(QString::number(products[r].get_mengde()));
+        item_mengde->setTextAlignment(Qt::AlignHCenter);
 
         ui->table_varer->setItem(static_cast<int>(r), VARENR, item_varenr);
         ui->table_varer->setItem(static_cast<int>(r), VARENAVN, new QTableWidgetItem(products[r].get_navn()));
-        ui->table_varer->setItem(static_cast<int>(r), MENGDE, new QTableWidgetItem(QString::number(products[r].get_mengde())));
+        ui->table_varer->setItem(static_cast<int>(r), MENGDE, item_mengde);
         ui->table_varer->setItem(static_cast<int>(r), LEGEMIDDELFORM, new QTableWidgetItem(products[r].get_legemiddelform()));
         ui->table_varer->setItem(static_cast<int>(r), LOKASJON, new QTableWidgetItem(products[r].get_lokasjon()));
 
