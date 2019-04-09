@@ -228,7 +228,7 @@ void Database::set_fest_hentetdato()
     q.exec();
 }
 
-// this is for future versions - not in use.
+// fetches the version of the FEST xml file
 QString Database::get_fest_hentetdato()
 {
     QSqlQuery q(m_db_memory);
