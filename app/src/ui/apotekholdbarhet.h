@@ -12,6 +12,7 @@
 #include "calendar_widget.h"
 #include "about_apotekholdbarhet.h"
 #include "about_fest.h"
+#include "print_durability.h"
 #include "fest_update.h"
 #include "add_vare.h"
 #include "../product.h"
@@ -21,6 +22,7 @@
 #include "../constants.h"
 #include "../error_messages.h"
 #include "../table_names.h"
+#include "../calculate_months.h"
 #include "tz.h"
 #include "date.h"
 
@@ -77,6 +79,8 @@ private slots:
     void on_actionOppdater_FEST_triggered();
     void on_actionLagre_ny_vare_til_databasen_triggered();
     void on_table_varer_itemDoubleClicked(QTableWidgetItem* item);
+
+    void on_button_print_list_released();
 
 private:
     Ui::ApotekHoldbarhet *ui;

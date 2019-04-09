@@ -264,15 +264,7 @@ void ApotekHoldbarhet::search_result(const std::vector<database::Product> &resul
 
 int ApotekHoldbarhet::calculate_months(const QString& holdbarhet) const
 {
-    using namespace date;
-
-    sys_days today = year_month_day{floor<days>(std::chrono::system_clock::now())};
-    QDate holdbarhet_date = QDate::fromString(holdbarhet, apotek::constants::date_format);
-
-    sys_days holdbarhet_sysdays = sys_days{days{holdbarhet_date.toJulianDay()} -
-            (sys_days{1970_y/jan/1} - sys_days{year{-4713}/nov/24})};
-
-    return round<months>(holdbarhet_sysdays-today).count();
+    return apotek::apotekholdbarhet::calculate_months(holdbarhet);
 }
 
 // difference in months from today and the QString holdbarhet.
@@ -556,6 +548,13 @@ void ApotekHoldbarhet::add_newproduct(const apotek::database::Product& product)
 void ApotekHoldbarhet::on_table_varer_itemDoubleClicked(QTableWidgetItem *item)
 {
     show_calendar(static_cast<int>(item->row()));
+}
+
+void ApotekHoldbarhet::on_button_print_list_released()
+{
+    Print_durability* print_durability = new Print_durability(m_durability_products);
+    print_durability->setAttribute(Qt::WA_DeleteOnClose);
+    print_durability->show();
 }
 
 } // namespace
