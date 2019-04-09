@@ -22,6 +22,7 @@
 #include <vector>
 #include "fest_xml/fest_reader.h"
 #include "fmd/fmd_decoder.h"
+#include "fmd/fmd_xml_reader.h"
 #include "product.h"
 #include "error_messages.h"
 #include "check_numbers.h"
