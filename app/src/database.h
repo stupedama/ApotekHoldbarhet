@@ -77,6 +77,7 @@ private:
     std::vector<Product> datamatrix_search_product(const QString& search_product);
     // data members
     apotek::xml::FEST_Reader m_festreader;
+    apotek::xml::FEST_Reader m_festreader_vet;
     QSqlDatabase m_db_file;
     QSqlDatabase m_db_memory;
     std::vector<Product> m_durability_products;

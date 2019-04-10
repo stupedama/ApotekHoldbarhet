@@ -23,7 +23,7 @@
 namespace apotek {
 namespace database {
 
-Database::Database()
+Database::Database() : m_festreader_vet{"./fest/fest251_vet.xml"}
 {
 
     if (!QSqlDatabase::drivers().contains("QSQLITE"))
@@ -209,6 +209,11 @@ inline std::vector<Product> Database::get_from_xml()
     bool error{false};
 
     std::vector<Product> xml_products = m_festreader.get_content();
+    std::vector<Product> xml_products_vet = m_festreader_vet.get_content();
+
+    for(const auto& p : xml_products_vet) {
+        xml_products.push_back(p);
+    }
 
     if(error) m_error_status = apotek::errors::error_xml_error;
 

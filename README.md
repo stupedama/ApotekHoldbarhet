@@ -1,7 +1,7 @@
 # ApotekHoldbarhet
 Lar deg holde oversikt over holdbarheten til legemidler. Kan brukes i medisinrom på sykehjem eller på apotek. Du søker opp varen, scanner eller skriver inn varenr - legger inn holdbarhet og programmet vil markere rødt når varen har mindre enn tre måneder igjen eller har gått ut på dato.
 
-Programmet inneholder alle markedsførte legemidler i Norge, utenom vetrinærmedinsiner og homeopati. Datene er hentet fra Legemiddelverket fra FEST.
+Programmet inneholder alle markedsførte legemidler i Norge, utenom homeopatiske midler. Datene er hentet fra Legemiddelverket fra FEST.
 
 Det har GPL-3 lisens og er til fri bruk i både privat og kommersielt. Programmet bruker Qt rammeverket og er skrevet i C++.
 
