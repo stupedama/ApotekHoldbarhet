@@ -448,6 +448,7 @@ QLineEdit {
     <property name="title">
      <string>Fil</string>
     </property>
+    <addaction name="actionUtskrift"/>
     <addaction name="actionAvslutt"/>
    </widget>
    <widget class="QMenu" name="menuHjelp">
@@ -515,6 +516,11 @@ QLineEdit {
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionUtskrift">
+   <property name="text">
+    <string>Utskrift</string>
    </property>
   </action>
  </widget>

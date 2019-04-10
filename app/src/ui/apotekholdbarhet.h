@@ -80,7 +80,7 @@ private slots:
     void on_actionLagre_ny_vare_til_databasen_triggered();
     void on_table_varer_itemDoubleClicked(QTableWidgetItem* item);
 
-    void on_button_print_list_released();
+    void on_actionUtskrift_triggered();
 
 private:
     Ui::ApotekHoldbarhet *ui;

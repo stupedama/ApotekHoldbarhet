@@ -551,7 +551,7 @@ void ApotekHoldbarhet::on_table_varer_itemDoubleClicked(QTableWidgetItem *item)
     show_calendar(static_cast<int>(item->row()));
 }
 
-void ApotekHoldbarhet::on_button_print_list_released()
+void ApotekHoldbarhet::on_actionUtskrift_triggered()
 {
     Print_durability* print_durability = new Print_durability(m_durability_products);
     print_durability->setAttribute(Qt::WA_DeleteOnClose);
@@ -560,3 +560,4 @@ void ApotekHoldbarhet::on_button_print_list_released()
 
 } // namespace
 } // namespace
+
