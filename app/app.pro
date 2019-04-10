@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network
+QT       += core gui sql network printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -49,7 +49,9 @@ SOURCES += \
         src/product.cpp \
         src/check_numbers.cpp \
         src/fmd/fmd_decoder.cpp \
-        src/fmd/fmd_xml_reader.cpp
+        src/fmd/fmd_xml_reader.cpp \
+        src/ui/print_durability.cpp \
+        src/calculate_months.cpp
 
 HEADERS += \
         external/date/include/date/date.h \
@@ -74,7 +76,9 @@ HEADERS += \
         src/fmd/fmd_decoder.h \
         src/fmd/escape_codes.h \
         src/fmd/fmd_xml_reader.h \
-        src/fmd/fmd_code.h
+        src/fmd/fmd_code.h \
+        src/ui/print_durability.h \
+        src/calculate_months.h
 
 FORMS += \
         ui/apotekholdbarhet.ui \
@@ -82,7 +86,8 @@ FORMS += \
         ui/about_apotekholdbarhet.ui \
         ui/about_fest.ui \
         ui/add_vare.ui \
-        ui/fest_update.ui
+        ui/fest_update.ui \
+        ui/print_durability.ui
 
 RESOURCES += \
         images.qrc
