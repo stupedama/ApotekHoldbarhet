@@ -54,6 +54,11 @@ constexpr int size_of_ean{13};
 // date format
 const QString date_format("dd.MM.yyyy");
 
+// the interval of the coloring of the tables
+constexpr int color_interval_red{3}; // red is between negative numbers and this number
+constexpr int color_interval_orange{6}; // orange is between red and orange
+constexpr int color_interval_yellow{12};; // yellow is between orange and yellow
+
 // regexp and FMD constants
 constexpr int regexp_error{-1};
 constexpr int fmd_durability_size{6};

@@ -270,15 +270,16 @@ int ApotekHoldbarhet::calculate_months(const QString& holdbarhet) const
 // difference in months from today and the QString holdbarhet.
 TABLE_COLORS ApotekHoldbarhet::table_color(const QString& holdbarhet) const
 {
+    using namespace apotek;
     if(holdbarhet.isEmpty()) return TABLE_COLORS::BLUE;
 
     int m = calculate_months(holdbarhet);
 
-    if(m <= 3) {
+    if(m <= constants::color_interval_red) {
         return TABLE_COLORS::RED;
-    } else if(m > 3 && m <= 6) {
+    } else if(m > constants::color_interval_red && m <= constants::color_interval_orange) {
         return TABLE_COLORS::ORANGE;
-    } else if(m > 6 && m <= 12) {
+    } else if(m > constants::color_interval_orange && m <= constants::color_interval_yellow) {
         return TABLE_COLORS::YELLOW;
     } else {
         return TABLE_COLORS::WHITE;
