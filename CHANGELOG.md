@@ -1,4 +1,9 @@
 # CHANGELOG
+
+## v0.6.0
+- veterinarian products can now be searched and added to the list.
+- print is now supported, print the list based on durability.
+
 ## v0.5.0
 - location of the "holdbarhetsliste" button is moved
 - did some cleanup in the code
