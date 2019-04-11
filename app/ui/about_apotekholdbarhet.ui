@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>523</width>
-    <height>584</height>
+    <height>654</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>550</y>
+     <y>620</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -89,7 +89,7 @@ p, li { white-space: pre-wrap; }
      <x>10</x>
      <y>320</y>
      <width>491</width>
-     <height>221</height>
+     <height>281</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -110,7 +110,10 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/HowardHinnant/date&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Github.&lt;/span&gt;&lt;/a&gt; MIT Lisens&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;FEST XML&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lastet ned fra &lt;a href=&quot;https://legemiddelverket.no/andre-temaer/fest/nedlasting-av-fest&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Legemiddelverket&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lastet ned fra &lt;a href=&quot;https://legemiddelverket.no/andre-temaer/fest/nedlasting-av-fest&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Legemiddelverket&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;openssl&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/openssl/openssl/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Github.&lt;/span&gt;&lt;/a&gt; Apache License 2.0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>

@@ -13,7 +13,11 @@ QMAKE_CFLAGS_RELEASE = -O2 -MD -MP2
 
 TARGET = ApotekHoldbarhet
 
+# windows 32 libs
 win32: LIBS += -lshell32
+win32: LIBS += -L./external/openssl/lib -lssleay32
+win32: LIBS += -L./external/openssl/lib -llibeay32
+win32: INCLUDEPATH += ./external/openssl/lib
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
