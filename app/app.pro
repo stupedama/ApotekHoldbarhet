@@ -44,14 +44,14 @@ SOURCES += \
         src/ui/about_apotekholdbarhet.cpp \
         src/ui/about_fest.cpp \
         src/ui/add_vare.cpp \
-        src/download.cpp \
         src/ui/fest_update.cpp \
         src/product.cpp \
         src/check_numbers.cpp \
         src/fmd/fmd_decoder.cpp \
         src/fmd/fmd_xml_reader.cpp \
         src/ui/print_durability.cpp \
-        src/calculate_months.cpp
+        src/calculate_months.cpp \
+        src/download_manager.cpp
 
 HEADERS += \
         external/date/include/date/date.h \
@@ -64,7 +64,6 @@ HEADERS += \
         src/ui/about_fest.h \
         src/table_colors.h \
         src/ui/add_vare.h \
-        src/download.h \
         src/ui/fest_update.h \
         src/product.h \
         src/constants.h \
@@ -78,7 +77,8 @@ HEADERS += \
         src/fmd/fmd_xml_reader.h \
         src/fmd/fmd_code.h \
         src/ui/print_durability.h \
-        src/calculate_months.h
+        src/calculate_months.h \
+        src/download_manager.h
 
 FORMS += \
         ui/apotekholdbarhet.ui \

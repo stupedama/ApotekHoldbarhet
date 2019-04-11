@@ -16,9 +16,12 @@
 #include "ui/apotekholdbarhet.h"
 #include <QApplication>
 #include <QSplashScreen>
+#include "download_manager.h"
 
 int main(int argc, char *argv[])
 {
+
+    using namespace apotek::apotekholdbarhet;
 
     QApplication a(argc, argv);
     QPixmap pixmap(":images/images/loadingscreen.png");
@@ -26,13 +29,16 @@ int main(int argc, char *argv[])
     QSplashScreen* splash = new QSplashScreen(pixmap);
     splash->show();
 
+    // download ean_codes.xml from the ApotekHoldbarhet repo.
+    DownloadManager manager;
+    QTimer::singleShot(0, &manager, SLOT(execute()));
+
     a.processEvents();
 
-    apotek::apotekholdbarhet::ApotekHoldbarhet w;
+    ApotekHoldbarhet w;
 
     w.show();
     splash->finish(&w);
 
     return a.exec();
-
 }

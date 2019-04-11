@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v0.7.0
+- downloads automaticly the ean_codes.xml from github.
+
 ## v0.6.0
 - veterinarian products can now be searched and added to the list.
 - print is now supported, print the list based on durability.
