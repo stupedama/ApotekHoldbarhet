@@ -46,22 +46,17 @@ void DownloadManager::do_download(const QUrl &url)
 
 QString DownloadManager::save_filename(const QUrl &url)
 {
+    QString basename;
     QString path = url.path();
-    QString basename = "fmd/" + QFileInfo(path).fileName();
+    if(path.startsWith("https://raw")) {
+        basename = "fmd/" + QFileInfo(path).fileName();
+    } else {
+        basename = QFileInfo(path).fileName();
+    }
 
     if (basename.isEmpty())
         basename = "download";
-    /*
-    if (QFile::exists(basename)) {
-        // already exists, don't overwrite
-        //int i = 0;
-        //basename += '.';
-        while (QFile::exists(basename + QString::number(i)))
-            ++i;
 
-        basename += QString::number(i);
-    }
-    */
     return basename;
 }
 
@@ -92,6 +87,9 @@ void DownloadManager::execute()
 {
     QUrl xml_url{"https://raw.githubusercontent.com/stupedama/ApotekHoldbarhet/master/app/xml/fmd/ean_codes.xml"};
     do_download(xml_url);
+
+    QUrl version_url{"http://cvf.no/version.ini"};
+    do_download(version_url);
 }
 
 void DownloadManager::download_finished(QNetworkReply* reply)
