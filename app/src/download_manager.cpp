@@ -85,10 +85,14 @@ bool DownloadManager::is_http_redirect(QNetworkReply *reply)
 
 void DownloadManager::execute()
 {
+
+    // download the ean_codes for the missing ean codes for data matrixes
     QUrl xml_url{"https://raw.githubusercontent.com/stupedama/ApotekHoldbarhet/master/app/xml/fmd/ean_codes.xml"};
     do_download(xml_url);
 
-    QUrl version_url{"http://cvf.no/version.ini"};
+    // download current version
+    // for future versions you can check if you are using the current version
+    QUrl version_url{"http://cvf.no/apotek_version.ini"};
     do_download(version_url);
 }
 
