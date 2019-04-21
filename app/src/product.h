@@ -44,20 +44,20 @@ public:
     // setters
     void set_id(const QString& i) { m_id = i; }
     void set_navn(const QString& n) { m_navn = n; }
-    void set_varenr(int v) { m_varenr = v; }
+    void set_varenr(int v) noexcept { m_varenr = v; }
     void set_ean(const QString& e) { m_ean = e; }
     void set_legemiddelform(const QString& l) { m_legemiddelform = l; }
-    void set_mengde(int m) { m_mengde = m; }
+    void set_mengde(int m) noexcept { m_mengde = m; }
     void set_holdbarhet(const QString& h) { m_holdbarhet = h; }
     void set_lokasjon(const QString& l) { m_lokasjon = l; }
 
     // getters
     QString get_id() const { return m_id; }
     QString get_navn() const { return m_navn; }
-    int get_varenr() const { return m_varenr; }
+    int get_varenr() const noexcept { return m_varenr; }
     QString get_ean() const { return m_ean; }
     QString get_legemiddelform() const { return m_legemiddelform; }
-    int get_mengde() const { return m_mengde; }
+    int get_mengde() const noexcept { return m_mengde; }
     QString get_holdbarhet() const { return m_holdbarhet; }
     QString get_lokasjon() const { return m_lokasjon; }
 
