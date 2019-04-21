@@ -324,7 +324,7 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr, const QStr
         QString string_varenr = ui->table_varer->item(row, VARENR)->text();
         varenr = string_varenr.toInt();
 
-        //std::find_if(std::begin(m_durability_products), std)
+        //std::find_if(std::cbegin(m_durability_products), std)
 
         //auto product = m_durability_products[static_cast<std::size_t>(row)];
         auto search_result = m_db.search_product(string_varenr);
@@ -434,10 +434,10 @@ void ApotekHoldbarhet::save_row(int r, const QString& holdbarhet)
 
 void ApotekHoldbarhet::remove_from_durability_vector(const apotek::database::Product& v)
 {
-    auto i = std::find_if(std::begin(m_durability_products), std::end(m_durability_products),
+    auto i = std::find_if(std::cbegin(m_durability_products), std::cend(m_durability_products),
                           apotek::database::Product::Find_vare(v.get_varenr()));
 
-    if(i != std::end(m_durability_products)) {
+    if(i != std::cend(m_durability_products)) {
         m_durability_products.erase(i);
     }
 }
@@ -446,7 +446,7 @@ void ApotekHoldbarhet::remove_from_durability_vector(const apotek::database::Pro
 // clears the table and prints out the modified vector by 'void make_holdbarhet_table()'.
 void ApotekHoldbarhet::delete_row(std::size_t r)
 {
-    auto i = std::find_if(std::begin(m_durability_products), std::end(m_durability_products), [this, r](
+    auto i = std::find_if(std::cbegin(m_durability_products), std::cend(m_durability_products), [this, r](
                           const apotek::database::Product& v)
     {
         return v.get_varenr() == m_durability_products[r].get_varenr();
@@ -546,6 +546,8 @@ void ApotekHoldbarhet::add_newproduct(const apotek::database::Product& product)
     }
 }
 
+// when a row is double clicked it pops up the calendar widget
+// show_calendar(
 void ApotekHoldbarhet::on_table_varer_itemDoubleClicked(QTableWidgetItem *item)
 {
     show_calendar(static_cast<int>(item->row()));
