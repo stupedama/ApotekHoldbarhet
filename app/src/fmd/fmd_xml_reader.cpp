@@ -32,15 +32,15 @@ int FMD_xml_reader::find_code(const QString& ean)
 
     // lets try to find it with 0 first
     // most of the codes in the xml file begins with 0.
-    auto it2 = std::find_if(std::begin(m_ean_codes), std::end(m_ean_codes), FMD_code::find_code("0" + ean));
+    auto it2 = std::find_if(std::cbegin(m_ean_codes), std::cend(m_ean_codes), FMD_code::find_code("0" + ean));
 
-    if(it2 != std::end(m_ean_codes)) {
+    if(it2 != std::cend(m_ean_codes)) {
         return it2->m_varenr;
     }
 
-    auto it = std::find_if(std::begin(m_ean_codes), std::end(m_ean_codes), FMD_code::find_code(ean));
+    auto it = std::find_if(std::cbegin(m_ean_codes), std::cend(m_ean_codes), FMD_code::find_code(ean));
 
-    if(it != std::end(m_ean_codes)) {
+    if(it != std::cend(m_ean_codes)) {
         return it->m_varenr;
     }
 
