@@ -157,7 +157,7 @@ void ApotekHoldbarhet::setup_table(std::size_t row_size) const
 }
 
 // makes the table based on a Product vector.
-void ApotekHoldbarhet::make_tables(const std::vector<apotek::database::Product>& products)
+void ApotekHoldbarhet::make_tables(ApotekProducts products)
 {
     using namespace apotek;
 
@@ -250,7 +250,7 @@ void ApotekHoldbarhet::make_tables(const std::vector<apotek::database::Product>&
     }
 }
 
-void ApotekHoldbarhet::search_result(const std::vector<database::Product> &result)
+void ApotekHoldbarhet::search_result(ApotekProducts result)
 {
     using namespace apotek;
 

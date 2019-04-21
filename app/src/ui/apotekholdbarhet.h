@@ -44,6 +44,8 @@ class ApotekHoldbarhet : public QMainWindow
     Q_OBJECT
 
 public:
+    using ApotekProducts = const std::vector<apotek::database::Product>&;
+
     explicit ApotekHoldbarhet(QWidget *parent = nullptr);
     ~ApotekHoldbarhet();
     void show_calendar(int row, int varenr) const;
@@ -52,13 +54,13 @@ public:
     void make_varer_table();
     void save_row(int r, const QString& holdbarhet);
     void delete_row(std::size_t r);
-    void search_result(const std::vector<apotek::database::Product>& result);
+    void search_result(ApotekProducts result);
     void fetch_products();
     void setup_table(std::size_t row_size) const;
     void remove_from_durability_vector(const apotek::database::Product& v);
     void populate_table() { make_tables(m_durability_products); }
-    void populate_table(const std::vector<apotek::database::Product>& products) { make_tables(products); }
-    void make_tables(const std::vector<apotek::database::Product>& products);
+    void populate_table(ApotekProducts products) { make_tables(products); }
+    void make_tables(ApotekProducts products);
     TABLE_COLORS table_color(const QString& holdbarhet) const;
     void set_label_colors() const;
     void sort_durability();
