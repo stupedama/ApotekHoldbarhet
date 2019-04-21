@@ -293,18 +293,18 @@ std::vector<Product> Database::navn_search_product(const QString& search_product
     // find in m_holdbarhet
     // unsure if I want to implement this.
     /*
-    for(auto it = std::find_if(std::begin(m_holdbarhet_varer), std::end(m_holdbarhet_varer), Vare::Find_vare(search_vare)) ;
+    for(auto it = std::find_if(std::cbegin(m_holdbarhet_varer), std::cend(m_holdbarhet_varer), Vare::Find_vare(search_vare)) ;
         it != std::end(m_holdbarhet_varer) ;
-        it = std::find_if(++it, std::end(m_holdbarhet_varer), Vare::Find_vare(search_vare)))
+        it = std::find_if(++it, std::cend(m_holdbarhet_varer), Vare::Find_vare(search_vare)))
     {
         result.push_back(*it);
     }
     */
 
     // search in the m_vare
-    for(auto it = std::find_if(std::begin(m_products), std::end(m_products), Product::Find_vare(search_product));
-        it != std::end(m_products);
-        it = std::find_if(++it, std::end(m_products), Product::Find_vare(search_product)))
+    for(auto it = std::find_if(std::cbegin(m_products), std::cend(m_products), Product::Find_vare(search_product));
+        it != std::cend(m_products);
+        it = std::find_if(++it, std::cend(m_products), Product::Find_vare(search_product)))
     {
         // check if its already saved in m_holdbarhet_varer
         if(!check_if_durability_exists(it->get_varenr()))
@@ -321,16 +321,16 @@ std::vector<Product> Database::ean_search_product(const QString& search_product)
     // important to check holdbarhet first, because its most likely inside varer if the vare exists.
 
     if(check_if_durability_exists(s_varenr)) {
-        auto it = std::find_if(std::begin(m_durability_products), std::end(m_durability_products), Product::Find_ean(search_product));
-        if(it!= std::end(m_durability_products)) {
+        auto it = std::find_if(std::cbegin(m_durability_products), std::cend(m_durability_products), Product::Find_ean(search_product));
+        if(it!= std::cend(m_durability_products)) {
             result.push_back(*it);
             return result;
         }
     }
 
 
-        auto it = std::find_if(std::begin(m_products), std::end(m_products), Product::Find_ean(search_product));
-        if(it != std::end(m_products)) {
+        auto it = std::find_if(std::cbegin(m_products), std::cend(m_products), Product::Find_ean(search_product));
+        if(it != std::cend(m_products)) {
                 result.push_back(*it);
     }
     return result;
@@ -379,8 +379,8 @@ std::vector<Product> Database::varenr_search_product(const QString& search_vare)
     // important to check holdbarhet first, because its most likely inside varer if the vare exists.
 
     if(check_if_durability_exists(s_varenr)) {
-        auto it = std::find_if(std::begin(m_durability_products), std::end(m_durability_products), Product::Find_vare(s_varenr));
-        if(it != std::end(m_durability_products)) {
+        auto it = std::find_if(std::cbegin(m_durability_products), std::cend(m_durability_products), Product::Find_vare(s_varenr));
+        if(it != std::cend(m_durability_products)) {
                 result.push_back(*it);
             return result;
         }
@@ -388,8 +388,8 @@ std::vector<Product> Database::varenr_search_product(const QString& search_vare)
 
 
     if(check_if_product_exists(s_varenr)) {
-        auto it = std::find_if(std::begin(m_products), std::end(m_products), Product::Find_vare(s_varenr));
-        if(it != std::end(m_products)) {
+        auto it = std::find_if(std::cbegin(m_products), std::cend(m_products), Product::Find_vare(s_varenr));
+        if(it != std::cend(m_products)) {
             //if(!check_if_holdbarhet_exists(it->m_varenr))
                 result.push_back(*it);
         }
