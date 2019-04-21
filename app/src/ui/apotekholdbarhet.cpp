@@ -74,6 +74,7 @@ void ApotekHoldbarhet::check_for_database_error()
 
 void ApotekHoldbarhet::set_label_colors() const
 {
+    std::lock_guard<std::mutex> g(m);
     using namespace apotek;
 
     QString background_color{"background-color: " };
@@ -122,6 +123,7 @@ ApotekHoldbarhet::~ApotekHoldbarhet()
 
 void ApotekHoldbarhet::set_title() const
 {
+    std::lock_guard<std::mutex> g(m);
     ui->label_version->setText(apotek_program_version);
 }
 
@@ -133,6 +135,8 @@ void ApotekHoldbarhet::on_actionAvslutt_triggered()
 // setups the table shell in QTableWidget.
 void ApotekHoldbarhet::setup_table(std::size_t row_size) const
 {
+    std::lock_guard<std::mutex> g(m);
+
     using namespace apotek;
     // clear the table.
     ui->table_varer->setRowCount(0);
@@ -270,6 +274,8 @@ int ApotekHoldbarhet::calculate_months(const QString& holdbarhet) const
 // difference in months from today and the QString holdbarhet.
 TABLE_COLORS ApotekHoldbarhet::table_color(const QString& holdbarhet) const
 {
+    std::lock_guard<std::mutex> g(m);
+
     using namespace apotek;
     if(holdbarhet.isEmpty()) return TABLE_COLORS::BLUE;
 
@@ -290,6 +296,8 @@ TABLE_COLORS ApotekHoldbarhet::table_color(const QString& holdbarhet) const
 // it also saves the date to the vector and the database.
 void ApotekHoldbarhet::show_calendar(int row, int varenr=0) const
 {
+    std::lock_guard<std::mutex> g(m);
+
     CalendarWidget* calendar;
     QString lokasjon;
 

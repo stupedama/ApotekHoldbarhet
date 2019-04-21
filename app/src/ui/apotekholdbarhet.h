@@ -8,6 +8,7 @@
 #include <QHBoxLayout>
 #include <QTableWidgetItem>
 #include <QWidget>
+#include <mutex>
 #include "../table_colors.h"
 #include "calendar_widget.h"
 #include "about_apotekholdbarhet.h"
@@ -66,7 +67,7 @@ public:
     void sort_durability();
     void check_for_database_error();
     int calculate_months(const QString& holdbarhet) const;
-    QDate get_fest_hentetdato() const;
+    //QDate get_fest_hentetdato() const;
 
 private slots:
     void on_actionAvslutt_triggered();
@@ -89,6 +90,7 @@ private:
     std::vector<apotek::database::Product> m_products;
     std::vector<apotek::database::Product> m_durability_products;
     apotek::database::Database m_db;
+    mutable std::mutex m;
 };
 
 } // namespace
