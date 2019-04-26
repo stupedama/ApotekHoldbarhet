@@ -43,7 +43,7 @@ class FEST_Reader
 {
 public:
     explicit FEST_Reader() : m_filename{"./fest/fest251_inst.xml"} {}
-    explicit FEST_Reader(std::string f) : m_filename{f} {}
+    explicit FEST_Reader(std::string&& f) : m_filename{std::move(f)} {}
     ~FEST_Reader() = default;
     std::string get_filename() { return m_filename; }
     std::vector<apotek::database::Product> get_content();
