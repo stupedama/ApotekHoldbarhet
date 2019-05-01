@@ -159,7 +159,7 @@ std::vector<Product> Database::get_products()
     m_products = get_from_xml();
 
     for(const auto& v : m_products) {
-        error = save_product(v);
+        error = save_product(std::move(v));
     }
 
 
@@ -169,7 +169,7 @@ std::vector<Product> Database::get_products()
     for(const auto& p : saved_products) {
         if(!check_if_product_exists(p.get_varenr())) {
             m_products.push_back(p);
-            save_product(p);
+            save_product(std::move(p));
         } else {
             error = true;
         }
@@ -343,9 +343,9 @@ std::vector<Product> Database::datamatrix_search_product(const QString& search_p
     std::vector<Product> result;
     FMD_decoder fmd(search_product);
 
-    Product fmd_product = fmd.get_product();
+    auto fmd_product = fmd.get_product();
 
-    std::vector<Product> ean_results = ean_search_product(fmd_product.get_ean());
+    auto ean_results = ean_search_product(fmd_product.get_ean());
 
     if(ean_results.empty()) {
         // lets see if its in our ean_codes.xml file.
@@ -359,7 +359,7 @@ std::vector<Product> Database::datamatrix_search_product(const QString& search_p
     if(!ean_results.empty()) {
         if(!fmd_product.get_holdbarhet().isEmpty() && !fmd_product.get_holdbarhet().isEmpty())
             ean_results[0].set_holdbarhet(fmd_product.get_holdbarhet());
-        save_durability(ean_results[0]);
+        save_durability(std::move(ean_results[0]));
         return ean_results;
     }
 
@@ -445,7 +445,7 @@ QSqlError Database::update_durability()
     return QSqlError();
 }
 
-QSqlError Database::save_durability(const Product& product)
+QSqlError Database::save_durability(Product product)
 {
     int s_varenr = product.get_varenr();
 

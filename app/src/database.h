@@ -47,8 +47,8 @@ public:
     explicit Database();
     ~Database();
     inline std::vector<Product> search_product(QString search_product);
-    inline bool save_product(const Product& product) const;
-    QSqlError save_durability(const Product& product);
+    inline bool save_product(Product product) const;
+    QSqlError save_durability(Product product);
     QSqlError remove_durability(const Product& product);
     bool save_newproduct(const Product& product);
     bool compare_fest_hentetdato();
@@ -86,22 +86,22 @@ private:
 };
 
 // adds a single Vare if it does not already exists and saves it to the varer table in the db.
-inline bool Database::save_product(const Product& product) const
+inline bool Database::save_product(Product product) const
 {
     QSqlQuery q(m_db_memory);
-    const int s_varenr = product.get_varenr();
+    const auto s_varenr = product.get_varenr();
 
     if(!check_if_product_exists(s_varenr)) {
 
         if(!q.prepare(QLatin1String("insert into products(varenr, navn, id, ean, legemiddelform, mengde) values (?, ?, ?, ?, ?, ?)")))
             return true; // q.lastError();
 
-        const int varenr{product.get_varenr()};
-        const QString navn{product.get_navn()};
-        const QString id{product.get_id()};
-        const QString ean{product.get_ean()};
-        const QString legemiddelform{product.get_legemiddelform()};
-        const int mengde{product.get_mengde()};
+        const auto varenr{product.get_varenr()};
+        const auto navn{product.get_navn()};
+        const auto id{product.get_id()};
+        const auto ean{product.get_ean()};
+        const auto legemiddelform{product.get_legemiddelform()};
+        const auto mengde{product.get_mengde()};
 
         q.addBindValue(varenr);
         q.addBindValue(navn);

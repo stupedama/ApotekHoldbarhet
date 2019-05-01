@@ -373,10 +373,11 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr, const QStr
             product.set_holdbarhet(string_date);
             product.set_lokasjon(lokasjon);
 
-            m_db.save_durability(product);
-
             // save the modified one
             m_durability_products.push_back(product);
+
+            // move it into the durability database
+            m_db.save_durability(std::move(product));
 
             // print out the new holdbarhetsvare tabel
             populate_table();
@@ -424,13 +425,14 @@ void ApotekHoldbarhet::save_row(int r, const QString& holdbarhet)
             product.set_lokasjon(lokasjon);
         }
 
-        m_db.save_durability(product);
-
         // remove the old one vare in the vector and save the new one.
         remove_from_durability_vector(product);
 
         // save the modified one
         m_durability_products.push_back(product);
+
+        // move it into the database
+        m_db.save_durability(std::move(product));
     }
     // print out the new holdbarhetsvare tabel
     populate_table();
