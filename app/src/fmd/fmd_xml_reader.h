@@ -36,7 +36,6 @@ class FMD_xml_reader
 {
 public:
     explicit FMD_xml_reader();
-    ~FMD_xml_reader() = default;
     std::vector<FMD_code> get_codes() { return m_ean_codes; }
     int find_code(const QString& ean);
 private:
