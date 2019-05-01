@@ -73,7 +73,7 @@ inline void FMD_xml_reader::read_file()
         }
 
         if(varenr != -1) {
-            FMD_code code{varenr, ean};
+            FMD_code code{varenr, std::move(ean)};
             m_ean_codes.push_back(code);
         }
 
