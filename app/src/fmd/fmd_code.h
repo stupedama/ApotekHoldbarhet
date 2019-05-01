@@ -26,9 +26,8 @@
 struct FMD_code
 {
     explicit FMD_code();
-    explicit FMD_code(int varenr, const QString& ean)
-        : m_varenr{varenr}, m_ean{ean} {}
-    ~FMD_code() = default;
+    explicit FMD_code(int varenr, QString ean)
+        : m_varenr{varenr}, m_ean{std::move(ean)} {}
     int m_varenr;
     QString m_ean;
 
