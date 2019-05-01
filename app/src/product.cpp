@@ -18,9 +18,10 @@
 namespace apotek {
 namespace database {
 
-Product::Product(const QString& id, const QString& name,
-                 int varenr, const QString& ean, const QString& legemiddelform, int mengde)
-    :    m_id{id}, m_navn{name}, m_varenr{varenr}, m_ean{ean}, m_legemiddelform{legemiddelform}, m_mengde{mengde}
+Product::Product(QString id, QString name,
+                 int varenr, QString ean, QString legemiddelform, int mengde)
+    :    m_id{std::move(id)}, m_navn{std::move(name)}, m_varenr{varenr},
+         m_ean{std::move(ean)}, m_legemiddelform{std::move(legemiddelform)}, m_mengde{mengde}
 {
 }
 

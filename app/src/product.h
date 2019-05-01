@@ -32,8 +32,8 @@ namespace database {
  */
 class Product {
 public:
-    explicit Product(const QString& id, const QString& name, int varenr,
-                     const QString& ean, const QString& legemiddelform, int mengde);
+    explicit Product(QString id, QString name, int varenr,
+                     QString ean, QString legemiddelform, int mengde);
     explicit Product() = default;
     bool sanity_check() const;
 
@@ -41,14 +41,20 @@ public:
     struct Find_ean;
 
     // setters
-    void set_id(const QString& i) { m_id = i; }
-    void set_navn(const QString& n) { m_navn = n; }
+    template<typename T>
+    void set_id(T&& id) { m_id = std::forward<T>(id); }
+    template<typename T>
+    void set_navn(T&& navn) { m_navn = std::forward<T>(navn); }
     void set_varenr(int v) noexcept { m_varenr = v; }
-    void set_ean(const QString& e) { m_ean = e; }
-    void set_legemiddelform(const QString& l) { m_legemiddelform = l; }
+    template<typename T>
+    void set_ean(T&& ean) { m_ean = std::forward<T>(ean); }
+    template<typename T>
+    void set_legemiddelform(T&& legemiddelform) { m_legemiddelform = std::forward<T>(legemiddelform); }
     void set_mengde(int m) noexcept { m_mengde = m; }
-    void set_holdbarhet(const QString& h) { m_holdbarhet = h; }
-    void set_lokasjon(const QString& l) { m_lokasjon = l; }
+    template<typename T>
+    void set_holdbarhet(T&& holdbarhet) { m_holdbarhet = std::forward<T>(holdbarhet); }
+    template<typename T>
+    void set_lokasjon(T&& lokasjon) { m_lokasjon = std::forward<T>(lokasjon); }
 
     // getters
     QString get_id() const { return m_id; }
@@ -73,7 +79,7 @@ private:
 
 struct Product::Find_vare{
     Find_vare(int v) : m_varenr{v} {}
-    Find_vare(const QString& n) : m_navn{n} {}
+    Find_vare(QString navn) : m_navn{std::move(navn)} {}
 
     bool operator() (const Product& rhs) const
     {
@@ -90,7 +96,7 @@ struct Product::Find_vare{
 };
 
 struct Product::Find_ean{
-    Find_ean(const QString& e) : m_ean{e} {}
+    Find_ean(QString ean) : m_ean{std::move(ean)} {}
 
     bool operator() (const Product& rhs)
     {
