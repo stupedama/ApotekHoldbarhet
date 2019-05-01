@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v0.8.0
+- some performance improvments and bug fixes
+
 ## v0.7.0
 - downloads automaticly the ean_codes.xml from github.
 
