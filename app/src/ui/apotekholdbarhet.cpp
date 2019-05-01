@@ -454,13 +454,13 @@ void ApotekHoldbarhet::remove_from_durability_vector(const apotek::database::Pro
 // clears the table and prints out the modified vector by 'void make_holdbarhet_table()'.
 void ApotekHoldbarhet::delete_row(std::size_t r)
 {
-    auto i = std::find_if(std::cbegin(m_durability_products), std::cend(m_durability_products), [this, r](
-                          const apotek::database::Product& v)
+    auto i = std::find_if(std::cbegin(m_durability_products), std::cend(m_durability_products),
+                          [m_durability_products = m_durability_products, r = r](const auto& v)
     {
         return v.get_varenr() == m_durability_products[r].get_varenr();
     });
 
-    if(i != std::end(m_durability_products)) {
+    if(i != std::cend(m_durability_products)) {
         // remove from database
         m_db.remove_durability(*i);
         // remove from our ApotekHoldbarhet::m_holdbarhet_varer
