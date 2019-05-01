@@ -228,7 +228,7 @@ void Database::set_fest_hentetdato()
     if(!q.prepare("insert into fest_info (hentetdato) values (?)"))
         m_error_status = apotek::errors::error_database_write;
 
-    QString hentetdato = m_festreader.get_fest_hentetdato();
+    auto hentetdato = m_festreader.get_fest_hentetdato();
     q.addBindValue(hentetdato);
     q.exec();
 }
