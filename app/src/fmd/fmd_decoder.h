@@ -37,8 +37,7 @@ namespace database {
 class FMD_decoder
 {
 public:
-    FMD_decoder(const QString &matrix_code);
-    ~FMD_decoder() = default;
+    FMD_decoder(QString matrix_code);
     Product get_product();
     QString get_error_code() const { return m_error_code; }
 private:

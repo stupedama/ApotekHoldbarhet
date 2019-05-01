@@ -38,7 +38,7 @@ struct FMD_code
 // used in std::find_if to search the vector finding the ean.
 // usally from a data matrix code.
 struct FMD_code::find_code{
-    find_code(const QString& ean) : m_ean{ean} {}
+    find_code(QString ean) : m_ean{std::move(ean)} {}
 
     bool operator() (const FMD_code& rhs) {
         int r = QString::compare(m_ean, rhs.m_ean);

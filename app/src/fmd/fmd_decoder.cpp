@@ -19,8 +19,8 @@
 namespace apotek{
 namespace database{
 
-FMD_decoder::FMD_decoder(const QString& matrix_code)
-    : m_matrix_code{matrix_code}, m_error_code{"none"}
+FMD_decoder::FMD_decoder(QString matrix_code)
+    : m_matrix_code{std::move(matrix_code)}, m_error_code{"none"}
 {
 }
 
