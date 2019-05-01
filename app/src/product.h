@@ -35,7 +35,6 @@ public:
     explicit Product(const QString& id, const QString& name, int varenr,
                      const QString& ean, const QString& legemiddelform, int mengde);
     explicit Product() = default;
-    ~Product() = default;
     bool sanity_check() const;
 
     struct Find_vare;
