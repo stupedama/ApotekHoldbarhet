@@ -208,8 +208,8 @@ inline std::vector<Product> Database::get_from_xml()
 {
     bool error{false};
 
-    std::vector<Product> xml_products = m_festreader.get_content();
-    std::vector<Product> xml_products_vet = m_festreader_vet.get_content();
+    auto xml_products = m_festreader.get_content();
+    auto xml_products_vet = m_festreader_vet.get_content();
 
     for(const auto& p : xml_products_vet) {
         xml_products.push_back(p);
