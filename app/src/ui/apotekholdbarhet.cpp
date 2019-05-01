@@ -335,7 +335,7 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr, const QStr
         //std::find_if(std::cbegin(m_durability_products), std)
 
         //auto product = m_durability_products[static_cast<std::size_t>(row)];
-        auto search_result = m_db.search_product(string_varenr);
+        auto search_result = m_db.search_product(std::move(string_varenr));
 
         if(!search_result.empty()) {
             search_result[0].set_holdbarhet(string_date);
@@ -354,7 +354,7 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr, const QStr
         }
     } else {
         QString search_product = QString::number(varenr);
-        std::vector<apotek::database::Product> search_result = m_db.search_product(search_product);
+        auto search_result = m_db.search_product(std::move(search_product));
 
         if(search_result.empty()) {
             populate_table();
@@ -392,7 +392,7 @@ void ApotekHoldbarhet::save_row(int r, const QString& holdbarhet)
 {
     QString varenr = ui->table_varer->item(r, VARENR)->text();
 
-    std::vector<apotek::database::Product> product_vector = m_db.search_product(varenr);
+    std::vector<apotek::database::Product> product_vector = m_db.search_product(std::move(varenr));
 
     for(auto& product : product_vector) {
 
@@ -478,7 +478,7 @@ void ApotekHoldbarhet::on_search_line_returnPressed()
     }
 
     QString search_value = ui->search_line->text();
-    std::vector<apotek::database::Product> result = m_db.search_product(search_value);
+    std::vector<apotek::database::Product> result = m_db.search_product(std::move(search_value));
 
     if(result.empty()) {
         ui->error_message->setText(apotek::errors::error_ui_no_product);

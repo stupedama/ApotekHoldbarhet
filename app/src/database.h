@@ -46,7 +46,7 @@ class Database
 public:
     explicit Database();
     ~Database();
-    inline std::vector<Product> search_product(const QString& search_product);
+    inline std::vector<Product> search_product(QString search_product);
     inline bool save_product(const Product& product) const;
     QSqlError save_durability(const Product& product);
     QSqlError remove_durability(const Product& product);
@@ -117,7 +117,7 @@ inline bool Database::save_product(const Product& product) const
 }
 
 // searches all the products in the m_products vector.
-inline std::vector<Product> Database::search_product(const QString& search_product)
+inline std::vector<Product> Database::search_product(QString search_product)
 {
     std::vector<Product> result;
 
