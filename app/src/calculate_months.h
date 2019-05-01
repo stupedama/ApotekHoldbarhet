@@ -26,7 +26,7 @@ namespace apotekholdbarhet{
 
 int calculate_months(const QString& holdbarhet);
 
-}
-}
+} // namespace
+} // namespace
 
 #endif // CALCULATE_MONTHS_H
