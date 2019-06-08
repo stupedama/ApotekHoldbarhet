@@ -149,7 +149,7 @@ inline ProductsContainer Database::get_from_xml()
     auto xml_products_vet = m_festreader_vet.get_content();
 
     // move the products to the ProductsContainer
-    for(auto p : xml_products_vet) {
+    for(const auto& p : xml_products_vet) {
         xml_products.push_back(std::move(p));
     }
 
