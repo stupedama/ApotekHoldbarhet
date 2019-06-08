@@ -21,7 +21,6 @@
 #include <tinyxml2.h>
 #include "fmd_code.h"
 
-#include <QDebug>
 
 namespace apotek {
 namespace database {
