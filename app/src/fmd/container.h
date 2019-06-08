@@ -24,6 +24,7 @@ namespace database{
 // forward declaration
 class FMD_code;
 
+// the container for the FMD_code class used for the matrix codes
 using FMDContainer = std::vector<FMD_code>;
 
 } // namespace
