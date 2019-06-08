@@ -148,8 +148,9 @@ inline ProductsContainer Database::get_from_xml()
     auto xml_products = m_festreader.get_content();
     auto xml_products_vet = m_festreader_vet.get_content();
 
+    // move the products to the ProductsContainer
     for(const auto& p : xml_products_vet) {
-        xml_products.push_back(p);
+        xml_products.push_back(std::move(p));
     }
 
     if(error) m_error_status = apotek::errors::error_xml_error;
