@@ -151,13 +151,13 @@ void TEST_db::add_duplicate()
 void TEST_db::add_newproduct()
 {
     apotek::database::Product new_product;
-    new_product.set_varenr(12341);
+    new_product.set_varenr(1222);
     new_product.set_ean("394872918471982423");
     new_product.set_navn("Test product");
     new_product.set_mengde(100);
     new_product.set_legemiddelform("tablets");
 
-    auto result = d.save_newproduct(new_product);
+    auto result = d.save_newproduct(std::move(new_product));
     QVERIFY(result == true);
 }
 
