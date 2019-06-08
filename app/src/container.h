@@ -26,6 +26,7 @@ namespace database{
 class Product;
 }
 
+// container used for all the products and durability products in the ApotekHoldbarhet application.
 using ProductsContainer = std::vector<database::Product>;
 
 } // namespace
