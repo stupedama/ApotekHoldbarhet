@@ -117,9 +117,9 @@ inline bool Database::save_product(Product product) const
 }
 
 // searches all the products in the m_products vector.
-inline std::vector<Product> Database::search_product(QString search_product)
+inline ProductsContainer Database::search_product(QString search_product)
 {
-    std::vector<Product> result;
+    ProductsContainer result;
 
     if(apotek::apotekholdbarhet::check_numbers(search_product)) {
         if(search_product.length() <= apotek::constants::size_of_varenr) {
