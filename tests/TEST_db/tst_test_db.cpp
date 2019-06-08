@@ -18,6 +18,9 @@
 #include <database.h>
 #include <product.h>
 #include <fest_xml/fest_reader.h>
+#include <container.h>
+
+using namespace apotek;
 
 class TEST_db : public QObject
 {
@@ -38,10 +41,10 @@ private slots:
     void add_newproduct();
 
 private:
-    apotek::xml::FEST_Reader f;
-    apotek::database::Database d;
-    std::vector<apotek::database::Product> m_products;
-    std::vector<apotek::database::Product> m_durability;
+    xml::FEST_Reader f;
+    database::Database d;
+    ProductsContainer m_products;
+    ProductsContainer m_durability;
 };
 
 TEST_db::TEST_db()
@@ -94,7 +97,7 @@ void TEST_db::get_products()
 
 void TEST_db::get_durability()
 {
-    std::vector<apotek::database::Product> durability = d.get_durability();
+    ProductsContainer durability = d.get_durability();
 
     // there should be atleast one vare in holdbarhet from TEST_db::save_holdbarhet()
     QVERIFY(!durability.empty());
@@ -102,7 +105,7 @@ void TEST_db::get_durability()
 
 void TEST_db::search_product()
 {
-    std::vector<apotek::database::Product> result;
+    ProductsContainer result;
 
     QBENCHMARK {
         result = d.search_product("tab");
