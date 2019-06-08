@@ -18,6 +18,9 @@
 
 #include <QString>
 
+namespace apotek{
+namespace database{
+
 /**
  * @brief The FMD_code struct
  * Struct that stores the datatypes from the fmd/ean_codes.xml
@@ -52,5 +55,8 @@ struct FMD_code::find_code{
 
     QString m_ean;
 };
+
+} //
+} //
 
 #endif // FMD_CODES_H

@@ -18,9 +18,15 @@
 
 #include <vector>
 
+namespace apotek{
+namespace database{
+
 // forward declaration
 class FMD_code;
 
 using FMDContainer = std::vector<FMD_code>;
 
-#endif // CONTAINER_H
+} // namespace
+} // namespace
+
+#endif // FMD_CONTAINER_H
