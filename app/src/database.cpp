@@ -344,7 +344,7 @@ ProductsContainer Database::datamatrix_search_product(const QString& search_prod
         return ean_results;
     }
 
-    std::vector<Product> varenr_results = varenr_search_product(QString::number(fmd_product.get_varenr()));
+    ProductsContainer varenr_results = varenr_search_product(QString::number(fmd_product.get_varenr()));
 
     if(!varenr_results.empty()) {
         return varenr_results;
