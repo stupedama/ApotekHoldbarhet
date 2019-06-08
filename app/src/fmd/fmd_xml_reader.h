@@ -17,6 +17,7 @@
 #define APOTEKH_FMD_XML_READER_H
 
 #include "fmd_code.h"
+#include "container.h"
 #include <QString>
 #include <string>
 #include <tinyxml2.h>
@@ -33,11 +34,11 @@ class FMD_xml_reader
 {
 public:
     explicit FMD_xml_reader();
-    std::vector<FMD_code> get_codes() { return m_ean_codes; }
+    FMDContainer get_codes() { return m_ean_codes; }
     int find_code(const QString& ean);
 private:
     inline void read_file();
-    std::vector<FMD_code> m_ean_codes;
+    FMDContainer m_ean_codes;
     std::string m_filename;
 };
 
