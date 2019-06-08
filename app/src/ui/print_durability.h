@@ -27,6 +27,7 @@
 #include "../product.h"
 #include "../constants.h"
 #include "../calculate_months.h"
+#include "../container.h"
 
 namespace Ui {
 class Print_durability;
@@ -40,7 +41,7 @@ class Print_durability : public QDialog
     Q_OBJECT
 
 public:
-    explicit Print_durability(const std::vector<apotek::database::Product>& products, QWidget *parent = nullptr);
+    explicit Print_durability(const ProductsContainer& products, QWidget *parent = nullptr);
     ~Print_durability();
     void print() const;
     void add_color_red();
@@ -58,8 +59,8 @@ private slots:
 
 private:
     Ui::Print_durability *ui;
-    std::vector<apotek::database::Product> m_products;
-    std::vector<apotek::database::Product> m_print_products;
+    ProductsContainer m_products;
+    ProductsContainer m_print_products;
 };
 
 } // namespace

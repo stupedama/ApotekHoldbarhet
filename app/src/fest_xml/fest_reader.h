@@ -21,6 +21,7 @@
 #include <QString>
 #include <tinyxml2.h>
 #include "../product.h"
+#include "../container.h"
 
 // TODO: Need to read <KatHandelsvare> too get more varer.
 
@@ -46,10 +47,10 @@ public:
     explicit FEST_Reader(std::string f) : m_filename{std::move(f)} {}
     ~FEST_Reader() = default;
     std::string get_filename() { return m_filename; }
-    std::vector<apotek::database::Product> get_content();
+    ProductsContainer get_content();
     QString get_fest_hentetdato();
 private:
-    std::vector<apotek::database::Product> m_varer;
+    ProductsContainer m_varer;
     std::string m_filename;
     inline void read_file();
 };

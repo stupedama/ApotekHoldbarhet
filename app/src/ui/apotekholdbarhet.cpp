@@ -34,7 +34,7 @@ ApotekHoldbarhet::ApotekHoldbarhet(QWidget *parent) :
     apotekholdbarhet::apotekholdbarhet_init(*this);
 
     // make an empty vector so we can call our make_table()
-    std::vector<Product> empty_products;
+    ProductsContainer empty_products;
 
     if(m_products.empty())
         ui->statusBar->showMessage(apotek::errors::error_no_products);
@@ -93,8 +93,8 @@ void ApotekHoldbarhet::set_label_colors() const
 void ApotekHoldbarhet::sort_durability()
 {
     std::sort(std::begin(m_durability_products), std::end(m_durability_products), [&](
-              const apotek::database::Product& lhs,
-              const apotek::database::Product& rhs) -> bool
+              const Product& lhs,
+              const Product& rhs) -> bool
     {
         // TODO: make the colors::BLUE last.
         //if(lhs.get_holdbarhet().isEmpty()) return false;
@@ -161,7 +161,7 @@ void ApotekHoldbarhet::setup_table(std::size_t row_size) const
 }
 
 // makes the table based on a Product vector.
-void ApotekHoldbarhet::make_tables(ApotekProducts products)
+void ApotekHoldbarhet::make_tables(ProductsContainer products)
 {
     using namespace apotek;
 
@@ -254,7 +254,7 @@ void ApotekHoldbarhet::make_tables(ApotekProducts products)
     }
 }
 
-void ApotekHoldbarhet::search_result(ApotekProducts result)
+void ApotekHoldbarhet::search_result(ProductsContainer result)
 {
     using namespace apotek;
 
@@ -393,7 +393,7 @@ void ApotekHoldbarhet::save_row(int r, const QString& holdbarhet)
 {
     QString varenr = ui->table_varer->item(r, VARENR)->text();
 
-    std::vector<apotek::database::Product> product_vector = m_db.search_product(std::move(varenr));
+    ProductsContainer product_vector = m_db.search_product(std::move(varenr));
 
     for(auto& product : product_vector) {
 
@@ -442,7 +442,7 @@ void ApotekHoldbarhet::save_row(int r, const QString& holdbarhet)
 }
 
 
-void ApotekHoldbarhet::remove_from_durability_vector(const apotek::database::Product& v)
+void ApotekHoldbarhet::remove_from_durability_vector(const Product& v)
 {
     auto i = std::find_if(std::cbegin(m_durability_products), std::cend(m_durability_products),
                           apotek::database::Product::Find_vare(v.get_varenr()));
@@ -480,7 +480,7 @@ void ApotekHoldbarhet::on_search_line_returnPressed()
     }
 
     QString search_value = ui->search_line->text();
-    std::vector<apotek::database::Product> result = m_db.search_product(std::move(search_value));
+    ProductsContainer result = m_db.search_product(std::move(search_value));
 
     if(result.empty()) {
         ui->error_message->setText(apotek::errors::error_ui_no_product);
@@ -538,15 +538,17 @@ void apotek::apotekholdbarhet::ApotekHoldbarhet::on_actionLagre_ny_vare_til_data
     add_vare->setAttribute(Qt::WA_DeleteOnClose);
     add_vare->show();
 
-    connect(add_vare,SIGNAL(signal_newproduct(const apotek::database::Product&)),this,SLOT(add_newproduct(const apotek::database::Product&)));
+    connect(add_vare,SIGNAL(signal_newproduct(const Product&)),this,SLOT(add_newproduct(const Product&)));
 }
 
 
-void ApotekHoldbarhet::add_newproduct(const apotek::database::Product& product)
+void ApotekHoldbarhet::add_newproduct(const Product& product)
 {
     auto result = m_db.search_product(QString::number(product.get_varenr()));
     if(result.empty()) {
+        // save it to the database and to the vector
         if(m_db.save_newproduct(product)) {
+            m_products.push_back(product);
             ui->statusBar->showMessage(product.get_navn() + " ble lagt til i databasen.");
         } else {
             ui->statusBar->showMessage("Det skjedde en feil!");

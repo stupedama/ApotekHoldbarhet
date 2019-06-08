@@ -151,7 +151,7 @@ void Database::init_db()
 
 // gets all the varer from the xml file. Stores them in the data member m_products
 // saves it to the database. It also fetches the custom made products from the sql file.
-std::vector<Product> Database::get_products()
+ProductsContainer Database::get_products()
 {
     bool error{false};
 
@@ -204,7 +204,7 @@ bool Database::compare_fest_hentetdato()
 
 
 // get all the Products from the xml file
-inline std::vector<Product> Database::get_from_xml()
+inline ProductsContainer Database::get_from_xml()
 {
     bool error{false};
 
@@ -286,9 +286,9 @@ bool Database::check_if_durability_exists(int varenr) const
     }
 }
 
-std::vector<Product> Database::navn_search_product(const QString& search_product) const
+ProductsContainer Database::navn_search_product(const QString& search_product) const
 {
-    std::vector<Product> result;
+    ProductsContainer result;
 
     // find in m_holdbarhet
     // unsure if I want to implement this.
@@ -313,9 +313,9 @@ std::vector<Product> Database::navn_search_product(const QString& search_product
     return result;
 }
 
-std::vector<Product> Database::ean_search_product(const QString& search_product) const
+ProductsContainer Database::ean_search_product(const QString& search_product) const
 {
-    std::vector<Product> result;
+    ProductsContainer result;
     int s_varenr = search_product.toInt();
 
     // important to check holdbarhet first, because its most likely inside varer if the vare exists.
@@ -336,11 +336,11 @@ std::vector<Product> Database::ean_search_product(const QString& search_product)
     return result;
 }
 
-std::vector<Product> Database::datamatrix_search_product(const QString& search_product)
+ProductsContainer Database::datamatrix_search_product(const QString& search_product)
 {
     //using namespace apotek::database;
 
-    std::vector<Product> result;
+    ProductsContainer result;
     FMD_decoder fmd(search_product);
 
     auto fmd_product = fmd.get_product();
@@ -371,9 +371,9 @@ std::vector<Product> Database::datamatrix_search_product(const QString& search_p
     return result;
 }
 
-std::vector<Product> Database::varenr_search_product(const QString& search_vare) const
+ProductsContainer Database::varenr_search_product(const QString& search_vare) const
 {
-    std::vector<Product> result;
+    ProductsContainer result;
     int s_varenr = search_vare.toInt();
 
     // important to check holdbarhet first, because its most likely inside varer if the vare exists.
@@ -398,11 +398,11 @@ std::vector<Product> Database::varenr_search_product(const QString& search_vare)
 }
 
 // fethces the custom made products from the database.
-std::vector<Product> Database::get_newproducts() const
+ProductsContainer Database::get_newproducts() const
 {
     QSqlQuery q(m_db_file);
 
-    std::vector<Product> result;
+    ProductsContainer result;
 
     if(q.exec("SELECT * FROM products_saved")) {
         while(q.next()) {

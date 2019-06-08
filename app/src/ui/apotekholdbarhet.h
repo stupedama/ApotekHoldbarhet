@@ -24,6 +24,7 @@
 #include "../error_messages.h"
 #include "../table_names.h"
 #include "../calculate_months.h"
+#include "../container.h"
 #include "tz.h"
 #include "date.h"
 
@@ -44,9 +45,9 @@ class ApotekHoldbarhet : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    using ApotekProducts = const std::vector<apotek::database::Product>&;
+    using Product = apotek::database::Product;
 
+public:
     explicit ApotekHoldbarhet(QWidget *parent = nullptr);
     ~ApotekHoldbarhet();
     void show_calendar(int row, int varenr) const;
@@ -55,13 +56,13 @@ public:
     void make_varer_table();
     void save_row(int r, const QString& holdbarhet);
     void delete_row(std::size_t r);
-    void search_result(ApotekProducts result);
+    void search_result(ProductsContainer result);
     void fetch_products();
     void setup_table(std::size_t row_size) const;
-    void remove_from_durability_vector(const apotek::database::Product& v);
+    void remove_from_durability_vector(const Product& v);
     void populate_table() { make_tables(m_durability_products); }
-    void populate_table(ApotekProducts products) { make_tables(products); }
-    void make_tables(ApotekProducts products);
+    void populate_table(ProductsContainer products) { make_tables(products); }
+    void make_tables(ProductsContainer products);
     TABLE_COLORS table_color(const QString& holdbarhet) const;
     void set_label_colors() const;
     void sort_durability();
@@ -73,7 +74,7 @@ private slots:
     void on_actionAvslutt_triggered();
     void on_search_line_returnPressed();
     void add_date(const QDate& date, int row, int varenr, const QString& lokasjon);
-    void add_newproduct(const apotek::database::Product& product);
+    void add_newproduct(const Product& product);
     void on_pushButton_released();
     void on_actionAlle_varer_med_holdbarhet_triggered();
     void on_actionOm_ApotekHoldbarhet_triggered();
@@ -87,8 +88,8 @@ private slots:
 
 private:
     Ui::ApotekHoldbarhet *ui;
-    std::vector<apotek::database::Product> m_products;
-    std::vector<apotek::database::Product> m_durability_products;
+    ProductsContainer m_products;
+    ProductsContainer m_durability_products;
     apotek::database::Database m_db;
     mutable std::mutex m;
 };

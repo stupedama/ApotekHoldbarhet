@@ -27,6 +27,7 @@
 #include "error_messages.h"
 #include "check_numbers.h"
 #include "constants.h"
+#include "container.h"
 
 namespace apotek {
 namespace database{
@@ -46,7 +47,7 @@ class Database
 public:
     explicit Database();
     ~Database();
-    inline std::vector<Product> search_product(QString search_product);
+    inline ProductsContainer search_product(QString search_product);
     inline bool save_product(Product product) const;
     QSqlError save_durability(Product product);
     QSqlError remove_durability(const Product& product);
@@ -56,32 +57,32 @@ public:
     void init_db_memory();
     void init_db_file();
     // setters and getters
-    std::vector<Product> get_durability() { QSqlError err = update_durability(); return m_durability_products; }
-    std::vector<Product> get_products();
+    ProductsContainer get_durability() { QSqlError err = update_durability(); return m_durability_products; }
+    ProductsContainer get_products();
     void set_error_status(const QString& e) { m_error_status = e; }
     void set_fest_hentetdato();
     QString get_error_status() { return m_error_status; }
     QString get_fest_hentetdato();
 private:
     QSqlError update_durability_product(const Product& product);
-    std::vector<Product> get_from_xml();
-    std::vector<Product> get_newproducts() const;
+    ProductsContainer get_from_xml();
+    ProductsContainer get_newproducts() const;
     QSqlError update_durability();
     QString set_db_path();
     bool check_if_product_exists(int varenr) const;
     bool check_if_durability_exists(int varenr) const;
     bool check_if_newproduct_exists(const Product& product) const;
-    std::vector<Product> varenr_search_product(const QString& search_product) const;
-    std::vector<Product> ean_search_product(const QString& search_product) const;
-    std::vector<Product> navn_search_product(const QString& search_product) const;
-    std::vector<Product> datamatrix_search_product(const QString& search_product);
+    ProductsContainer varenr_search_product(const QString& search_product) const;
+    ProductsContainer ean_search_product(const QString& search_product) const;
+    ProductsContainer navn_search_product(const QString& search_product) const;
+    ProductsContainer datamatrix_search_product(const QString& search_product);
     // data members
     apotek::xml::FEST_Reader m_festreader;
     apotek::xml::FEST_Reader m_festreader_vet;
     QSqlDatabase m_db_file;
     QSqlDatabase m_db_memory;
-    std::vector<Product> m_durability_products;
-    std::vector<Product> m_products;
+    ProductsContainer m_durability_products;
+    ProductsContainer m_products;
     QString m_error_status;
 };
 

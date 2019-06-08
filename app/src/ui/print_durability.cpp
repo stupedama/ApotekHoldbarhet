@@ -19,7 +19,7 @@
 namespace apotek {
 namespace apotekholdbarhet {
 
-Print_durability::Print_durability(const std::vector<apotek::database::Product>& products, QWidget *parent) :
+Print_durability::Print_durability(const ProductsContainer& products, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Print_durability),
     m_products{products}

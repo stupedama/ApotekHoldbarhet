@@ -21,6 +21,7 @@ namespace apotekholdbarhet {
 class Add_vare : public QDialog
 {
     Q_OBJECT
+    using Product = apotek::database::Product;
 
 public:
     explicit Add_vare(QWidget *parent = nullptr);
@@ -29,7 +30,7 @@ public:
     bool check_field(const QString &check, bool number) const;
     void check_state() const;
     // setters and getters
-    apotek::database::Product get_product() { return m_product; }
+    Product get_product() { return m_product; }
     // add to Product.
     void add_varenr(const QString& varenr);
     void add_navn(const QString& navn);
@@ -50,7 +51,7 @@ public:
     bool get_state_legemiddelform() const { return m_state_legemiddelform; }
 
 signals:
-    void signal_newproduct(const apotek::database::Product& product);
+    void signal_newproduct(const Product& product);
 
 private slots:
     void on_button_cancel_released();
@@ -58,7 +59,7 @@ private slots:
 
 private:
     Ui::Add_vare *ui;
-    apotek::database::Product m_product;
+    Product m_product;
     bool m_state_varenr;
     bool m_state_navn;
     bool m_state_mengde;

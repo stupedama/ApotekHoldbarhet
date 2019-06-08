@@ -59,6 +59,7 @@ SOURCES += \
 
 HEADERS += \
         external/date/include/date/date.h \
+        src/container.h \
         src/ui/apotekholdbarhet.h \
         src/version.h \
         src/fest_xml/fest_reader.h \

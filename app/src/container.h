@@ -13,35 +13,21 @@
    Author: Fredrik Fjeldvær (fredrik@ffj.no)
 */
 
-#include "fest_reader.h"
+
+#ifndef APOTEKH_CONTAINER_H
+#define APOTEKH_CONTAINER_H
+
+#include <vector>
 
 namespace apotek {
-namespace xml {
 
-QString FEST_Reader::get_fest_hentetdato()
-{
-    using namespace tinyxml2;
-
-    XMLDocument doc;
-
-    tinyxml2::XMLError read_file_error = doc.LoadFile(m_filename.c_str());
-    if(read_file_error != tinyxml2::XML_SUCCESS) return "error";
-
-    XMLNode* node = doc.FirstChildElement("FEST");
-    if(node == nullptr) return "error";
-
-    std::string dato = node->FirstChildElement("HentetDato")->GetText();
-
-    return QString::fromStdString(dato);
+// forward declaration
+namespace database{
+class Product;
 }
 
-ProductsContainer FEST_Reader::get_content()
-{
-    m_varer.clear();
-    read_file();
-
-    return m_varer;
-}
+using ProductsContainer = std::vector<database::Product>;
 
 } // namespace
-} // namespace
+
+#endif // APOTEKH_CONTAINER_H
