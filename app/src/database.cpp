@@ -202,25 +202,6 @@ bool Database::compare_fest_hentetdato()
     }
 }
 
-
-// get all the Products from the xml file
-inline ProductsContainer Database::get_from_xml()
-{
-    bool error{false};
-
-    auto xml_products = m_festreader.get_content();
-    auto xml_products_vet = m_festreader_vet.get_content();
-
-    for(const auto& p : xml_products_vet) {
-        xml_products.push_back(p);
-    }
-
-    if(error) m_error_status = apotek::errors::error_xml_error;
-
-    return xml_products;
-}
-
-
 // TODO: check if string is a dato
 void Database::set_fest_hentetdato()
 {

@@ -140,6 +140,23 @@ inline std::vector<Product> Database::search_product(QString search_product)
     return result;
 }
 
+// get all the Products from the xml file
+inline ProductsContainer Database::get_from_xml()
+{
+    bool error{false};
+
+    auto xml_products = m_festreader.get_content();
+    auto xml_products_vet = m_festreader_vet.get_content();
+
+    for(const auto& p : xml_products_vet) {
+        xml_products.push_back(p);
+    }
+
+    if(error) m_error_status = apotek::errors::error_xml_error;
+
+    return xml_products;
+}
+
 } // namespace
 } // namespace
 #endif // APOTEKH_DATABASE_H
