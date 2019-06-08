@@ -16,7 +16,6 @@
 #ifndef FEST_READER_H
 #define FEST_READER_H
 
-#include <vector>
 #include <string>
 #include <QString>
 #include <tinyxml2.h>

@@ -19,7 +19,6 @@
 #include <QString>
 #include <QtSql>
 #include <algorithm>
-#include <vector>
 #include "fest_xml/fest_reader.h"
 #include "fmd/fmd_decoder.h"
 #include "fmd/fmd_xml_reader.h"

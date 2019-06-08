@@ -23,7 +23,6 @@
 #include <QString>
 #include <QTextDocument>
 #include <QTextStream>
-#include <vector>
 #include "../product.h"
 #include "../constants.h"
 #include "../calculate_months.h"
