@@ -16,11 +16,11 @@
 #ifndef FEST_READER_H
 #define FEST_READER_H
 
+#include "../product.h"
+#include "../container.h"
 #include <string>
 #include <QString>
 #include <tinyxml2.h>
-#include "../product.h"
-#include "../container.h"
 
 // TODO: Need to read <KatHandelsvare> too get more varer.
 

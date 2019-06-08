@@ -1,9 +1,9 @@
 #ifndef APOTEKH_CALENDAR_WIDGET_H
 #define APOTEKH_CALENDAR_WIDGET_H
 
+#include "../constants.h"
 #include <QDialog>
 #include <QDate>
-#include "../constants.h"
 
 namespace Ui {
 class CalendarWidget;

@@ -16,11 +16,10 @@
 #ifndef APOTEKH_FMD_XML_READER_H
 #define APOTEKH_FMD_XML_READER_H
 
+#include "fmd_code.h"
 #include <QString>
 #include <string>
 #include <tinyxml2.h>
-#include "fmd_code.h"
-
 
 namespace apotek {
 namespace database {

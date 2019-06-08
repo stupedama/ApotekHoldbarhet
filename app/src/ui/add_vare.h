@@ -1,11 +1,11 @@
 #ifndef ADD_VARE_H
 #define ADD_VARE_H
 
-#include <QDialog>
 #include "../error_messages.h"
 #include "../check_numbers.h"
 #include "../product.h"
 #include "../constants.h"
+#include <QDialog>
 
 namespace Ui {
 class Add_vare;

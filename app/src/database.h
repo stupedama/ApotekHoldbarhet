@@ -16,9 +16,6 @@
 #ifndef APOTEKH_DATABASE_H
 #define APOTEKH_DATABASE_H
 
-#include <QString>
-#include <QtSql>
-#include <algorithm>
 #include "fest_xml/fest_reader.h"
 #include "fmd/fmd_decoder.h"
 #include "fmd/fmd_xml_reader.h"
@@ -27,6 +24,9 @@
 #include "check_numbers.h"
 #include "constants.h"
 #include "container.h"
+#include <QString>
+#include <QtSql>
+#include <algorithm>
 
 namespace apotek {
 namespace database{

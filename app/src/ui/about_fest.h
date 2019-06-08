@@ -1,8 +1,8 @@
 #ifndef APOTEKH_ABOUT_FEST_H
 #define APOTEKH_ABOUT_FEST_H
 
-#include <QDialog>
 #include "fest_reader.h"
+#include <QDialog>
 
 namespace Ui {
 class AboutFest;

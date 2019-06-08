@@ -1,6 +1,22 @@
 #ifndef APOTEKH_APOTEKHOLDBARHET_H
 #define APOTEKH_APOTEKHOLDBARHET_H
 
+#include "calendar_widget.h"
+#include "about_apotekholdbarhet.h"
+#include "about_fest.h"
+#include "print_durability.h"
+#include "fest_update.h"
+#include "fest_reader.h"
+#include "add_vare.h"
+#include "../product.h"
+#include "../database.h"
+#include "../version.h"
+#include "../constants.h"
+#include "../error_messages.h"
+#include "../table_names.h"
+#include "../calculate_months.h"
+#include "../container.h"
+#include "../table_colors.h"
 #include <QMainWindow>
 #include <QString>
 #include <QSqlError>
@@ -9,22 +25,6 @@
 #include <QTableWidgetItem>
 #include <QWidget>
 #include <mutex>
-#include "../table_colors.h"
-#include "calendar_widget.h"
-#include "about_apotekholdbarhet.h"
-#include "about_fest.h"
-#include "print_durability.h"
-#include "fest_update.h"
-#include "add_vare.h"
-#include "../product.h"
-#include "../database.h"
-#include <fest_reader.h>
-#include "../version.h"
-#include "../constants.h"
-#include "../error_messages.h"
-#include "../table_names.h"
-#include "../calculate_months.h"
-#include "../container.h"
 #include "tz.h"
 #include "date.h"
 

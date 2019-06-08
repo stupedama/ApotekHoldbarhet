@@ -16,10 +16,10 @@
 #ifndef APOTEKH_CALCULATE_MONTHS_H
 #define APOTEKH_CALCULATE_MONTHS_H
 
+#include "constants.h"
 #include <QDate>
 #include <QString>
 #include <date.h>
-#include "constants.h"
 
 namespace apotek{
 namespace apotekholdbarhet{

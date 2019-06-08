@@ -16,8 +16,8 @@
 #ifndef APOTEKH_PRODUCT_H
 #define APOTEKH_PRODUCT_H
 
-#include <QString>
 #include "check_numbers.h"
+#include <QString>
 
 namespace apotek {
 namespace database {

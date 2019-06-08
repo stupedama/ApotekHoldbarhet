@@ -1,13 +1,13 @@
 #ifndef APOTEKH_ABOUT_APOTEKHOLDBARHET_H
 #define APOTEKH_ABOUT_APOTEKHOLDBARHET_H
 
+#include "../version.h"
+#include "../constants.h"
 #include <QDialog>
 #include <QDate>
 #include <QString>
 #include <chrono>
 #include <date.h>
-#include "../version.h"
-#include "../constants.h"
 
 
 namespace Ui {

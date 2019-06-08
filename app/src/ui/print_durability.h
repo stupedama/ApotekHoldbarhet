@@ -16,6 +16,10 @@
 #ifndef APOTEKH_PRINT_DURABILITY_H
 #define APOTEKH_PRINT_DURABILITY_H
 
+#include "../product.h"
+#include "../constants.h"
+#include "../calculate_months.h"
+#include "../container.h"
 #include <QDialog>
 #include <QMessageBox>
 #include <QtPrintSupport/QPrinter>
@@ -23,10 +27,6 @@
 #include <QString>
 #include <QTextDocument>
 #include <QTextStream>
-#include "../product.h"
-#include "../constants.h"
-#include "../calculate_months.h"
-#include "../container.h"
 
 namespace Ui {
 class Print_durability;

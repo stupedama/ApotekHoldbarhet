@@ -16,16 +16,16 @@
 #ifndef APOTEKH_FMD_2DCODE_H
 #define APOTEKH_FMD_2DCODE_H
 
+#include "escape_codes.h"
+#include "../product.h"
+#include "../constants.h"
+#include "../error_messages.h"
 #include <QString>
 #include <QStringRef>
 #include <QDate>
 #include <QRegExp>
 #include <QStringList>
 #include <date.h>
-#include "escape_codes.h"
-#include "../product.h"
-#include "../constants.h"
-#include "../error_messages.h"
 
 namespace apotek {
 namespace database {
