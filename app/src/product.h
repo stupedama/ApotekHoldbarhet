@@ -18,6 +18,7 @@
 
 #include "check_numbers.h"
 #include <QString>
+#include <memory>
 
 namespace apotek {
 namespace database {
@@ -37,6 +38,11 @@ public:
     explicit Product() = default;
     bool sanity_check() const;
 
+    static std::shared_ptr<Product> make_product(QString id, QString name, int varenr,
+                                                 QString ean, QString legemiddelform, int mengde)
+    {
+        return std::make_shared<Product>(Product(id, name, varenr, ean, legemiddelform, mengde));
+    }
     struct Find_vare;
     struct Find_ean;
 
@@ -81,12 +87,12 @@ struct Product::Find_vare{
     Find_vare(int v) : m_varenr{v} {}
     Find_vare(QString navn) : m_navn{std::move(navn)} {}
 
-    bool operator() (const Product& rhs) const
+    bool operator() (const std::shared_ptr<Product>& rhs) const
     {
         if(m_navn.isEmpty()) {
-            return m_varenr == rhs.m_varenr;
+            return m_varenr == rhs->m_varenr;
         } else {
-            QString s = rhs.m_navn;
+            QString s = rhs->m_navn;
             return s.contains(m_navn, Qt::CaseInsensitive);
         }
     }
@@ -98,10 +104,10 @@ struct Product::Find_vare{
 struct Product::Find_ean{
     Find_ean(QString ean) : m_ean{std::move(ean)} {}
 
-    bool operator() (const Product& rhs)
+    bool operator() (const std::shared_ptr<Product>& rhs)
     {
-        if(!rhs.m_ean.isEmpty()) {
-            QString s = rhs.m_ean;
+        if(!rhs->m_ean.isEmpty()) {
+            QString s = rhs->m_ean;
             return s.contains(m_ean, Qt::CaseInsensitive);
         }
         return false;

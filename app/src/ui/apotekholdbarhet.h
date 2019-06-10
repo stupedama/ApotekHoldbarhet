@@ -59,7 +59,7 @@ public:
     void search_result(ProductsContainer result);
     void fetch_products();
     void setup_table(std::size_t row_size) const;
-    void remove_from_durability_vector(const Product& v);
+    void remove_from_durability_vector(const std::shared_ptr<Product> &v);
     void populate_table() { make_tables(m_durability_products); }
     void populate_table(ProductsContainer products) { make_tables(products); }
     void make_tables(ProductsContainer products);
@@ -74,7 +74,7 @@ private slots:
     void on_actionAvslutt_triggered();
     void on_search_line_returnPressed();
     void add_date(const QDate& date, int row, int varenr, const QString& lokasjon);
-    void add_newproduct(const Product& product);
+    void add_newproduct(const std::shared_ptr<Product>& product);
     void on_pushButton_released();
     void on_actionAlle_varer_med_holdbarhet_triggered();
     void on_actionOm_ApotekHoldbarhet_triggered();

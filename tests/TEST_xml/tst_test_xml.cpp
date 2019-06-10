@@ -27,7 +27,7 @@ private slots:
     void check_xml_size();
 
 private:
-    std::vector<apotek::database::Product> m_products;
+    std::vector<std::shared_ptr<apotek::database::Product>> m_products;
     apotek::xml::FEST_Reader f;
 };
 

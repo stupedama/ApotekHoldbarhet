@@ -89,7 +89,7 @@ inline void FEST_Reader::read_file()
             mengde = node->FirstChildElement("Legemiddelpakning")->FirstChildElement("Pakningsinfo")->FirstChildElement("Mengde")->IntText();
         }
 
-        Product v(id, navn, varenr, ean, legemiddelform, mengde);
+        auto v = Product::make_product(id, navn, varenr, ean, legemiddelform, mengde);
         m_varer.push_back(v);
         node = node->NextSiblingElement();
     }

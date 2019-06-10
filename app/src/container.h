@@ -18,6 +18,7 @@
 #define APOTEKH_CONTAINER_H
 
 #include <vector>
+#include <memory>
 
 namespace apotek {
 
@@ -27,7 +28,7 @@ class Product;
 }
 
 // container used for all the products and durability products in the ApotekHoldbarhet application.
-using ProductsContainer = std::vector<database::Product>;
+using ProductsContainer = std::vector<std::shared_ptr<database::Product>>;
 
 } // namespace
 

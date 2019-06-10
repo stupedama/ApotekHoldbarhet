@@ -68,12 +68,12 @@ QString Print_durability::make_table_html() const
     for(const auto& p : m_print_products) {
         tables += "<tr>"; // start
 
-        tables += "<td>" + QString::number(p.get_varenr()) + "</td>";
-        tables += "<td>" + p.get_navn() + "</td>";
-        tables += "<td>" + QString::number(p.get_mengde()) + "</td>";
-        tables += "<td>" + p.get_legemiddelform() + "</td>";
-        tables += "<td>" + p.get_holdbarhet() + "</td>";
-        tables += "<td>" + p.get_lokasjon() + "</td>";
+        tables += "<td>" + QString::number(p->get_varenr()) + "</td>";
+        tables += "<td>" + p->get_navn() + "</td>";
+        tables += "<td>" + QString::number(p->get_mengde()) + "</td>";
+        tables += "<td>" + p->get_legemiddelform() + "</td>";
+        tables += "<td>" + p->get_holdbarhet() + "</td>";
+        tables += "<td>" + p->get_lokasjon() + "</td>";
 
         tables += "<\tr>"; // end
     }
@@ -103,7 +103,7 @@ void Print_durability::add_color_red()
     using namespace apotek;
 
     for(const auto& p : m_products) {
-        int m = apotekholdbarhet::calculate_months(p.get_holdbarhet());
+        int m = apotekholdbarhet::calculate_months(p->get_holdbarhet());
         if(m <= constants::color_interval_red) {
             m_print_products.push_back(p);
         }
@@ -115,7 +115,7 @@ void Print_durability::add_color_orange()
     using namespace apotek;
 
     for(const auto& p : m_products) {
-        int m = apotekholdbarhet::calculate_months(p.get_holdbarhet());
+        int m = apotekholdbarhet::calculate_months(p->get_holdbarhet());
         if(m > constants::color_interval_red && m <= constants::color_interval_orange) {
             m_print_products.push_back(p);
         }
@@ -127,7 +127,7 @@ void Print_durability::add_color_yellow()
     using namespace apotek;
 
     for(const auto& p : m_products) {
-        int m = apotekholdbarhet::calculate_months(p.get_holdbarhet());
+        int m = apotekholdbarhet::calculate_months(p->get_holdbarhet());
         if(m > constants::color_interval_orange && m <= constants::color_interval_yellow) {
             m_print_products.push_back(p);
         }
@@ -139,7 +139,7 @@ void Print_durability::add_color_white()
     using namespace apotek;
 
     for(const auto& p : m_products) {
-        int m = apotekholdbarhet::calculate_months(p.get_holdbarhet());
+        int m = apotekholdbarhet::calculate_months(p->get_holdbarhet());
         if(m >= constants::color_interval_yellow) {
             m_print_products.push_back(p);
         }

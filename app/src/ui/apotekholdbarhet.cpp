@@ -93,14 +93,14 @@ void ApotekHoldbarhet::set_label_colors() const
 void ApotekHoldbarhet::sort_durability()
 {
     std::sort(std::begin(m_durability_products), std::end(m_durability_products), [&](
-              const Product& lhs,
-              const Product& rhs) -> bool
+              const std::shared_ptr<Product>& lhs,
+              const std::shared_ptr<Product>& rhs) -> bool
     {
         // TODO: make the colors::BLUE last.
         //if(lhs.get_holdbarhet().isEmpty()) return false;
         //if(rhs.get_holdbarhet().isEmpty()) return false;
 
-        return calculate_months(lhs.get_holdbarhet()) < calculate_months(rhs.get_holdbarhet());
+        return calculate_months(lhs->get_holdbarhet()) < calculate_months(rhs->get_holdbarhet());
     });
 }
 
@@ -176,27 +176,27 @@ void ApotekHoldbarhet::make_tables(ProductsContainer products)
 
     for(std::size_t r{0}; r < row_size; ++r) {
         // center text for varenr and mengde columns
-        QTableWidgetItem* item_varenr = new QTableWidgetItem(QString::number(products[r].get_varenr()));
+        QTableWidgetItem* item_varenr = new QTableWidgetItem(QString::number(products[r]->get_varenr()));
         item_varenr->setTextAlignment(Qt::AlignHCenter);
-        QTableWidgetItem* item_mengde = new QTableWidgetItem(QString::number(products[r].get_mengde()));
+        QTableWidgetItem* item_mengde = new QTableWidgetItem(QString::number(products[r]->get_mengde()));
         item_mengde->setTextAlignment(Qt::AlignHCenter);
 
         ui->table_varer->setItem(static_cast<int>(r), VARENR, item_varenr);
-        ui->table_varer->setItem(static_cast<int>(r), VARENAVN, new QTableWidgetItem(products[r].get_navn()));
+        ui->table_varer->setItem(static_cast<int>(r), VARENAVN, new QTableWidgetItem(products[r]->get_navn()));
         ui->table_varer->setItem(static_cast<int>(r), MENGDE, item_mengde);
-        ui->table_varer->setItem(static_cast<int>(r), LEGEMIDDELFORM, new QTableWidgetItem(products[r].get_legemiddelform()));
-        ui->table_varer->setItem(static_cast<int>(r), LOKASJON, new QTableWidgetItem(products[r].get_lokasjon()));
+        ui->table_varer->setItem(static_cast<int>(r), LEGEMIDDELFORM, new QTableWidgetItem(products[r]->get_legemiddelform()));
+        ui->table_varer->setItem(static_cast<int>(r), LOKASJON, new QTableWidgetItem(products[r]->get_lokasjon()));
 
 
-        if(!products[r].get_holdbarhet().isEmpty() && !products.empty()) {
-            table_color(products[r].get_holdbarhet());
+        if(!products[r]->get_holdbarhet().isEmpty() && !products.empty()) {
+            table_color(products[r]->get_holdbarhet());
 
             // align the text for holdbarhet column center
-            QTableWidgetItem* item_holdbarhet = new QTableWidgetItem(products[r].get_holdbarhet());
+            QTableWidgetItem* item_holdbarhet = new QTableWidgetItem(products[r]->get_holdbarhet());
             item_holdbarhet->setTextAlignment(Qt::AlignHCenter);
             ui->table_varer->setItem(static_cast<int>(r), HOLDBARHET, item_holdbarhet);
 
-            auto color = table_color(products[r].get_holdbarhet());
+            auto color = table_color(products[r]->get_holdbarhet());
 
             switch(color) {
             case TABLE_COLORS::RED:
@@ -235,7 +235,7 @@ void ApotekHoldbarhet::make_tables(ProductsContainer products)
         }
 
         // delete
-        if(!products[r].get_holdbarhet().isEmpty()) {
+        if(!products[r]->get_holdbarhet().isEmpty()) {
             // make delete buttons
             QPushButton* delete_button = new QPushButton;
             QHBoxLayout* delete_layout = new QHBoxLayout;
@@ -338,8 +338,8 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr, const QStr
         auto search_result = m_db.search_product(std::move(string_varenr));
 
         if(!search_result.empty()) {
-            search_result[0].set_holdbarhet(string_date);
-            search_result[0].set_lokasjon(lokasjon);
+            search_result[0]->set_holdbarhet(string_date);
+            search_result[0]->set_lokasjon(lokasjon);
 
             m_db.save_durability(search_result[0]);
 
@@ -366,12 +366,12 @@ void ApotekHoldbarhet::add_date(const QDate& qd, int row, int varenr, const QStr
 
             if(item_lokasjon) {
                 QString lokasjon = ui->table_varer->item(0, LOKASJON)->text();
-                product.set_lokasjon(lokasjon);
+                product->set_lokasjon(lokasjon);
             }
 
             QString string_date = qd.toString(apotek::constants::date_format);
-            product.set_holdbarhet(string_date);
-            product.set_lokasjon(lokasjon);
+            product->set_holdbarhet(string_date);
+            product->set_lokasjon(lokasjon);
 
             // save the modified one
             m_durability_products.push_back(product);
@@ -402,27 +402,27 @@ void ApotekHoldbarhet::save_row(int r, const QString& holdbarhet)
         QString legemiddelform;
 
         if(!holdbarhet.contains("none")) {
-            product.set_holdbarhet(holdbarhet);
+            product->set_holdbarhet(holdbarhet);
         }
 
         QTableWidgetItem* item_mengde(ui->table_varer->item(r, MENGDE));
         if(item_mengde) {
             QString string_mengde = ui->table_varer->item(r, MENGDE)->text();
             mengde = string_mengde.toInt();
-            product.set_mengde(mengde);
+            product->set_mengde(mengde);
         }
 
         QTableWidgetItem* item_legemiddelform(ui->table_varer->item(r, LEGEMIDDELFORM));
         if(item_legemiddelform) {
             legemiddelform = ui->table_varer->item(r, LEGEMIDDELFORM)->text();
-            product.set_legemiddelform(legemiddelform);
+            product->set_legemiddelform(legemiddelform);
         }
 
         // this returns null if the cell is empty
         QTableWidgetItem* item_lokasjon(ui->table_varer->item(r, LOKASJON));
         if(item_lokasjon) {
             lokasjon = ui->table_varer->item(r, LOKASJON)->text();
-            product.set_lokasjon(lokasjon);
+            product->set_lokasjon(lokasjon);
         }
 
         // remove the old one vare in the vector and save the new one.
@@ -442,10 +442,10 @@ void ApotekHoldbarhet::save_row(int r, const QString& holdbarhet)
 }
 
 
-void ApotekHoldbarhet::remove_from_durability_vector(const Product& v)
+void ApotekHoldbarhet::remove_from_durability_vector(const std::shared_ptr<Product>& v)
 {
     auto i = std::find_if(std::cbegin(m_durability_products), std::cend(m_durability_products),
-                          apotek::database::Product::Find_vare(v.get_varenr()));
+                          apotek::database::Product::Find_vare(v->get_varenr()));
 
     if(i != std::cend(m_durability_products)) {
         m_durability_products.erase(i);
@@ -459,7 +459,7 @@ void ApotekHoldbarhet::delete_row(std::size_t r)
     auto i = std::find_if(std::cbegin(m_durability_products), std::cend(m_durability_products),
                           [m_durability_products = m_durability_products, r = r](const auto& v)
     {
-        return v.get_varenr() == m_durability_products[r].get_varenr();
+        return v->get_varenr() == m_durability_products[r]->get_varenr();
     });
 
     if(i != std::cend(m_durability_products)) {
@@ -542,19 +542,19 @@ void apotek::apotekholdbarhet::ApotekHoldbarhet::on_actionLagre_ny_vare_til_data
 }
 
 
-void ApotekHoldbarhet::add_newproduct(const Product& product)
+void ApotekHoldbarhet::add_newproduct(const std::shared_ptr<Product> &product)
 {
-    auto result = m_db.search_product(QString::number(product.get_varenr()));
+    auto result = m_db.search_product(QString::number(product->get_varenr()));
     if(result.empty()) {
         // save it to the database and to the vector
         if(m_db.save_newproduct(product)) {
             m_products.push_back(product);
-            ui->statusBar->showMessage(product.get_navn() + " ble lagt til i databasen.");
+            ui->statusBar->showMessage(product->get_navn() + " ble lagt til i databasen.");
         } else {
             ui->statusBar->showMessage("Det skjedde en feil!");
         }
     } else {
-        ui->statusBar->showMessage(product.get_navn() + " finnes allerede i database.");
+        ui->statusBar->showMessage(product->get_navn() + " finnes allerede i database.");
     }
 }
 

@@ -66,16 +66,16 @@ QString Database::set_db_path()
 #endif
 }
 
-QSqlError Database::update_durability_product(const Product& product)
+QSqlError Database::update_durability_product(const std::shared_ptr<Product>& product)
 {
     QSqlQuery q(m_db_file);
-    const int varenr = product.get_varenr();
+    const int varenr = product->get_varenr();
 
     if(check_if_durability_exists(varenr)) {
         q.prepare("UPDATE durability_products set lokasjon=:lokasjon, holdbarhet=:holdbarhet WHERE varenr=:varenr");
-        QString h = product.get_holdbarhet();
-        QString l = product.get_lokasjon();
-        int vnr = product.get_varenr();
+        QString h = product->get_holdbarhet();
+        QString l = product->get_lokasjon();
+        int vnr = product->get_varenr();
 
         q.bindValue(":holdbarhet", h);
         q.bindValue(":lokasjon", l);
@@ -167,7 +167,7 @@ ProductsContainer Database::get_products()
     auto saved_products = get_newproducts();
 
     for(const auto& p : saved_products) {
-        if(!check_if_product_exists(p.get_varenr())) {
+        if(!check_if_product_exists(p->get_varenr())) {
             m_products.push_back(p);
             save_product(std::move(p));
         } else {
@@ -288,7 +288,7 @@ ProductsContainer Database::navn_search_product(const QString& search_product) c
         it = std::find_if(++it, std::cend(m_products), Product::Find_vare(search_product)))
     {
         // check if its already saved in m_holdbarhet_varer
-        if(!check_if_durability_exists(it->get_varenr()))
+        if(!check_if_durability_exists(it->get()->get_varenr()))
             result.push_back(*it);
     }
     return result;
@@ -339,7 +339,7 @@ ProductsContainer Database::datamatrix_search_product(const QString& search_prod
 
     if(!ean_results.empty()) {
         if(!fmd_product.get_holdbarhet().isEmpty() && !fmd_product.get_holdbarhet().isEmpty())
-            ean_results[0].set_holdbarhet(fmd_product.get_holdbarhet());
+            ean_results[0]->set_holdbarhet(fmd_product.get_holdbarhet());
         save_durability(std::move(ean_results[0]));
         return ean_results;
     }
@@ -387,12 +387,12 @@ ProductsContainer Database::get_newproducts() const
 
     if(q.exec("SELECT * FROM products_saved")) {
         while(q.next()) {
-            Product p;
-            p.set_varenr(q.value(1).toInt());
-            p.set_navn(q.value(2).toString());
-            p.set_ean(q.value(4).toString());
-            p.set_legemiddelform(q.value(5).toString());
-            p.set_mengde(q.value(6).toInt());
+            std::shared_ptr<Product> p = std::make_shared<Product>();
+            p->set_varenr(q.value(1).toInt());
+            p->set_navn(q.value(2).toString());
+            p->set_ean(q.value(4).toString());
+            p->set_legemiddelform(q.value(5).toString());
+            p->set_mengde(q.value(6).toInt());
 
             result.push_back(p);
         }
@@ -401,34 +401,35 @@ ProductsContainer Database::get_newproducts() const
     return result;
 }
 
-QSqlError Database::update_durability()
-{
-     QSqlQuery q(m_db_file);
 
-     if(q.exec("SELECT * FROM durability_products")) {
-         // clear our vector
-         m_durability_products.clear();
-         // extract all values and store them in our vector
-         while(q.next()) {
-             Product p;
-             p.set_varenr(q.value(1).toInt());
-             p.set_navn(q.value(2).toString());
-             p.set_ean(q.value(4).toString());
-             p.set_legemiddelform(q.value(5).toString());
-             p.set_mengde(q.value(6).toInt());
-             p.set_holdbarhet(q.value(7).toString());
-             p.set_lokasjon(q.value(8).toString());
-             m_durability_products.push_back(p);
-         }
-     } else {
-         return q.lastError();
-     }
-    return QSqlError();
+ProductsContainer Database::update_durability()
+{
+    QSqlQuery q(m_db_file);
+    ProductsContainer result;
+
+    if(q.exec("SELECT * FROM durability_products")) {
+        // extract all values and store them in our vector
+        while(q.next()) {
+
+            std::shared_ptr<Product> p = std::make_shared<Product>();
+
+            p->set_varenr(q.value(1).toInt());
+            p->set_navn(q.value(2).toString());
+            p->set_ean(q.value(4).toString());
+            p->set_legemiddelform(q.value(5).toString());
+            p->set_mengde(q.value(6).toInt());
+            p->set_holdbarhet(q.value(7).toString());
+            p->set_lokasjon(q.value(8).toString());
+            result.push_back(p);
+        }
+    }
+    return result;
 }
 
-QSqlError Database::save_durability(Product product)
+
+QSqlError Database::save_durability(std::shared_ptr<Product> product)
 {
-    int s_varenr = product.get_varenr();
+    int s_varenr = product->get_varenr();
 
     if(check_if_durability_exists(s_varenr)) {
         update_durability_product(product);
@@ -446,14 +447,14 @@ QSqlError Database::save_durability(Product product)
     }
 
     // extract what we need from the struct
-    const QString navn{product.get_navn()};
-    const QString id{product.get_id()};
-    const QString ean{product.get_ean()};
-    const QString legemiddelform{product.get_legemiddelform()};
-    const int mengde{product.get_mengde()};
-    const QString holdbarhet{product.get_holdbarhet()};
-    const QString lokasjon{product.get_lokasjon()};
-    const int varenr{product.get_varenr()};
+    const QString navn{product->get_navn()};
+    const QString id{product->get_id()};
+    const QString ean{product->get_ean()};
+    const QString legemiddelform{product->get_legemiddelform()};
+    const int mengde{product->get_mengde()};
+    const QString holdbarhet{product->get_holdbarhet()};
+    const QString lokasjon{product->get_lokasjon()};
+    const int varenr{product->get_varenr()};
 
     q.addBindValue(varenr);
     q.addBindValue(navn);
@@ -472,14 +473,14 @@ QSqlError Database::save_durability(Product product)
     return q.lastError();
 }
 
-QSqlError Database::remove_durability(const Product &product)
+QSqlError Database::remove_durability(const std::shared_ptr<Product> &product)
 {
 
     QSqlQuery q(m_db_file);
-    int s_varenr = product.get_varenr();
+    int s_varenr = product->get_varenr();
 
     if(check_if_durability_exists(s_varenr)) {
-        int varenr = product.get_varenr();
+        int varenr = product->get_varenr();
         q.prepare("DELETE FROM durability_products WHERE varenr = ?");
         q.addBindValue(varenr);
         q.exec();
@@ -490,10 +491,10 @@ QSqlError Database::remove_durability(const Product &product)
 }
 
 
-bool Database::check_if_newproduct_exists(const Product& product) const
+bool Database::check_if_newproduct_exists(const std::shared_ptr<Product>& product) const
 {
-    int product_varenr = product.get_varenr();
-    QString product_ean = product.get_ean();
+    int product_varenr = product->get_varenr();
+    QString product_ean = product->get_ean();
 
     auto result_varenr = varenr_search_product(QString::number(product_varenr));
 
@@ -512,7 +513,7 @@ bool Database::check_if_newproduct_exists(const Product& product) const
 // this saves the product to products_saved table in the database file.
 // the function is called from add_newproduct - it checks if the product is already
 // saved in the memory. You should not call this function alone.
-bool Database::save_newproduct(const Product& product)
+bool Database::save_newproduct(const std::shared_ptr<Product> &product)
 {
     if(!check_if_newproduct_exists(product)) {
         QSqlQuery q(m_db_file);
@@ -523,11 +524,11 @@ bool Database::save_newproduct(const Product& product)
             return false;
         }
 
-        const int varenr{product.get_varenr()};
-        const QString navn{product.get_navn()};
-        const QString ean{product.get_ean()};
-        const int mengde{product.get_mengde()};
-        const QString legemiddelform{product.get_legemiddelform()};
+        const int varenr{product->get_varenr()};
+        const QString navn{product->get_navn()};
+        const QString ean{product->get_ean()};
+        const int mengde{product->get_mengde()};
+        const QString legemiddelform{product->get_legemiddelform()};
 
         q.addBindValue(varenr);
         q.addBindValue(navn);

@@ -72,14 +72,14 @@ void TEST_db::save_all_to_database()
 void TEST_db::save_durability()
 {
     // a imaginary vare
-    apotek::database::Product v;
-    v.set_id("10212");
-    v.set_varenr(12345);
-    v.set_ean("130981309812308123");
-    v.set_navn("Happy pills 100 mg");
-    v.set_legemiddelform("pills");
-    v.set_holdbarhet("02 02 2018");
-    v.set_lokasjon("RC0202");
+    std::shared_ptr<apotek::database::Product> v;
+    v->set_id("10212");
+    v->set_varenr(12345);
+    v->set_ean("130981309812308123");
+    v->set_navn("Happy pills 100 mg");
+    v->set_legemiddelform("pills");
+    v->set_holdbarhet("02 02 2018");
+    v->set_lokasjon("RC0202");
 
     QSqlError err = d.save_durability(v);
     QVERIFY(!err.NoError);
@@ -134,12 +134,12 @@ void TEST_db::add_duplicate()
 {
     bool error{false};
 
-    apotek::database::Product p;
-    p.set_id("1022");
-    p.set_varenr(123451);
-    p.set_ean("13092381309812308123");
-    p.set_navn("Happy pills 200 mg");
-    p.set_legemiddelform("pills");
+    std::shared_ptr<apotek::database::Product> p;
+    p->set_id("1022");
+    p->set_varenr(123451);
+    p->set_ean("13092381309812308123");
+    p->set_navn("Happy pills 200 mg");
+    p->set_legemiddelform("pills");
     //p.m_holdbarhet = "02 03 2018";
     //p.m_lokasjon = "RC0203";
 
@@ -153,12 +153,12 @@ void TEST_db::add_duplicate()
 
 void TEST_db::add_newproduct()
 {
-    apotek::database::Product new_product;
-    new_product.set_varenr(1222);
-    new_product.set_ean("394872918471982423");
-    new_product.set_navn("Test product");
-    new_product.set_mengde(100);
-    new_product.set_legemiddelform("tablets");
+    std::shared_ptr<apotek::database::Product> new_product;
+    new_product->set_varenr(1222);
+    new_product->set_ean("394872918471982423");
+    new_product->set_navn("Test product");
+    new_product->set_mengde(100);
+    new_product->set_legemiddelform("tablets");
 
     auto result = d.save_newproduct(std::move(new_product));
     QVERIFY(result == true);

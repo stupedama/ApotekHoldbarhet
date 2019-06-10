@@ -47,30 +47,30 @@ public:
     explicit Database();
     ~Database();
     inline ProductsContainer search_product(QString search_product);
-    inline bool save_product(Product product) const;
-    QSqlError save_durability(Product product);
-    QSqlError remove_durability(const Product& product);
-    bool save_newproduct(const Product& product);
+    inline bool save_product(std::shared_ptr<Product> product) const;
+    QSqlError save_durability(std::shared_ptr<Product> product);
+    QSqlError remove_durability(const std::shared_ptr<Product>& product);
+    bool save_newproduct(const std::shared_ptr<Product>& product);
     bool compare_fest_hentetdato();
     void init_db();
     void init_db_memory();
     void init_db_file();
     // setters and getters
-    ProductsContainer get_durability() { QSqlError err = update_durability(); return m_durability_products; }
+    ProductsContainer get_durability() { m_durability_products = update_durability(); return m_durability_products; }
     ProductsContainer get_products();
     void set_error_status(const QString& e) { m_error_status = e; }
     void set_fest_hentetdato();
     QString get_error_status() { return m_error_status; }
     QString get_fest_hentetdato();
 private:
-    QSqlError update_durability_product(const Product& product);
+    QSqlError update_durability_product(const std::shared_ptr<Product> &product);
     ProductsContainer get_from_xml();
     ProductsContainer get_newproducts() const;
-    QSqlError update_durability();
+    ProductsContainer update_durability();
     QString set_db_path();
     bool check_if_product_exists(int varenr) const;
     bool check_if_durability_exists(int varenr) const;
-    bool check_if_newproduct_exists(const Product& product) const;
+    bool check_if_newproduct_exists(const std::shared_ptr<Product> &product) const;
     ProductsContainer varenr_search_product(const QString& search_product) const;
     ProductsContainer ean_search_product(const QString& search_product) const;
     ProductsContainer navn_search_product(const QString& search_product) const;
@@ -86,22 +86,22 @@ private:
 };
 
 // adds a single Vare if it does not already exists and saves it to the varer table in the db.
-inline bool Database::save_product(Product product) const
+inline bool Database::save_product(std::shared_ptr<Product> product) const
 {
     QSqlQuery q(m_db_memory);
-    const auto s_varenr = product.get_varenr();
+    const auto s_varenr = product->get_varenr();
 
     if(!check_if_product_exists(s_varenr)) {
 
         if(!q.prepare(QLatin1String("insert into products(varenr, navn, id, ean, legemiddelform, mengde) values (?, ?, ?, ?, ?, ?)")))
             return true; // q.lastError();
 
-        const auto varenr{product.get_varenr()};
-        const auto navn{product.get_navn()};
-        const auto id{product.get_id()};
-        const auto ean{product.get_ean()};
-        const auto legemiddelform{product.get_legemiddelform()};
-        const auto mengde{product.get_mengde()};
+        const auto varenr{product->get_varenr()};
+        const auto navn{product->get_navn()};
+        const auto id{product->get_id()};
+        const auto ean{product->get_ean()};
+        const auto legemiddelform{product->get_legemiddelform()};
+        const auto mengde{product->get_mengde()};
 
         q.addBindValue(varenr);
         q.addBindValue(navn);
