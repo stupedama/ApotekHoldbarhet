@@ -29,6 +29,9 @@ Database::Database() : m_festreader_vet{"./fest/fest251_vet.xml"}
     if (!QSqlDatabase::drivers().contains("QSQLITE"))
         set_error_status(apotek::errors::error_database_init);
 
+    // we will hold over 10 000 products in our vector.
+    m_products.reserve(apotek::constants::reserve_product_size);
+    m_durability_products.reserve(apotek::constants::reserve_durability_size);
     apotek::database::database_init(*this);
 }
 

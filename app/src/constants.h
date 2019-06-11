@@ -63,6 +63,10 @@ constexpr int color_interval_yellow{12};; // yellow is between orange and yellow
 constexpr int regexp_error{-1};
 constexpr int fmd_durability_size{6};
 
+// vector and product size
+constexpr int reserve_product_size{11000};
+constexpr int reserve_durability_size{1000};
+
 } // namespace
 } // namespace
 

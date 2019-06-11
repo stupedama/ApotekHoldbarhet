@@ -18,6 +18,7 @@
 
 #include "../product.h"
 #include "../container.h"
+#include "../constants.h"
 #include <string>
 #include <QString>
 #include <tinyxml2.h>
@@ -42,8 +43,14 @@ namespace xml {
 class FEST_Reader
 {
 public:
-    explicit FEST_Reader() : m_filename{"./fest/fest251_inst.xml"} {}
-    explicit FEST_Reader(std::string f) : m_filename{std::move(f)} {}
+    explicit FEST_Reader() : m_filename{"./fest/fest251_inst.xml"}
+    {
+        m_varer.reserve(apotek::constants::reserve_product_size);
+    }
+    explicit FEST_Reader(std::string f) : m_filename{std::move(f)}
+    {
+        m_varer.reserve(apotek::constants::reserve_product_size);
+    }
     ~FEST_Reader() = default;
     std::string get_filename() { return m_filename; }
     ProductsContainer get_content();
