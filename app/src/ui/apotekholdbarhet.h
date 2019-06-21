@@ -24,6 +24,7 @@
 #include <QHBoxLayout>
 #include <QTableWidgetItem>
 #include <QWidget>
+#include <algorithm>
 #include <mutex>
 #include "tz.h"
 #include "date.h"
@@ -61,11 +62,11 @@ public:
     void setup_table(std::size_t row_size) const;
     void remove_from_durability_vector(const std::shared_ptr<Product> &v);
     void populate_table() { make_tables(m_durability_products); }
-    void populate_table(ProductsContainer products) { make_tables(products); }
-    void make_tables(ProductsContainer products);
+    void populate_table(ProductsContainer& products) { make_tables(products); }
+    void make_tables(ProductsContainer &products);
     TABLE_COLORS table_color(const QString& holdbarhet) const;
     void set_label_colors() const;
-    void sort_durability();
+    void sort_durability(ProductsContainer &products);
     void check_for_database_error();
     int calculate_months(const QString& holdbarhet) const;
     //QDate get_fest_hentetdato() const;

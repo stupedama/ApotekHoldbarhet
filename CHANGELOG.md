@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.9.0
+- using std::shared_ptr<Product> now
+- fixed issue #9, durability list is now sorted again.
+
 ## v0.8.0
 - some performance improvments and bug fixes
 - calendar window is now bigger

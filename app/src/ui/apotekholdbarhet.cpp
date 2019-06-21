@@ -90,17 +90,23 @@ void ApotekHoldbarhet::set_label_colors() const
 }
 
 // Sorts m_holdbarhet_varer after its expirity date (holdbarhet)
-void ApotekHoldbarhet::sort_durability()
+void ApotekHoldbarhet::sort_durability(ProductsContainer& products)
 {
-    std::sort(std::begin(m_durability_products), std::end(m_durability_products), [&](
+    std::sort(std::begin(products), std::end(products), [products = products](
               const std::shared_ptr<Product>& lhs,
               const std::shared_ptr<Product>& rhs) -> bool
     {
+        using namespace apotek::apotekholdbarhet;
         // TODO: make the colors::BLUE last.
         //if(lhs.get_holdbarhet().isEmpty()) return false;
         //if(rhs.get_holdbarhet().isEmpty()) return false;
 
-        return calculate_months(lhs->get_holdbarhet()) < calculate_months(rhs->get_holdbarhet());
+        //auto rhs_calc = calculate_months(rhs->get_holdbarhet());
+        //auto lhs_calc = calculate_months(lhs->get_holdbarhet());
+
+        //return rhs_calc > lhs_calc;
+        return apotek::apotekholdbarhet::calculate_months(
+                    rhs->get_holdbarhet()) > apotek::apotekholdbarhet::calculate_months(lhs->get_holdbarhet());
     });
 }
 
@@ -161,11 +167,11 @@ void ApotekHoldbarhet::setup_table(std::size_t row_size) const
 }
 
 // makes the table based on a Product vector.
-void ApotekHoldbarhet::make_tables(ProductsContainer products)
+void ApotekHoldbarhet::make_tables(ProductsContainer& products)
 {
     using namespace apotek;
 
-    sort_durability();
+    sort_durability(products);
 
     // clear the error message
     ui->error_message->setText("");
@@ -449,6 +455,7 @@ void ApotekHoldbarhet::remove_from_durability_vector(const std::shared_ptr<Produ
 
     if(i != std::cend(m_durability_products)) {
         m_durability_products.erase(i);
+        //m_durability_products.erase(std::remove(std::begin(m_durability_products), std::end(m_durability_products), *i));
     }
 }
 
@@ -463,11 +470,18 @@ void ApotekHoldbarhet::delete_row(std::size_t r)
     });
 
     if(i != std::cend(m_durability_products)) {
+
         // remove from database
         m_db.remove_durability(*i);
+
         // remove from our ApotekHoldbarhet::m_holdbarhet_varer
-        m_durability_products.erase(i);
-        // clear old table and post it again
+        m_durability_products.erase(std::remove_if(std::begin(m_durability_products), std::end(m_durability_products),
+                                                   [&, r = r](auto const& v)
+        {
+            return v->get_varenr() == m_durability_products[r]->get_varenr();
+        }), std::end(m_durability_products));
+
+        // post the
         populate_table();
     }
 }
