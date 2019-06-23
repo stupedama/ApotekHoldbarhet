@@ -21,16 +21,16 @@ namespace apotekholdbarhet {
 class Add_vare : public QDialog
 {
     Q_OBJECT
-    using Product = apotek::database::Product;
-
+    // TODO: make a using Product = ... ?
 public:
+
     explicit Add_vare(QWidget *parent = nullptr);
     ~Add_vare();
     void clear_error() const;
     bool check_field(const QString &check, bool number) const;
     void check_state() const;
     // setters and getters
-    Product get_product() { return m_product; }
+    std::shared_ptr<apotek::database::Product> get_product() { return m_product; }
     // add to Product.
     void add_varenr(const QString& varenr);
     void add_navn(const QString& navn);
@@ -38,7 +38,7 @@ public:
     void add_ean(const QString &ean);
     void add_legemiddelform(const QString& legemiddelform);
     // set and get the 'state' of the label, color it red if its false
-    void set_product_varenr(int varenr) { m_product.set_varenr(varenr); }
+    void set_product_varenr(int varenr) { m_product->set_varenr(varenr); }
     void set_state_varenr(bool state) { m_state_varenr = state; }
     void set_state_navn(bool state) { m_state_navn = state; }
     void set_state_mengde(bool state) { m_state_mengde = state; }
@@ -51,7 +51,7 @@ public:
     bool get_state_legemiddelform() const { return m_state_legemiddelform; }
 
 signals:
-    void signal_newproduct(const Product& product);
+    void signal_newproduct(std::shared_ptr<apotek::database::Product> product);
 
 private slots:
     void on_button_cancel_released();
@@ -59,7 +59,7 @@ private slots:
 
 private:
     Ui::Add_vare *ui;
-    Product m_product;
+    std::shared_ptr<apotek::database::Product> m_product;
     bool m_state_varenr;
     bool m_state_navn;
     bool m_state_mengde;

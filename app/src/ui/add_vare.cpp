@@ -33,7 +33,7 @@ Add_vare::Add_vare(QWidget *parent) :
     m_state_legemiddelform{false}
 {
     ui->setupUi(this);
-
+    m_product = std::make_shared<apotek::database::Product>(apotek::database::Product());
 }
 
 Add_vare::~Add_vare()
@@ -68,6 +68,8 @@ void Add_vare::check_state() const
     else ui->line_legemiddelform->setStyleSheet(good_stylesheet);
 }
 
+// checks if the the QString only contains a number or only characeters, or an empty string
+// based on the boolean.
 bool Add_vare::check_field(const QString& check, bool number) const
 {
     using apotek::apotekholdbarhet::check_numbers;
@@ -106,7 +108,7 @@ void Add_vare::add_varenr(const QString& varenr)
         set_state_varenr(false);
         check_state();
     } else {
-        m_product.set_varenr(varenr.toInt());
+        m_product->set_varenr(varenr.toInt());
         set_state_varenr(true);
         clear_error();
     }
@@ -118,7 +120,7 @@ void Add_vare::add_navn(const QString& navn)
         set_state_navn(false);
         check_state();
     } else {
-        m_product.set_navn(navn);
+        m_product->set_navn(navn);
         set_state_navn(true);
         clear_error();
     }
@@ -130,7 +132,7 @@ void Add_vare::add_ean(const QString& ean)
         set_state_ean(false);
         check_state();
     } else {
-        m_product.set_ean(ean);
+        m_product->set_ean(ean);
         set_state_ean(true);
         clear_error();
     }
@@ -144,7 +146,7 @@ void Add_vare::add_mengde(const QString& mengde)
         check_state();
     } else {
 
-        m_product.set_mengde(mengde.toInt());
+        m_product->set_mengde(mengde.toInt());
         set_state_mengde(true);
         clear_error();
     }
@@ -156,7 +158,7 @@ void Add_vare::add_legemiddelform(const QString& legemiddelform)
         set_state_legemiddelform(false);
         check_state();
     } else {
-        m_product.set_legemiddelform(legemiddelform);
+        m_product->set_legemiddelform(legemiddelform);
         set_state_legemiddelform(true);
         clear_error();
     }
@@ -176,9 +178,10 @@ void Add_vare::on_button_ok_released()
     add_ean(ean);
     add_legemiddelform(legemiddelform);
 
+    // check if all labels are correctly filled in
     check_state();
 
-    if(m_product.sanity_check()) {
+    if(m_product->sanity_check()) {
         emit signal_newproduct(m_product);
         close();
     } else {

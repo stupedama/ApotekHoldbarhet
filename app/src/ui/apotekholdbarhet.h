@@ -75,7 +75,7 @@ private slots:
     void on_actionAvslutt_triggered();
     void on_search_line_returnPressed();
     void add_date(const QDate& date, int row, int varenr, const QString& lokasjon);
-    void add_newproduct(const std::shared_ptr<Product>& product);
+    void add_newproduct(std::shared_ptr<apotek::database::Product> product);
     void on_pushButton_released();
     void on_actionAlle_varer_med_holdbarhet_triggered();
     void on_actionOm_ApotekHoldbarhet_triggered();

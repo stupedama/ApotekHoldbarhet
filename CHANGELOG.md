@@ -3,6 +3,7 @@
 ## v0.9.0
 - using std::shared_ptr<Product> now
 - fixed issue #9, durability list is now sorted again.
+- fixed issue #10, you can now add custom products again.
 
 ## v0.8.0
 - some performance improvments and bug fixes

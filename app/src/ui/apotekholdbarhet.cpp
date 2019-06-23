@@ -546,17 +546,20 @@ void ApotekHoldbarhet::on_actionOppdater_FEST_triggered()
     fest_update->show();
 }
 
-void apotek::apotekholdbarhet::ApotekHoldbarhet::on_actionLagre_ny_vare_til_databasen_triggered()
+// adds a new custom product to the database
+void ApotekHoldbarhet::on_actionLagre_ny_vare_til_databasen_triggered()
 {
     Add_vare* add_vare = new Add_vare();
     add_vare->setAttribute(Qt::WA_DeleteOnClose);
     add_vare->show();
 
-    connect(add_vare,SIGNAL(signal_newproduct(const Product&)),this,SLOT(add_newproduct(const Product&)));
+    connect(add_vare,SIGNAL(
+                signal_newproduct(std::shared_ptr<apotek::database::Product>)),this,SLOT(add_newproduct(std::shared_ptr<apotek::database::Product>)));
 }
 
-
-void ApotekHoldbarhet::add_newproduct(const std::shared_ptr<Product> &product)
+// adds a new custom product to the database
+// it also checks if the product already exists by varenr.
+void ApotekHoldbarhet::add_newproduct(std::shared_ptr<apotek::database::Product> product)
 {
     auto result = m_db.search_product(QString::number(product->get_varenr()));
     if(result.empty()) {
