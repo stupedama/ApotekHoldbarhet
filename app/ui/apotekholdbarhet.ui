@@ -412,7 +412,7 @@ QLineEdit {
       <x>0</x>
       <y>100</y>
       <width>1261</width>
-      <height>17</height>
+      <height>20</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -441,7 +441,7 @@ QLineEdit {
      <x>0</x>
      <y>0</y>
      <width>1260</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFil">
@@ -462,7 +462,6 @@ QLineEdit {
     <property name="title">
      <string>Varer</string>
     </property>
-    <addaction name="actionLagre_ny_vare_til_databasen"/>
     <addaction name="actionAlle_varer_med_holdbarhet"/>
     <addaction name="separator"/>
    </widget>
