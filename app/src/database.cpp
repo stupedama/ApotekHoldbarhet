@@ -343,7 +343,7 @@ ProductsContainer Database::datamatrix_search_product(const QString& search_prod
     if(!ean_results.empty()) {
         if(!fmd_product.get_holdbarhet().isEmpty() && !fmd_product.get_holdbarhet().isEmpty())
             ean_results[0]->set_holdbarhet(fmd_product.get_holdbarhet());
-        save_durability(std::move(ean_results[0]));
+        //save_durability(std::move(ean_results[0]));
         return ean_results;
     }
 
